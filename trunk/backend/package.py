@@ -14,7 +14,7 @@ import gzip
 from re import findall
 
 
-
+'''This class keeps all information of a package as a  dict'''
 class package:
     def __init__(self):
         #Dictionary for each package containing relevant information of the package.
@@ -68,6 +68,7 @@ class package:
             print "File: %s"%file
             sys.exit(70)
         
+    '''Imports debian control fields info from .deb file'''
     def importDebInfo(self,path):
         
         file = open(path,"r")
@@ -88,6 +89,7 @@ class package:
             value = debinfo.get(key)
             self.set(key, value)
           
+    '''Gets information from .dsc file of a source package'''
     def importDscInfo(self, file):
         
         fd = open(file,"r")
@@ -112,8 +114,7 @@ class package:
                 if not self.dict.has_key(key):
                     self.set(key,value)
 
-        #Insert .dsc file info
-
+        #Insert .dsc file info (md5, size and file name)
         self.files.insert(0,' %s %d %s'%(md5_sum,size,file.split(os.sep)[-1]))
         self.set('Files','\n%s%s'%(self.files[0],self.get('Files')))
         
@@ -124,7 +125,7 @@ class package:
             self.set('Priority', priority)
         self.set('Package',self.get('Source'))
     
-           
+    '''Extract some information from diff.gz file if exists'''
     def extractFromDiff(self, path):
         #Get name of diff.gz file
         location = path.split(os.sep)[:-1]
@@ -148,6 +149,7 @@ class package:
         
         return (priority,section)
                         
+
     def __cmp__(self, other):
         result = cmp(self.get('Package'), other.get('Package')) or cmp(self.get('Version'), other.get('Version'))
 	return result
