@@ -11,19 +11,15 @@ import gzip
 import re
 
 
-
+'''This class keeps a data estructure with information in Packages/Sources index files'''
 class packagesList:
     def __init__(self):
-        #content = file.read()
-        #file.close()
-        #self.lines = content.splitlines()
-        #del content
         self.pkg_list = []
         
     def num_elements(self):
         return len(self.pkg_list)
         
-    #receives a file descriptor
+    '''Index file parser'''
     def loadInfo(self, content):
        
         lines = content.splitlines()
