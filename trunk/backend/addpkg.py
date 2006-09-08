@@ -54,10 +54,9 @@ class   adder:
         
         
         #Printting params
-        print 'apt config file\t\t\t%s'%self.apt_file
-        print "raiz del repositorio\t\t\t%s"%self.repo
+        print 'apt config file\t\t%s'%self.apt_file
+        print "raiz del repositorio\t%s"%self.repo
         print "pool\t\t\t%s"%self.pool
-        print "dist\t\t\t%s"%self.dist
         print "section\t\t\t%s"%self.section
         print "deb\t\t\t%s"%self.deb
         
@@ -76,53 +75,50 @@ class   adder:
             print "The file %s doesn't exists"%self.deb
             sys.exit(2)
         
-        file_Section = current.get('Section')
-        
+        current_section = current.get('Section')
+        current_arch = current.get('Architecture')
         #Get supported sections and architectures from apt config file
-        apt_fd = open (self.apt_file,"r")
-        content = apt_fd.read()
-        apt_fd.close()
-        sections = findall('Components ".+"\S',content)[0].split('\"')[1].split(' ')
-        architectures = findall('Architectures ".+"\S',content)[0].split('\"')[1].split(' ')
-        architectures.append('all')
-        del content
-
-        #Check if especified section exists in the repository
-        current_section = file_Section.split('/')
-        if len(current_section) > 1 and current_section[0] in sections:
-            self.section = file_Section.split('/')[0].strip()
+        (dist_sections, dist_architectures) = self.getAptInfo()
+    
+        #Check if both section and architectures exist in the repository
+        current_section = current_section.split('/')
+        if len(current_section) > 1 and current_section[0] in dist_sections:
+            self.section = current_section.split('/')[0].strip()
         #If no section is especified or it doesn't exists set main section as default.
         else:
             self.section = 'main'
-        
         print "section\t\t\t%s"%self.section
-        
         #Check if architecture exists
-        section_Path = os.path.join(os.sep, self.repo, 'dists', self.dist, self.section)
-        current_arch = current.get('Architecture')
-        if current.isBinary() and current_arch in architectures:
+        if current.isBinary() and current_arch in dist_architectures:
             self.arch = 'binary-%s'%current_arch
         elif not current.isBinary() and current_arch == 'any':
                 self.arch = 'source'
         else:
             print '\nUnknown architecture: %s'%current_arch
             sys.exit(3)
-              
+        
+        self.updateIndexFiles(current, file_name)
+        self.updatePool(current)
+        
+        
+           
+        return done
+    
+    '''Update information in index files (Packages and Sources)'''
+    def updateIndexFiles(self, current, file):
+        
+        #Build index files path
         f_packages_path = os.path.join(os.sep,self.repo, 'dists', self.dist, self.section, self.arch)
-        print "Packages file path:\t\t\t%s"%f_packages_path
-                        
+        section_path = os.path.join(os.sep, self.repo, 'dists', self.dist, self.section)
         
-        
-        #create new branch if needed in dists/
+        #create new branch if needed
         if not os.path.exists(f_packages_path):
             os.makedirs(os.path.join(os.sep,self.repo, 'dists', self.dist, self.section, self.arch))
             print "Creada rama nueva: %s"%f_packages_path 
-           
-        
+               
         #Explore both .gz & .bz2 files
         index_file = self.getContent(f_packages_path, current.isBinary())
         pkglist = packagesList.packagesList()
-        #retrieve information about packages from index file.
         pkglist.loadInfo(index_file)
 
         file_Source = current.get('Source')
@@ -135,43 +131,51 @@ class   adder:
             name = file_Source
             if not name:
                 name = file_Package
-            
             name = name.strip()
             if name[0:3] == 'lib':
                 dir = name[0:4]
             else:
                 dir = name[0]
-               
-            destination = os.path.join(os.sep,self.repo, self.pool, self.section, dir, name.strip()) 
-            #TODO: Check compatibility with source packages
-            print "Name\t\t\t%s"%name
-            print "Destination\t\t\t%s"%destination
-            
-            
+            #destination = os.path.join(os.sep,self.repo, self.pool, self.section, dir, name.strip()) 
+            #set Filename field in debian control structure.
             if current.isBinary():
-                full_path = os.path.join(os.sep,destination,file_name)
-                deb_filename = full_path.split(self.repo)[1]
-                print "filename field at debian Packages file\t\t\t%s"%deb_filename
-                #Puts filename field into debian control section.
-                if deb_filename.startswith(os.sep):
-                    current.set('Filename', deb_filename[1:])
-                else:
-                    current.set('Filename', deb_filename)
+                deb_filename = os.path.join(os.sep, self.pool, self.section, dir, name.strip(), file)[1:]
+                print "filename field at debian index file: %s"%deb_filename
+                current.set('Filename', deb_filename)
             #Directory information of current source package (for Sources.gz)
             else:
-                directory = destination.split(self.repo)[1]
-                print "Directory field at sources.gz:\t\t\t%s"%directory
+                directory = os.path.join(os.sep, self.pool, self.section, dir, name.strip())[1:]
+                print "Directory field: %s"%directory
                 current.set('Directory', directory)
-                #files_list = current.getFiles()
-                #files_list.insert(0,)
-
-            #Making directory structure in the pool if needed
-            if not os.path.exists(destination):
-                os.makedirs(destination)
+            
+            print "Adding it to the Packages/Sources file....."
+            pkglist.addPackage(current)
+            pkglist.newFiles(f_packages_path, current.isBinary())
+            self.gen_Release()
+            
+        else:
+            print "The package is in the current distribution"
+            sys.exit(1)
                 
-            #The file exists in the pool         
+    '''Update the pool structure'''    
+    def updatePool(self, current):
+     #Making directory structure in the pool if needed
+        file_name = self.deb.split(os.sep)[-1]
+        print "File name: %s"%file_name
+        if current.isBinary():
+            dir = os.sep.join(current.get('Filename').split(os.sep)[:-1])
+            print "Dir: %s"%dir
+            destination = os.sep.join([self.repo[:-1], dir])
+        else:
+            destination = os.path.join(os.sep, self.repo, current.get('Directory'))
+        print "Destination: %s"%destination
+        
+        if not os.path.exists(destination):
+            os.makedirs(destination) 
+        #The file exists in the pool         
             if os.path.exists(os.path.join(os.sep,destination,file_name)):
-                print "The file  %s already exists in the pool"%file_name
+                print "The package  %s already exists in the pool"%file_name
+                sys.exit(1)
             else:
                 if current.isBinary():
                     shutil.copy(self.deb, destination)
@@ -181,19 +185,24 @@ class   adder:
                         path.append(i.split(' ')[-1])
                         print "files.........%s"%(os.sep.join(path))
                         shutil.copy(os.sep.join(path),destination)
-                            
-            print "Adding it to the Packages/Sources file....."
-            pkglist.addPackage(current)
-            pkglist.newFiles(f_packages_path, current.isBinary())
-            done = True
-        else:
+        else:                        
             print "\n*******************\nThe package you choose is already in the repository\n*******************"
             print "Package.......................%s"%self.deb
             print "Location......................%s"%os.path.join(os.sep, self.repo, 'dists', self.dist, self.section, self.arch)
-            done = False
             sys.exit(1)
-        return done
-        
+    
+    '''Retrieve supported architectures and sections in the dist'''
+    def getAptInfo(self):
+        apt_fd = open (self.apt_file,"r")
+        content = apt_fd.read()
+        apt_fd.close()
+        sections = findall('Components ".+"\S',content)[0].split('\"')[1].split(' ')
+        architectures = findall('Architectures ".+"\S',content)[0].split('\"')[1].split(' ')
+        #architectures.append('all')
+        del content
+        return (sections, architectures)
+    
+    '''Returns the content of index file or create one if it doesn't exists'''    
     def getContent(self, file_path, isBinary):
         fd = None
         content = None
@@ -226,6 +235,7 @@ class   adder:
            content = ''            
         return content
                 
+    '''Generates release information of the branch'''
     def gen_Release(self):
         #apt config files should be named apt_'codename'.conf. The location can be changed in repo.conf
         conf = os.path.join(os.sep, self.apt_conf, 'apt_%s.conf'%self.dist)
