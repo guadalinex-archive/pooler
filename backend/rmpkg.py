@@ -99,18 +99,18 @@ class remover:
             plist.newFiles(os.path.join(os.sep, self.repo, 'dists', self.dist, self.section, architecture), current_pkg.isBinary())
             print "File removed from index....%s"%os.path.join(os.sep, self.repo, self.deb)
             #TODO: Keep the file in the pool if is included in any other dist
-            if not current_pkg.isBinary():
-                location = os.path.join(os.sep, self.repo, self.deb).split(os.sep)[:-1]
-                path = os.sep.join(location)
-                print "Path: " + path
-                self.removeSourceFiles(path, current_pkg)
-            elif current_pkg.isBinary() and os.path.exists(os.path.join(os.sep, self.repo, self.deb)):
-                os.remove(os.path.join(os.sep, self.repo, self.deb))
-                print "os.remove(%s)"%os.path.join(os.sep, self.repo, self.deb)
-            else:
-                print "Error: File not found"
-                print "File: %s"%os.path.join(os.sep, self.repo, self.deb)
-                sys.exit(39)
+            #if not current_pkg.isBinary():
+            #location = os.path.join(os.sep, self.repo, self.deb).split(os.sep)[:-1]
+            #    path = os.sep.join(location)
+            #    print "Path: " + path
+            #    self.removeSourceFiles(path, current_pkg)
+            #elif current_pkg.isBinary() and os.path.exists(os.path.join(os.sep, self.repo, self.deb)):
+            #    os.remove(os.path.join(os.sep, self.repo, self.deb))
+            #    print "os.remove(%s)"%os.path.join(os.sep, self.repo, self.deb)
+            #else:
+            #    print "Error: File not found"
+            #    print "File: %s"%os.path.join(os.sep, self.repo, self.deb)
+            #    sys.exit(39)
             done = True
         
         else:
