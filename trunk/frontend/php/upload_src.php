@@ -15,8 +15,12 @@
 		
 		for($i = 0; $i < $nfiles; $i++){
 			$src_tmp = PATH_TEMP . '/' . $in_srcs['name'][$i];
+			
+			//copiamos el fichero a un temporal donde el python lo pueda coger
 			if(@copy($in_srcs['tmp_name'][$i], $src_tmp)){
 				chmod($src_tmp, 0777);
+				
+				//separamos los dsc del resto. El python sólo necesita éstos
 				if(eregi('\.dsc$', $src_tmp))
 					$dscs[$in_srcs['name'][$i]] = $src_tmp;
 				else

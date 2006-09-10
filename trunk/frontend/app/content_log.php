@@ -1,9 +1,13 @@
 <?php
-	include('../php/check_access.php');
-	eregi('log', $_SESSION['user_' . $ids]['param']['app']) or die($html_err);
+/**
+ * 
+ */
+
+include('../php/check_access.php');
+eregi('log', $_SESSION['user_' . $ids]['param']['app']) or die($html_err);
 	
-	header("Content-type:text/xml"); 
-	echo '<?xml version="1.0" encoding="iso-8859-1"?>';
+header("Content-type:text/xml"); 
+echo '<?xml version="1.0" encoding="iso-8859-1"?>';
 ?>
 <content tab="tab_log"><![CDATA[
 <table>

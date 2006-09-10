@@ -1,4 +1,8 @@
 <?php
+/**
+ * 
+ */
+
 	session_start();
 	$ids = session_id();
 	
@@ -9,7 +13,7 @@
     	echo '<row>';
     	
     		if(eregi('pck', $_SESSION['user_' . $ids]['param']['app']))
-        		echo '<tab id="tab_pck" width="100px" selected="1"  href="content_pck.php">Packages</tab>';
+        		echo '<tab id="tab_pck" width="100px" selected="1"  href="content_pck.php">Paquetes</tab>';
         	
         	if(eregi('user', $_SESSION['user_' . $ids]['param']['app']))
         		echo '<tab id="tab_user" width="100px" href="content_user.php">Usuarios</tab>';

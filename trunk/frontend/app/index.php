@@ -1,6 +1,11 @@
-<? 
-	include('../php/end_session.php');
-	include_once('../php/functions.php') 
+<?
+/**
+ * 
+ */
+
+include('../php/no_ie.php');
+include('../php/end_session.php');
+include_once('../php/functions.php');
 ?>
 
 <html>

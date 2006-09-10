@@ -1,3 +1,9 @@
+<?
+/**
+ * 
+ */
+?>
+
 <div id="contentAuth">
 	<form id="frmAuth">
 		<table id="tableAuth">

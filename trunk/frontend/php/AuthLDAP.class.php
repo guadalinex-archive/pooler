@@ -1,4 +1,7 @@
 <?php
+/**
+ * 
+ */
 
 define('ERR_BIND', 1);
 define('ERR_SEARCH', 2);
@@ -8,7 +11,6 @@ define('ERR_FETCH', 5);
 define('ERR_DN', 6);
 define('ERR_AUTH', 7);
 define('ERR_CONNECT', 8);
-
 
 class AuthLDAP{
 	

@@ -1,5 +1,11 @@
-<? include('../php/check_access.php') ?>
-<? include('../php/functions.php') ?>
+<?
+/**
+ * 
+ */
+
+include('../php/check_access.php');
+include('../php/functions.php');
+?>
 
 <div id="datasPackage" style="height:150px">
 	<table class="table2">

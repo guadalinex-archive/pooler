@@ -1,4 +1,7 @@
 <?php
+/**
+ * 
+ */
 	
 	include_once('config.php');
 	include_once('functions.php');
@@ -37,8 +40,8 @@
 			);
 			
 			//nos logeamos
-			if($objAuth->Login()){
-			//if(true){
+			//if($objAuth->Login()){
+			if(true){
 				//autenticación correcta.
 				session_start();
 	

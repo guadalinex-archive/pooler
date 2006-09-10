@@ -1,4 +1,7 @@
 <?php
+/**
+ * 
+ */
 
 include_once('functions.php');
 require_once('FileInfo.class.php');

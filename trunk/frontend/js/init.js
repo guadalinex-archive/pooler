@@ -1,3 +1,7 @@
+/**
+ * 
+ */
+
 //App
 var myTabbar = null;
 var typeFile = '' //rls, pkg or src

@@ -1,4 +1,7 @@
 <?php
+/**
+ * 
+ */
 	
 	if(isset($_GET['path']) and !empty($_GET['path'])){
 		$path = $_GET['path'];
@@ -12,7 +15,7 @@
 			//cargamos el fichero
 			$release = new FileInfo($path);
 			
-			//lo mostramos
+			//lo mostramos. Construimos una tabla
 			$datas = $release->getBlockInfo(0)->getDatas();
 			echo '<table class="table1">';
 			foreach($datas as $field => $value){
