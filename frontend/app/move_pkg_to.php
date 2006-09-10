@@ -1,6 +1,13 @@
-<? include('../php/check_access.php') ?>
-<? include('../php/functions.php') ?>
-<? $noDist = isset($_GET['dist']) ? $_GET['dist'] : '' ?>
+<?
+/**
+ * 
+ */
+
+include('../php/check_access.php');
+include('../php/functions.php');
+
+$noDist = isset($_GET['dist']) ? $_GET['dist'] : '';
+?>
 
 <div id="datasPackage" style="height:250px">
 	<table class="table2">

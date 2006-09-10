@@ -1,5 +1,11 @@
-<? include('../php/check_access.php') ?>
-<? include('../php/functions.php') ?>
+<?
+/**
+ * 
+ */
+
+include('../php/check_access.php');
+include('../php/functions.php');
+?>
 
 <form id="frm_nuevo" method="post" enctype="multipart/form-data" action="../php/upload_pkg.php" target="ajax_upload">
 	<div id="datasPackage">
@@ -24,7 +30,7 @@
 				<td></td>
 				<td align="right">
 					<!-- <input type="button" name="aceptar" value="Upload" /> -->
-					<button onclick="uploadDebs(); return false;"><img src="../img/upload.gif" align="absmiddle"> Upload</button>
+					<button onclick="uploadDebs(); return false;"><img src="../img/upload.gif" align="absmiddle"> Subir</button>
 					&nbsp;
 					<button onclick="closePopup(); return false;"><img src="../img/s_error.png" align="absmiddle"> Cancelar</button>
 				</td>

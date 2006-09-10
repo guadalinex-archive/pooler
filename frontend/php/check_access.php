@@ -1,4 +1,8 @@
 <?php
+/**
+ * 
+ */
+
 	session_start();
 	$ids = session_id();
 	$html_err = '<div align="center"><img src="../img/gnome-error.png" align="absmiddle" /> <font color="#990000" size="+1">Acceso no autorizado.</font><br /><a href="index.php">&lt;&lt; Volver</a></div>';

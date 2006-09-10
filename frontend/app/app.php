@@ -1,5 +1,11 @@
-<? include('../php/check_access.php') ?>
-<? include('../php/functions.php') ?>
+<?
+/**
+ * 
+ */
+
+include('../php/check_access.php');
+include('../php/functions.php');
+?>
 
 <html>
 	<head>
@@ -34,6 +40,7 @@
 			<script type="text/javascript" src="../zpcal/utils/zapatec.js"></script>
 			<script type="text/javascript" src="../zpcal/src/calendar.js"></script>
 			<script type="text/javascript" src="../zpcal/lang/calendar-sp.js"></script>
+			<a href="http://www.zapatec.com" />
 		<? endif; ?>
 		
 	</head>

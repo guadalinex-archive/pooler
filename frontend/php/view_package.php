@@ -1,4 +1,7 @@
 <?php
+/**
+ * 
+ */
 	
 	if(isset($_GET['path']) and !empty($_GET['path'])){
 		$path = $_GET['path'];
@@ -8,7 +11,7 @@
 		$tbfileinfo = new tbFileInfo($path);
 		$package = $tbfileinfo->getContent($_GET['id']);
 		
-		//lo mostramos
+		//lo mostramos. Construimos una tabla
 		$datas = $package[0]->getDatas();
 		
 		echo '<div id="datasPackage" style="text-align:center;">';

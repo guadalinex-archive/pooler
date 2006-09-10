@@ -1,4 +1,8 @@
 <?
+/**
+ * 
+ */
+
 	include_once('functions.php');
 	require_once('myDebLog.class.php');
 	require_once('IniReader.class.php');

@@ -958,7 +958,7 @@ Zapatec.Utils.checkActivation = function() {
 		if (arrProducts[i].bActive==true)
 			strMsg+='\nTo purchase the Zapatec ' + arrProducts[i].name + ' visit www.zapatec.com/website/main/products/' + arrProducts[i].webdir + '/'
 
-	//alert(strMsg)
+	alert(strMsg)
 
 	return false;
 }

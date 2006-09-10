@@ -1,3 +1,7 @@
+/**
+ * 
+ */
+
 function auth(){
 	openPopup('Autenticaci&oacute;n', 'auth.php', '', 400, 135, '../img/iconClient.gif', 'auth')
 	$('imgCloseWin').style.visibility = 'hidden';

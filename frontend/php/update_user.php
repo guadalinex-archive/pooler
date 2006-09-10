@@ -1,4 +1,7 @@
 <?php 
+/**
+ * 
+ */
 
 	session_start();
 	
@@ -9,6 +12,7 @@
 	
 	if(isset($_POST['username'])){
 		
+		//cargamos la configuración de usuarios
 		$oIni = new IniAccess(USERS_INI);
 		$user = $_POST['username'];
 		$isEdit = isset($_POST['olduser']);
@@ -24,6 +28,7 @@
 		if(isset($_POST['dists']) and is_array($_POST['dists'])){
 			$dists = $_POST['dists'];
 			foreach($dists as $dist => $rw)
+				//damos nuevos valores
 				$oIni->info[$user]['dist.' . $dist] = $rw;
 		}
 		

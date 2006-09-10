@@ -1,3 +1,7 @@
+/**
+ * 
+ */
+
 function loadTreeDists(){
 	if(myTreeDists != null){
 		myTreeDists = null;
@@ -94,7 +98,7 @@ function configureGridPkg(){
 	if(myGridPkg != null){
 		//configuramos
 		myGridPkg.setImagePath('../img/');
-		myGridPkg.setHeader('&nbsp;,Package,Versi&oacute;n,Acci&oacute;n');
+		myGridPkg.setHeader('&nbsp;,Paquete,Versi&oacute;n,Acci&oacute;n');
 		myGridPkg.setInitWidths('25,300,200,100');
 		myGridPkg.setColAlign("center,left,left,center");
 		myGridPkg.setColTypes("ch,ro,ro,ro");
@@ -161,11 +165,11 @@ function toolbarCalendarClick(button){
 }
 
 function newPackages(){
-	openPopup('Uploads de paquetes', '../app/new_pkg.php', '', 640, 480, '../img/iconNewNewsEntry.gif', 'new');
+	openPopup('Subir nuevos paquetes', '../app/new_pkg.php', '', 640, 480, '../img/iconNewNewsEntry.gif', 'new');
 }
 
 function newSources(){
-	openPopup('Uploads de sources', '../app/new_src.php', '', 640, 480, '../img/source.png', 'new');
+	openPopup('Subier nuevos ficheros fuente', '../app/new_src.php', '', 640, 480, '../img/source.png', 'new');
 }
 
 function findPackages(){
@@ -317,7 +321,7 @@ function lastPage(){
 }
 
 function showFilterPackages(){
-	openPopup('Filtrado de Registros', '../app/filter.php', '', 490, 180, '../img/iconFilter.gif', 'filter');
+	openPopup('Filtrado de registros', '../app/filter.php', '', 490, 180, '../img/iconFilter.gif', 'filter');
 }
 
 function loadGridPackages(){
@@ -464,9 +468,9 @@ function openPopup(title, page, param, width, height, icon, other){
 	frame.style.width = width + 'px';
 	frame.style.height = height + 'px';
 	frame.align = 'center';
-
+	
 	//centramos el popup
-	titlebar.style.left = Math.round((document.width/2 - width/2)) + 'px';
+	titlebar.style.left = Math.round((1005/2 - width/2)) + 'px';
 	frame.style.left = titlebar.style.left;
 	
 	//situamos horizontalmente
@@ -613,7 +617,7 @@ function showDivLoading(msg){
 	loading = getLoading(msg);
 	loading.innerHTML = '<br /><br /><br />' + loading.innerHTML;
 	loading.id = 'loading';
-	loading.style.left = Math.round((document.width/2 - 400/2)) + 'px';
+	loading.style.left = Math.round((1005/2 - 400/2)) + 'px';
 	loading.style.top = document.body.scrollTop + Math.round((document.height/2 - 175/2)) + 'px';
 	document.body.appendChild(loading);
 }
@@ -679,11 +683,11 @@ function unmarkPackages(){
 }
 
 function showMoveTo(){
-	openPopup('Mover Packages a ...', 'move_pkg_to.php?dist=' + encodeURIComponent(getDistByPath(myGridPkg.datas[0])), '', 490, 280, '../img/move2.png', 'move');
+	openPopup('Mover paquetes a ...', 'move_pkg_to.php?dist=' + encodeURIComponent(getDistByPath(myGridPkg.datas[0])), '', 490, 280, '../img/move2.png', 'move');
 }
 
 function showConfirmDelete(){
-	openPopup('Eliminar Packages? ...', 'confirm_delete_pkg.php', '', 490, 280, '../img/delpkg.png', 'delete');
+	openPopup('Eliminar paquetes? ...', 'confirm_delete_pkg.php', '', 490, 280, '../img/delpkg.png', 'delete');
 }
 
 function printListSelectedPackages(){

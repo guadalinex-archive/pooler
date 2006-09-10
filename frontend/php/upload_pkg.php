@@ -1,4 +1,7 @@
-<?php 
+<?php
+/**
+ * 
+ */
 	
 	session_start();
 	
@@ -13,6 +16,8 @@
 		
 		for($i = 0; $i < $nfiles; $i++){
 			$pck_tmp = PATH_TEMP . '/' . $in_debs['name'][$i];
+			
+			//copiamos a un temporal, renombrándolos
 			if(@copy($in_debs['tmp_name'][$i], $pck_tmp)){
 				
 				chmod($pck_tmp, 0777);
