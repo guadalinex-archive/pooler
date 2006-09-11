@@ -1,6 +1,14 @@
 <?php
 /**
+ * Frame view_package.php
+ * Mostrará el contenido de los ficheros Packages y Sources, 
+ * aún estando comprimidos en gzip y bzip2.
  * 
+ * @author Francisco Javier Ramos Álvarez
+ * @version 1.0
+ * @package php
+ * 
+ * @return html
  */
 	
 	if(isset($_GET['path']) and !empty($_GET['path'])){
@@ -11,7 +19,7 @@
 		$tbfileinfo = new tbFileInfo($path);
 		$package = $tbfileinfo->getContent($_GET['id']);
 		
-		//lo mostramos. Construimos una tabla
+		//Construimos la tabla con el contenido
 		$datas = $package[0]->getDatas();
 		
 		echo '<div id="datasPackage" style="text-align:center;">';

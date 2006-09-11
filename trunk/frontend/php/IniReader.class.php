@@ -18,6 +18,7 @@ class IniReader{
 	 * Contiene el path del fichero ini
 	 * 
 	 * @var string
+	 * @access private
 	 */
 	var $fileini = '';
 	
@@ -25,6 +26,7 @@ class IniReader{
 	 * Contiene un array asociativo con las secciones del fichero.
 	 * 
 	 * @var associative array of array of string
+	 * @access private
 	 */
 	var $info = array();
 	
@@ -32,6 +34,7 @@ class IniReader{
 	 * Almacena el mensaje de error, si lo hubiera.
 	 * 
 	 * @var string
+	 * @access public
 	 */
 	var $msg_err = '';
 	
@@ -39,6 +42,7 @@ class IniReader{
 	 * Constructor de la clase. Procederá a leer el contenido del
 	 * fichero ini, pasado como parámetro.
 	 *
+	 * @access public
 	 * @param string $fileini
 	 * @return IniReader
 	 */
@@ -76,28 +80,34 @@ class IniReader{
 								$section = !isset($section) ? 'main' : $section;
 								$this->info[$section][$field] = $value;
 							}
-							else{
+							else
 								$this->msg_err = '[!] Error: no es correcto el formato del fichero ini';
-								return false;
-							}
 						}
 					}
 				}
 			}
-			else{
+			else
 				$this->msg_err = '[!] Error: no se pudo abrir el fichero ini';
-				return false;
-			}
 		}
-		else{
+		else
 			$this->msg_err = '[!] Error: hay un problema con el fichero ini';
-			return false;
-		}
+	}
+	
+	/**
+	 * Indica si todo ha ido correctamente, es decir, no ha habido
+	 * ningún mensaje de error en el constructor.
+	 *
+	 * @access public
+	 * @return boolean
+	 */
+	function isOk(){
+		return $this->msg_err == '';
 	}
 	
 	/**
 	 * Devolverá el contenido de una sección.
 	 *
+	 * @access public
 	 * @param string $section
 	 * @return array of string
 	 */
@@ -106,8 +116,9 @@ class IniReader{
 	}
 	
 	/**
-	 * devolverá el valor de un campo, por sección.
+	 * Devolverá el valor de un campo, por sección.
 	 *
+	 * @access public
 	 * @param string $section
 	 * @param string $field
 	 * @return string
@@ -119,6 +130,7 @@ class IniReader{
 	/**
 	 * Comprueba si existe la sección.
 	 *
+	 * @access public
 	 * @param string $section
 	 * @return boolean
 	 */

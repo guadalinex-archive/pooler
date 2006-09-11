@@ -1,14 +1,22 @@
 <?
-/**
- * 
- */
-
 include('../php/check_access.php');
 include('../php/functions.php');
 
 $noDist = isset($_GET['dist']) ? $_GET['dist'] : '';
 ?>
 
+<!--
+/**
+ * Window move_pkg_to.php
+ * Ventana de confirmación para mover paquetes o ficheros fuente.
+ * 
+ * @author Francisco Javier Ramos Álvarez
+ * @version 1.0
+ * @package app
+ * 
+ * @return html
+ */
+-->
 <div id="datasPackage" style="height:250px">
 	<table class="table2">
 		<tr>

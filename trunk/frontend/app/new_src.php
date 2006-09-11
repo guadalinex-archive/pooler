@@ -1,12 +1,21 @@
 <?
-/**
- * 
- */
-
 include('../php/check_access.php');
 include('../php/functions.php');
 ?>
 
+<!--
+/**
+ * Window new_src.php
+ * Formulario para subir nuevos ficheros fuente. Como mínimo dos ficheros, 
+ * el fichero DSC y el comprimido que contiene el fuente del paquete.
+ * 
+ * @author Francisco Javier Ramos Álvarez
+ * @version 1.0
+ * @package app
+ * 
+ * @return html
+ */
+-->
 <form id="frm_nuevo" method="post" enctype="multipart/form-data" action="../php/upload_src.php" target="ajax_upload">
 	<div id="datasPackage">
 		<table class="table2">

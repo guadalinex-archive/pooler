@@ -17,6 +17,7 @@ class IniAccess extends IniReader{
 	/**
 	 * Constructor de la clase
 	 *
+	 * @access public
 	 * @param string $fileini
 	 * @return IniAccess
 	 */
@@ -29,6 +30,7 @@ class IniAccess extends IniReader{
 	/**
 	 * Modifica una sección completa (lista de campos/valores)
 	 *
+	 * @access public
 	 * @param array of string
 	 */
 	function setSection($section){
@@ -39,6 +41,7 @@ class IniAccess extends IniReader{
 	/**
 	 * Elimina una sección
 	 *
+	 * @access public
 	 * @param string $section
 	 */
 	function delSection($section){
@@ -48,6 +51,7 @@ class IniAccess extends IniReader{
 	/**
 	 * elimina un campo
 	 *
+	 * @access public
 	 * @param string $section
 	 * @param string $field
 	 */
@@ -58,6 +62,7 @@ class IniAccess extends IniReader{
 	/**
 	 * Establece un nuevo valor para un campo en unsa sección
 	 *
+	 * @access public
 	 * @param string $section
 	 * @param string $field
 	 * @param string $value
@@ -70,6 +75,7 @@ class IniAccess extends IniReader{
 	 * Escribe en el fichero ini los nuevos datos. Devolverá
 	 * cierto o falso según haya podido o no.
 	 *
+	 * @access public
 	 * @return boolean
 	 */
 	function printFileIni(){

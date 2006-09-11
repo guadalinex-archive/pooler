@@ -1,8 +1,4 @@
 <? 
-/**
- * 
- */
-
 include('../php/check_access.php');
 include('../php/functions.php');
 	
@@ -11,6 +7,18 @@ $uparam = $user ? getParamByUser($user) : array();
 $param = $_SESSION['user_' . $ids]['param'];
 ?>
 
+<!--
+/**
+ * Frame edit_user.php
+ * formulario de nuevo/edición de usuarios
+ * 
+ * @author Francisco Javier Ramos Álvarez
+ * @version 1.0
+ * @package app
+ * 
+ * @return html
+ */
+-->
 <table class="table2">
 	<tr>
 		<td width="150" bgcolor="#EEEEEE">Usuario:</td>

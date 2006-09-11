@@ -1,12 +1,20 @@
 <?
-/**
- * 
- */
-
 include('../php/check_access.php');
 include('../php/functions.php');
 ?>
 
+<!--
+/**
+ * Window new_pkg.php
+ * Formulario para subir nuevos paquetes.
+ * 
+ * @author Francisco Javier Ramos Álvarez
+ * @version 1.0
+ * @package app
+ * 
+ * @return html
+ */
+-->
 <form id="frm_nuevo" method="post" enctype="multipart/form-data" action="../php/upload_pkg.php" target="ajax_upload">
 	<div id="datasPackage">
 		<table class="table2">
