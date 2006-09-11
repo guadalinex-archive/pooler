@@ -24,6 +24,7 @@ class AuthLDAP{
 	 * Almacena el nombre de usuario
 	 *
 	 * @var string
+	 * @access private
 	 */
 	var $username = '';
 	
@@ -31,19 +32,54 @@ class AuthLDAP{
 	 * Almacena la password
 	 *
 	 * @var string
+	 * @access private
 	 */
 	var $password = '';
 	
 	/**
 	 * Servidor LDAP. Por defecto "ldap.juntadeandalucia.es"
 	 *
-	 * @var unknown_type
+	 * @var string
+	 * @access private
 	 */
-	var $ldap_server = '';
-	var $ldap_port = 0;
-	var $dn_base = '';
-	var $err_log = 0;
+	var $ldap_server = 'ldap.juntadeandalucia.es';
 	
+	/**
+	 * Puerto LDAP. Por defecto "ldap.juntadeandalucia.es"
+	 *
+	 * @var int
+	 * @access private
+	 */
+	var $ldap_port = 389;
+	
+	/**
+	 * DN Base. Por defecto "ldap.juntadeandalucia.es"
+	 *
+	 * @var string
+	 * @access private
+	 */
+	var $dn_base = 'o=sadesi,o=empleados,o=juntadeandalucia,c=es';
+	
+	/**
+	 * Código de error. Almacenará la constante de error
+	 * definidas más arriba.
+	 *
+	 * @var integer
+	 * @access private
+	 */
+	var $cod_err = 0;
+	
+	/**
+	 * Constructor de la clase. Establecerá las propiedades por defecto
+	 *
+	 * @access public
+	 * @param string $username
+	 * @param string $password
+	 * @param string $ldap_server
+	 * @param string $ldap_port
+	 * @param string $dn_base
+	 * @return AuthLDAP
+	 */
 	function AuthLDAP($username, $password, $ldap_server = null, $ldap_port = null, $dn_base = null){
 		//parámetros obligatorios
 		$this->username = $username;
@@ -55,47 +91,55 @@ class AuthLDAP{
 		$this->dn_base = $dn_base ? $dn_base : 'o=sadesi,o=empleados,o=juntadeandalucia,c=es';
 	}
 
+	/**
+	 * Realiza la autenticación LDAP con los parámetros pasados
+	 * en el constructor al objeto. Si hubiese cualquier problema
+	 * el código del error se almacenará en el atributo $cod_err
+	 *
+	 * @access public
+	 * @return boolean
+	 */
 	function Login(){
 		if($connect = @ldap_connect($this->ldap_server, $this->ldap_port)){
 			
 			// realizamos un acceso anónimo
 			if(!($bind = @ldap_bind($connect)))
-				$this->err_log = ERR_BIND;
+				$this->cod_err = ERR_BIND;
 				
 			// buscamos al usuario
 			elseif(!($res_id = @ldap_search( $connect, $this->dn_base, 'uid=' . $this->username)))
-				$this->err_log = ERR_SEARCH;
+				$this->cod_err = ERR_SEARCH;
 
 			// comprobamos el número de usernames que hay
 			elseif(($num_users = @ldap_count_entries($connect, $res_id)) != 1){
 				if(!$num_users)
-					$this->err_log = ERR_USERNAME;
+					$this->cod_err = ERR_USERNAME;
 				else
-					$this->err_log = ERR_MORE_USERNAME;
+					$this->cod_err = ERR_MORE_USERNAME;
 			}
 				
 			// comprobamos que se pueda leer el resultado
 			elseif(!($entry_id = @ldap_first_entry($connect, $res_id)))
-				$this->err_log = ERR_FETCH;
+				$this->cod_err = ERR_FETCH;
 		
 			// comprobamos que podamos leer su dn
 			elseif(!($user_dn = @ldap_get_dn($connect, $entry_id)))
-				$this->err_log = ERR_DN;
+				$this->cod_err = ERR_DN;
 		
 			// Autenticación del usuario
 			elseif($this->password){
 				if(!($link_id = @ldap_bind($connect, $user_dn, $this->password)))
-					$this->err_log = ERR_AUTH;
+					$this->cod_err = ERR_AUTH;
 			}
 			else //evitamos la conexión anónima
-				$this->err_log = ERR_AUTH;
+				$this->cod_err = ERR_AUTH;
 
 			@ldap_close($connect);
 		}
 		else
-			$this->err_log = ERR_CONNECT;
+			$this->cod_err = ERR_CONNECT;
 		
-		return !$this->err_log; //si no hay errores la autenticación ha sido correcta
+		return !$this->cod_err; //si no hay errores la autenticación ha sido correcta
 	}
 }	
 ?>

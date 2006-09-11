@@ -1,14 +1,24 @@
 <?php
-/**
- * 
- */
-
 include('../php/check_access.php');
 eregi('log', $_SESSION['user_' . $ids]['param']['app']) or die($html_err);
 	
 header("Content-type:text/xml"); 
 echo '<?xml version="1.0" encoding="iso-8859-1"?>';
 ?>
+
+<!--
+/**
+ * Frame content_log.php
+ * Contenido de la pestaña Logs.
+ * 
+ * @author Francisco Javier Ramos Álvarez
+ * @version 1.0
+ * @package app
+ * @see app.php
+ * 
+ * @return xml
+ */
+-->
 <content tab="tab_log"><![CDATA[
 <table>
 	<tr>

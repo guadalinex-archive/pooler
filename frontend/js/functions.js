@@ -103,7 +103,7 @@ function configureGridPkg(){
 		myGridPkg.setColAlign("center,left,left,center");
 		myGridPkg.setColTypes("ch,ro,ro,ro");
 		myGridPkg.setColSorting("int,str,str");
-		myGridPkg.enableBuffering(50);
+		myGridPkg.enableBuffering(numRegsBuffer);
 	}
 }
 
@@ -115,7 +115,7 @@ function configureGridLog(){
 		myGridLog.setInitWidths('170,65,320,70');
 		myGridLog.setColAlign("left,center,left,center");
 		myGridLog.setColTypes("ro,ro,ro,ro");
-		myGridLog.enableBuffering(50);
+		myGridLog.enableBuffering(numRegsBuffer);
 		//myGridLog.setColSorting("str,null,str,date");
 	}
 }

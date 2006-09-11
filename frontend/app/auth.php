@@ -1,9 +1,16 @@
-<?
+<!--
 /**
+ * Window auth.php
+ * Formulario de autenticación de usuario.
  * 
+ * @author Francisco Javier Ramos Álvarez
+ * @version 1.0
+ * @package app
+ * @see index.php
+ * 
+ * @return html
  */
-?>
-
+-->
 <div id="contentAuth">
 	<form id="frmAuth">
 		<table id="tableAuth">

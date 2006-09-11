@@ -1,12 +1,22 @@
 <?
-/**
- * 
- */
-
 include('../php/check_access.php');
 include('../php/functions.php');
 ?>
 
+<!--
+/**
+ * Window add_dist.php
+ * Contiene el listado de distribuciones que aún no se han seleccionado
+ * para el usuario.
+ * 
+ * @author Francisco Javier Ramos Álvarez
+ * @version 1.0
+ * @package app
+ * @see edit_user.php
+ * 
+ * @return html
+ */
+-->
 <div id="datasPackage" style="height:245px" align="left">
 	<table style="margin-top: 10px">
 		<tr>

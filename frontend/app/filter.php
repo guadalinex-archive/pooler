@@ -1,12 +1,20 @@
 <?
-/**
- * 
- */
-
 include('../php/check_access.php');
 include('../php/functions.php');
 ?>
 
+<!--
+/**
+ * Window filter.php
+ * Formulario de filtrado de paquetes/ficheros fuente.
+ * 
+ * @author Francisco Javier Ramos Álvarez
+ * @version 1.0
+ * @package app
+ * 
+ * @return html
+ */
+-->
 <div id="datasPackage" style="height:150px">
 	<table class="table2">
 		<tr>

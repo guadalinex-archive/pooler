@@ -1,12 +1,21 @@
 <?
-/**
- * 
- */
-
 include('../php/check_access.php');
 include('../php/functions.php');
 ?>
 
+<!--
+/**
+ * Window confirm_delete_pkg.php
+ * Ventana de confirmación para eliminar tanto de paquetes como de
+ * ficheros fuente.
+ * 
+ * @author Francisco Javier Ramos Álvarez
+ * @version 1.0
+ * @package app
+ * 
+ * @return html
+ */
+-->
 <div id="datasPackage" style="height:250px">
 	<table class="table2">
 		<tr>

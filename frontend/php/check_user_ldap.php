@@ -58,7 +58,7 @@
 				echo 'OK'; //retornamos OK
 			}
 			else
-				echo $objAuth->err_log;
+				echo $objAuth->cod_err;
 		}
 	}
 ?>

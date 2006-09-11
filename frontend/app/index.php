@@ -1,13 +1,23 @@
 <?
-/**
- * 
- */
-
+//evitamos el uso de Internet Explorer
 include('../php/no_ie.php');
 include('../php/end_session.php');
 include_once('../php/functions.php');
 ?>
 
+<!--
+/**
+ * Frame index.php
+ * Inicio de la aplicación. Lanzará el formulario de autenticación.
+ * 
+ * @author Francisco Javier Ramos Álvarez
+ * @version 1.0
+ * @package app
+ * @see auth.php
+ * 
+ * @return html
+ */
+-->
 <html>
 	<head>
 		<meta http-equiv="content-type" content="text/xml; charset=utf-8" />

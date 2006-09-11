@@ -1,11 +1,19 @@
 <?php
 /**
+ * Frame view_release.php
+ * Mostrará el contenido de los ficheros Release.
  * 
+ * @author Francisco Javier Ramos Álvarez
+ * @version 1.0
+ * @package php
+ * 
+ * @return html
  */
 	
 	if(isset($_GET['path']) and !empty($_GET['path'])){
 		$path = $_GET['path'];
 		if(ereg('.gpg$', $path)){
+			//mostrará las firmas
 			include('functions.php');
 			die(nl2br(extractFile($path)));
 		}
@@ -15,7 +23,7 @@
 			//cargamos el fichero
 			$release = new FileInfo($path);
 			
-			//lo mostramos. Construimos una tabla
+			//Construimos una tabla para mostrar los datos
 			$datas = $release->getBlockInfo(0)->getDatas();
 			echo '<table class="table1">';
 			foreach($datas as $field => $value){
