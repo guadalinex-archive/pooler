@@ -1,8 +1,14 @@
 <?php
 /**
+ * Class AuthLDAP
+ * Nos sirve para realizar una autenticación LDAP
  * 
+ * @author Francisco Javier Ramos Álvarez
+ * @version 1.0
+ * @package php
  */
 
+//constantes de error para una atenticación LDAP
 define('ERR_BIND', 1);
 define('ERR_SEARCH', 2);
 define('ERR_USERNAME', 3);
@@ -14,8 +20,25 @@ define('ERR_CONNECT', 8);
 
 class AuthLDAP{
 	
+	/**
+	 * Almacena el nombre de usuario
+	 *
+	 * @var string
+	 */
 	var $username = '';
+	
+	/**
+	 * Almacena la password
+	 *
+	 * @var string
+	 */
 	var $password = '';
+	
+	/**
+	 * Servidor LDAP. Por defecto "ldap.juntadeandalucia.es"
+	 *
+	 * @var unknown_type
+	 */
 	var $ldap_server = '';
 	var $ldap_port = 0;
 	var $dn_base = '';
