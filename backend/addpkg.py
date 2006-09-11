@@ -99,10 +99,7 @@ class   adder:
         
         self.updateIndexFiles(current, file_name)
         self.updatePool(current)
-        
-        
-           
-        return done
+        self.gen_Release()
     
     '''Update information in index files (Packages and Sources)'''
     def updateIndexFiles(self, current, file):
@@ -186,7 +183,7 @@ class   adder:
                         print "files.........%s"%(os.sep.join(path))
                         shutil.copy(os.sep.join(path),destination)
         else:                        
-            print "\n*******************\nThe package you choose is already in the repository\n*******************"
+            print "The package is already in the pool"
             print "Package.......................%s"%self.deb
             print "Location......................%s"%os.path.join(os.sep, self.repo, 'dists', self.dist, self.section, self.arch)
             sys.exit(1)
