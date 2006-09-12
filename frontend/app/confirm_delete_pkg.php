@@ -1,9 +1,4 @@
 <?
-include('../php/check_access.php');
-include('../php/functions.php');
-?>
-
-<!--
 /**
  * Window confirm_delete_pkg.php
  * Ventana de confirmación para eliminar tanto de paquetes como de
@@ -15,7 +10,11 @@ include('../php/functions.php');
  * 
  * @return html
  */
--->
+
+include('../php/check_access.php');
+include('../php/functions.php');
+?>
+
 <div id="datasPackage" style="height:250px">
 	<table class="table2">
 		<tr>

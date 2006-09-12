@@ -1,6 +1,15 @@
 <?php
 /**
+ * Module upload_pkg.php
+ * Realiza la subida de ficheros deb al servidor y a continuación 
+ * llama a un módulo en python que se encargará de colocarlos en su sitio.
  * 
+ * @author Francisco Javier Ramos Álvarez
+ * @version 1.0
+ * @package php
+ * @see addpkg.py by Antonio Gonzales Romero
+ * 
+ * @return $code
  */
 	
 	session_start();
@@ -22,7 +31,7 @@
 				
 				chmod($pck_tmp, 0777);
 				
-				/***********************************************************/
+				/** COMANDO ************************************************/
 				$cmd = "$add_pkg_py -p $pck_tmp -d $dist -c $repo_conf";
 				$out_ret = execCmdV3($cmd);
 				/***********************************************************/

@@ -1,6 +1,13 @@
 <?
 /**
+ * XML toolbar_content.xml.php
+ * Barra de herramientas el manejo del grid de datos (Packages y Sources).
  * 
+ * @author Francisco Javier Ramos Álvarez
+ * @version 1.0
+ * @package php
+ * 
+ * @return xml
  */
 
 	session_start();
@@ -12,7 +19,7 @@ echo '<?xml version="1.0" encoding="utf-8"?>';
 echo '<toolbar name="Listado de Paquetes" width="645" toolbarAlign="left">';
 	
 	if($dists = getAccessDists() and isset($_GET['path']) and !empty($_GET['path'])){
-		//si se tiene permiso de escritura
+		//si se tiene permiso de escritura...
 		if(hasPermission($_GET['path'], 'w')){
 			echo '<ImageButton src="../img/move2.png" height="25" width="25" id="but_content_1" disableImage="../img/move_dis.png" tooltip="Mover Paquetes" />';
 			echo '<ImageButton src="../img/delpkg.png" height="25" width="25" id="but_content_2" disableImage="../img/delpkg_dis.png" tooltip="Eliminar Paquetes" />	';

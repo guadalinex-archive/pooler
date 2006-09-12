@@ -1,4 +1,4 @@
-<!--
+<?
 /**
  * Window auth.php
  * Formulario de autenticación de usuario.
@@ -10,7 +10,8 @@
  * 
  * @return html
  */
--->
+?>
+
 <div id="contentAuth">
 	<form id="frmAuth">
 		<table id="tableAuth">

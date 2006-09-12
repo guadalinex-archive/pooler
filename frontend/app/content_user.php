@@ -1,12 +1,4 @@
 <?php
-include('../php/check_access.php');
-eregi('user', $_SESSION['user_' . $ids]['param']['app']) or die($html_err);
-	
-header("Content-type:text/xml"); 
-echo '<?xml version="1.0" encoding="iso-8859-1"?>';
-?>
-
-<!--
 /**
  * Frame content_user.php
  * Contenido de la pestaña Usuarios.
@@ -18,7 +10,14 @@ echo '<?xml version="1.0" encoding="iso-8859-1"?>';
  * 
  * @return xml
  */
--->
+
+include('../php/check_access.php');
+eregi('user', $_SESSION['user_' . $ids]['param']['app']) or die($html_err);
+	
+header("Content-type:text/xml"); 
+echo '<?xml version="1.0" encoding="iso-8859-1"?>';
+?>
+
 <content tab="tab_user"><![CDATA[
 <table>
 	<tr>

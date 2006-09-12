@@ -1,6 +1,15 @@
 <?php 
 /**
+ * Module update_user.php
+ * Añadirá o editará los datos de un usuario, así como las distribuciones a las que
+ * pueda tener acceso y sus permisos.
  * 
+ * @author Francisco Javier Ramos Álvarez
+ * @version 1.0
+ * @package php
+ * @see IniAccess.class.php by
+ * 
+ * @return $code
  */
 
 	session_start();

@@ -1,6 +1,13 @@
 <?php
 /**
+ * XML dists.xml.php
+ * Mostrará el árbol de distribuciones del repositorio.
  * 
+ * @author Francisco Javier Ramos Álvarez
+ * @version 1.0
+ * @package php
+ * 
+ * @return xml
  */
 
 	session_start();

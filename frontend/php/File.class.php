@@ -38,10 +38,19 @@ class File extends Path{
 			if($open) 
 				$this->getContent(); //volcamos el contenido del fichero
 		}
-		else{
+		else
 			$this->msg_err = '[!] Error: File.class - No es un Fichero';
-			return false;
-		}
+	}
+	
+	/**
+	 * Indica si todo ha ido correctamente, es decir, no ha habido
+	 * ningún mensaje de error en el constructor.
+	 *
+	 * @access public
+	 * @return boolean
+	 */
+	function isOk(){
+		return $this->msg_err == '';
 	}
 	
 	/**

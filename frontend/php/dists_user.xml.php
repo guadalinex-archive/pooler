@@ -1,6 +1,15 @@
 <?php
 /**
+ * XML dists_user.xml.php
+ * Mostrará el listado de distribuciones a los que tiene acceso un usuario, 
+ * así como los permisos disponibles para dicha distribución.
  * 
+ * @author Francisco Javier Ramos Álvarez
+ * @version 1.0
+ * @package php
+ * @see edit_user.php. Formulario de edición de usuario.
+ * 
+ * @return xml
  */
 
 	session_start();
@@ -14,10 +23,13 @@
 		
 		echo '<rows>';
 		
+		//mostrará las distribuciones a las que tenga acceso un usuario
 		if($dists = getAccessDists($_GET['user'])){
 			foreach($dists as $dist => $access){
 				echo '<row id="' . $dist . '">';
 					echo '<cell>' . $dist . '</cell>';
+					
+					//permisos de lectura (r) y escritura (w)
 					echo '<cell>' . (eregi('r', $access) ? '1' : '0')  . '</cell>';
 					echo '<cell>' . (eregi('w', $access) ? '1' : '0')  . '</cell>';
 					echo '<cell><![CDATA[<img src="../img/b_drop.png" border="0" style="cursor:pointer" onclick="myGridDistsUser.deleteRow(\'' . $dist . '\')" title="Eliminar distribuci&oacute;n" align="absmiddle" />]]></cell>';
