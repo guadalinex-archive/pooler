@@ -77,6 +77,7 @@ class IniAccess extends IniReader{
 	 *
 	 * @access public
 	 * @return boolean
+	 * @see functions.php (openFileWithLock)
 	 */
 	function printFileIni(){
 		

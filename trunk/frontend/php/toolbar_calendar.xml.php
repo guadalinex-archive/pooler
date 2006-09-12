@@ -1,6 +1,13 @@
 <?php
 /**
+ * XML toolbar_calendar.xml.php
+ * Barra de herramientas para el calendario. Sólo mostrará la opción de salir.
  * 
+ * @author Francisco Javier Ramos Álvarez
+ * @version 1.0
+ * @package php
+ * 
+ * @return xml
  */
 
 	session_start();

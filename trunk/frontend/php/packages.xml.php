@@ -1,4 +1,17 @@
 <?php
+/**
+ * XML packages.xml.php
+ * Construye el grid de datos, tanto de paquetes como de ficheros fuente. Realiza
+ * una paginación, que por defecto será de 50 registros por página.
+ * 
+ * @author Francisco Javier Ramos Álvarez
+ * @version 1.0
+ * @package php
+ * @see tbFileInfo.class.php
+ * 
+ * @return xml
+ */
+
 	session_start();
 	include('functions.php');
 	
@@ -12,6 +25,7 @@
 		
 		//cargamos los paquetes
 		$tbfileinfo = new tbFileInfo($path);
+		
 		//paginamos
 		$init = ($pag-1)*$toshow;
 		$end = $init+($toshow-1);
@@ -46,6 +60,8 @@
 					
 					echo ']]></cell>';
 					
+					//a continuación almacenamos las direcciones físicas de los ficheros
+					//para poder enviarsela a los módulos de python
 					if(isPackages($path))
 						echo '<cell>' . $packages[$i]->getValue('Filename') . '</cell>';
 					elseif(isSources($path)){

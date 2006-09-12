@@ -1,5 +1,17 @@
 <?php 
-	
+/**
+ * Module upload_pkg.php
+ * Realiza la subida de ficheros fuente al servidor y a continuación 
+ * llama a un módulo en python que se encargará de colocarlos en su sitio.
+ * 
+ * @author Francisco Javier Ramos Álvarez
+ * @version 1.0
+ * @package php
+ * @see addpkg.py by Antonio Gonzales Romero
+ * 
+ * @return $code
+ */
+
 	session_start();
 	
 	include_once('config.php');
@@ -16,11 +28,11 @@
 		for($i = 0; $i < $nfiles; $i++){
 			$src_tmp = PATH_TEMP . '/' . $in_srcs['name'][$i];
 			
-			//copiamos el fichero a un temporal donde el python lo pueda coger
+			//copiamos el fichero a un temporal donde python los pueda coger
 			if(@copy($in_srcs['tmp_name'][$i], $src_tmp)){
 				chmod($src_tmp, 0777);
 				
-				//separamos los dsc del resto. El python sólo necesita éstos
+				//separamos los dsc del resto. Python sólo necesita éstos
 				if(eregi('\.dsc$', $src_tmp))
 					$dscs[$in_srcs['name'][$i]] = $src_tmp;
 				else
@@ -30,7 +42,7 @@
 
 		foreach($dscs as $src => $src_tmp){
 			
-			/***********************************************************/
+			/** COMANDO ************************************************/
 			$cmd = "$add_pkg_py -p $src_tmp -d $dist -c $repo_conf";
 			$out_ret = execCmdV3($cmd);
 			/***********************************************************/
@@ -41,6 +53,7 @@
 			registerMovement(ADDSRC, array($src, $dist));
 		}
 		
+		//eliminamos resto de ficheros temporales
 		foreach($others as $src => $src_tmp)
 			@unlink($src_tmp);
 	}

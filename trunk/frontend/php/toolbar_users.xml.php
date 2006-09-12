@@ -1,6 +1,13 @@
 <?php
 /**
+ * XML toolbar_users.xml.php
+ * Barra de herramientas para la parde de usuarios.
  * 
+ * @author Francisco Javier Ramos Álvarez
+ * @version 1.0
+ * @package php
+ * 
+ * @return xml
  */
 
 	session_start();
@@ -11,6 +18,7 @@ header("Content-type:text/xml");
 echo '<?xml version="1.0" encoding="utf-8"?>';
 echo '<toolbar name=" " width="250" toolbarAlign="left">';
 	
+	//dependiendo de los permisos podrá realizar ciertas funciones
 	$ids = session_id();
 	if(isset($_SESSION['user_' . $ids]['param']['users']))
 		$is_writable = eregi("w", $_SESSION['user_' . $ids]['param']['users']);

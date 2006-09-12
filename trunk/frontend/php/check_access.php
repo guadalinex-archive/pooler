@@ -1,6 +1,13 @@
 <?php
 /**
+ * Module check_access.php
+ * Realiza un chequeo del usuario y sus permisos. Hace de capa protectora para la
+ * aplicación impidiendo accesos no válidos y obligando a acceder por medio de
+ * autenticación.
  * 
+ * @author Francisco Javier Ramos Álvarez
+ * @version 1.0
+ * @package php
  */
 
 	session_start();

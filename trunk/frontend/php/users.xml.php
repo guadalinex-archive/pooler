@@ -1,6 +1,15 @@
 <?php
 /**
+ * XML users.xml.php
+ * Mostrará una lista con los usuarios registrados en el fichero 
+ * users_repository.ini.
  * 
+ * @author Francisco Javier Ramos Álvarez
+ * @version 1.0
+ * @package php
+ * @see IniReader.class.php. Accederá al fichero ini
+ * 
+ * @return xml
  */
 
 	include_once('config.php');
@@ -13,6 +22,7 @@
 	echo '<tree id="0">';
 	
 		echo '<item id="root_users" text="Usuarios" im0="b_usrlist.png" im1="b_usrlist.png" im2="b_usrlist.png" open="1">';
+			//abrimos fichero de usuarios
 			$oIni = new IniReader(USERS_INI);
 			
 			//ordenamos alfabéticamente los nombres de usuarios

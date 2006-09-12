@@ -1,9 +1,4 @@
 <?
-include('../php/check_access.php');
-include('../php/functions.php');
-?>
-
-<!--
 /**
  * Frame app.php
  * Contenedor principal de la aplicación.
@@ -14,7 +9,11 @@ include('../php/functions.php');
  * 
  * @return html
  */
--->
+
+include('../php/check_access.php');
+include('../php/functions.php');
+?>
+
 <html>
 	<head>
 		<meta http-equiv="content-type" content="text/xml; charset=utf-8" />

@@ -1,6 +1,13 @@
 <?php
 /**
+ * XML toolbar_dists.xml.php
+ * Barra de herramientas para el árbol de distribuciones.
  * 
+ * @author Francisco Javier Ramos Álvarez
+ * @version 1.0
+ * @package php
+ * 
+ * @return xml
  */
 
 	session_start();
@@ -11,6 +18,7 @@ header("Content-type:text/xml");
 echo '<?xml version="1.0" encoding="utf-8"?>';
 echo '<toolbar name=" " width="250" toolbarAlign="left">';
 	 
+	//si tenemos acceso a las distribuciones mostramos el total de opciones
 	if($dists = getAccessDists()){
 		
 		$has = false;

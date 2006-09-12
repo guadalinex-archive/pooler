@@ -1,9 +1,4 @@
 <?
-include('../php/check_access.php');
-include('../php/functions.php');
-?>
-
-<!--
 /**
  * Window new_src.php
  * Formulario para subir nuevos ficheros fuente. Como mínimo dos ficheros, 
@@ -15,7 +10,11 @@ include('../php/functions.php');
  * 
  * @return html
  */
--->
+
+include('../php/check_access.php');
+include('../php/functions.php');
+?>
+
 <form id="frm_nuevo" method="post" enctype="multipart/form-data" action="../php/upload_src.php" target="ajax_upload">
 	<div id="datasPackage">
 		<table class="table2">

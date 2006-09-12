@@ -1,6 +1,6 @@
 <?php
 /**
- * Fichero config.php
+ * File config.php
  * Parámetros de configuración de la aplicación
  * 
  * @author Francisco Javier Ramos Álvarez
@@ -9,7 +9,7 @@
  */
 	
 	//otras constantes (modificar)
-	define('PATH_REPOSITORY', '/var/www/repositorios/ubuntu-breezy');
+	define('PATH_REPOSITORY', '/home/fran/repositorios/guadalinex-flamenco');
 	define('USERS_INI', '/var/www/pooler/trunk/frontend/other/users_repository.ini');
 	define('PATH_LOG', '/var/www/pooler/trunk/frontend/logs');
 	define('PATH_TEMP', '/var/www/pooler/trunk/frontend/tmp');

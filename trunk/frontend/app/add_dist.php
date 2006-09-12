@@ -1,9 +1,4 @@
 <?
-include('../php/check_access.php');
-include('../php/functions.php');
-?>
-
-<!--
 /**
  * Window add_dist.php
  * Contiene el listado de distribuciones que aún no se han seleccionado
@@ -16,7 +11,11 @@ include('../php/functions.php');
  * 
  * @return html
  */
--->
+
+include('../php/check_access.php');
+include('../php/functions.php');
+?>
+
 <div id="datasPackage" style="height:245px" align="left">
 	<table style="margin-top: 10px">
 		<tr>

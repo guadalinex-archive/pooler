@@ -1,9 +1,4 @@
 <?
-include('../php/check_access.php');
-include('../php/functions.php');
-?>
-
-<!--
 /**
  * Window filter.php
  * Formulario de filtrado de paquetes/ficheros fuente.
@@ -14,7 +9,11 @@ include('../php/functions.php');
  * 
  * @return html
  */
--->
+
+include('../php/check_access.php');
+include('../php/functions.php');
+?>
+
 <div id="datasPackage" style="height:150px">
 	<table class="table2">
 		<tr>

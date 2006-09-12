@@ -1,11 +1,17 @@
 <?php 
 /**
+ * Module delete_user.php
+ * Elimina usuarios del fichero ini
  * 
+ * @author Francisco Javier Ramos Álvarez
+ * @version 1.0
+ * @package php
+ * @see IniAccess.class.php
+ * 
+ * @return $code
  */
 	
 	session_start();
-	
-	//eliminamos usuario del fichero ini
 		
 	include_once('config.php');
 	require_once('IniAccess.class.php');

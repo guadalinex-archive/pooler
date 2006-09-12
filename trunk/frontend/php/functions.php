@@ -1,10 +1,24 @@
 <?php
 /**
+ * Module functions.php
+ * Contiene un conjunto de funciones generales, y que son llamadas
+ * por el resto de módulos php.
  * 
+ * @author Francisco Javier Ramos Álvarez
+ * @version 1.0
+ * @package php
  */
 
 include_once('config.php');
 
+/**
+ * Ejecuta un comando externo devolviendo la última línea de la salida estandar.
+ *
+ * @access public
+ * @param string $cmd. Comando a ejecutar
+ * @return string
+ * @see Command.class.php
+ */
 function execCmd($cmd){
 	require_once('Command.class.php');
 	

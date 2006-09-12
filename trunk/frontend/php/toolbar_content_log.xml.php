@@ -1,6 +1,14 @@
 <?
 /**
+ * XML toolbar_content_log.xml.php
+ * Barra de herramientas para el filtrado de logs.
  * 
+ * @author Francisco Javier Ramos Álvarez
+ * @version 1.0
+ * @package php
+ * @see IniReader.class.php. mostrará el listado de usuarios
+ * 
+ * @return xml
  */
 
 	include_once('functions.php');
@@ -18,13 +26,15 @@ echo '<toolbar name=" " width="645" toolbarAlign="left">';
 
 	$oIni = new IniReader(USERS_INI);
 	$sections = getOrderedKeys($oIni->info);
-
+	
+	//filtro por usuario
 	echo '<SelectButton id="sel_user" width="200px" height="25px">';
 	echo '<option value="0">[Usuario...]</option>';
 	foreach($sections as $section)
 		echo '<option value="' . $section  . '">' . $section  . '</option>';
 	echo '</SelectButton>';
 	
+	//filtro por acción realizada
 	echo '<SelectButton id="sel_actionr" width="130px" height="25px">';
 	echo '<option value="0">[Acción...]</option>';
 	echo '<option value="' . LOGIN . '">Logins</option>';
