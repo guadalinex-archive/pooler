@@ -28,11 +28,19 @@
 		$isEdit = isset($_POST['olduser']);
 		$isPass = isset($_POST['passuser']);
 		
-		//si hemos actualizado el username eliminamos el anterior
-		if($isEdit) unset($oIni->info[$_POST['olduser']]);
+		//si estamos editando eliminamos al usuario para, a continuación, 
+		//guardar los nuevos cambios, si los hay, sino los anteriores
+		$savePass = '';
+		if($isEdit){
+				//pero antes, si tiene password, la guardamos, ya que se puede perder
+				if(isset($oIni->info[$_POST['olduser']]['password']))
+					$savePass =  $oIni->info[$_POST['olduser']]['password'];
+				unset($oIni->info[$_POST['olduser']]);
+		}
 		
 		$oIni->info[$user] = array();
 		
+		if($savePass) $oIni->info[$user]['password'] = $savePass; //restauramos pass
 		if(!AUTH_LDAP and $isPass) $oIni->info[$user]['password'] = $_POST['passuser'];
 		if(isset($_POST['app'])) $oIni->info[$user]['app'] = $_POST['app'];
 		if(isset($_POST['users'])) $oIni->info[$user]['users'] = $_POST['users'];
