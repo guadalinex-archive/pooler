@@ -1,0 +1,11 @@
+Pooler v1.0 beta
+----------------
+
+Autores:
+Junta de Andalucía <devmaster@juntadeandalucia.es>
+Francisco Javier Ramos Álvarez <franciscoj.ramos.ext@juntadeandalucia.es>
+Antonio González Romero <antonio.gonzalez.romero.ext@juntadeandalucia.es>
+
+Descripción:
+Aplicación web con la que podremos gestionar un repositorio debian, llevando un control de 
+usuarios, con autenticación LDAP, y un revisado de logs diarios.
