@@ -1,4 +1,4 @@
-<?php
+<?php 
 /**
  * XML packages.xml.php
  * Construye el grid de datos, tanto de paquetes como de ficheros fuente. Realiza
@@ -14,6 +14,9 @@
 
 	session_start();
 	include('functions.php');
+	include_once('config.php');
+	
+	set_time_limit(TIME_LIMIT);
 	
 	if(isset($_GET['path']) and !empty($_GET['path'])){
 		$path = $_GET['path'];

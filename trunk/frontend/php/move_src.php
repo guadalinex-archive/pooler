@@ -1,4 +1,4 @@
-<?php 
+<?php set_time_limit(TIME_LIMIT);
 /**
  * Module move_src.php
  * Mueve ficheros fuente hacia otras distribuciones.
@@ -16,6 +16,8 @@
 	include_once('config.php');
 	include_once('functions.php');
 	require_once('myDebLog.class.php');
+	
+	set_time_limit(TIME_LIMIT);
 	
 	$dist_o = $_POST['dist_o']; //distribución origen
 	$dist_d = $_POST['dist_d']; //distribución destino

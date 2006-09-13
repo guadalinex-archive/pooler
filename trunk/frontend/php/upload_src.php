@@ -18,6 +18,8 @@
 	include_once('functions.php');
 	require_once('myDebLog.class.php');
 	
+	set_time_limit(TIME_LIMIT);
+	
 	$msg_err = '';
 	
 	if(isset($_FILES['in_srcs'])){

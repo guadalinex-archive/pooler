@@ -14,7 +14,6 @@
 	include_once('config.php');
 	include('functions.php');
 	
-	
 	/*****************************************************************************/
 	header("Content-type:text/xml"); 
 	echo '<?xml version="1.0" encoding="utf-8"?>';
