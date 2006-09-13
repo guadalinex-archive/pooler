@@ -19,6 +19,8 @@ define('ERR_DN', 6);
 define('ERR_AUTH', 7);
 define('ERR_CONNECT', 8);
 
+include_once('config.php');
+
 class AuthLDAP{
 	
 	/**
@@ -43,7 +45,7 @@ class AuthLDAP{
 	 * @var string
 	 * @access private
 	 */
-	var $ldap_server = 'ldap.juntadeandalucia.es';
+	var $ldap_server = '';
 	
 	/**
 	 * Puerto LDAP. Por defecto "ldap.juntadeandalucia.es"
@@ -51,7 +53,7 @@ class AuthLDAP{
 	 * @var int
 	 * @access private
 	 */
-	var $ldap_port = 389;
+	var $ldap_port = 0;
 	
 	/**
 	 * DN Base. Por defecto "ldap.juntadeandalucia.es"
@@ -59,7 +61,7 @@ class AuthLDAP{
 	 * @var string
 	 * @access private
 	 */
-	var $dn_base = 'o=sadesi,o=empleados,o=juntadeandalucia,c=es';
+	var $dn_base = '';
 	
 	/**
 	 * Código de error. Almacenará la constante de error
@@ -87,9 +89,9 @@ class AuthLDAP{
 		$this->password = $password;
 		
 		//parámetros opcionales
-		$this->ldap_server = $ldap_server ? $ldap_server : 'ldap.juntadeandalucia.es';
-		$this->ldap_port = $ldap_port ? $ldap_port : 389;
-		$this->dn_base = $dn_base ? $dn_base : 'o=sadesi,o=empleados,o=juntadeandalucia,c=es';
+		$this->ldap_server = $ldap_server ? $ldap_server : LDAP_SERVER;
+		$this->ldap_port = $ldap_port ? $ldap_port : LDAP_PORT;
+		$this->dn_base = $dn_base ? $dn_base : DN_BASE;
 	}
 
 	/**

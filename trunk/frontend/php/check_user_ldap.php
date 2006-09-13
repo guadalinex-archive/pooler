@@ -51,8 +51,19 @@
 				$_GET['password']
 			);
 			
+			/*
+			$objAuth = new AuthLDAP(
+				$_GET['login'],
+				$_GET['password'],
+				LDAP_SERVER,
+				LDAP_PORT,
+				DN_BASE
+			);
+			*/
+			
 			//nos logeamos
 			if($objAuth->Login()){
+			//if(true){
 				//autenticación LDAP correcta
 				session_start();
 				

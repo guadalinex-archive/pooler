@@ -969,12 +969,10 @@ function evalInputUser(){
 				return false;
 			}
 		}
-		else{
-			if(isNew){
-				alert('Introduzca la password.');
-				Field.focus('pass_user');
-				return false;
-			}
+		else if(isNew){
+			alert('Introduzca la password.');
+			Field.focus('pass_user');
+			return false;
 		}
 	}
 	
