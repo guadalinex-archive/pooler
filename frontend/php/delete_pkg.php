@@ -15,6 +15,7 @@
 	
 	include_once('config.php');
 	include_once('functions.php');
+	require_once('myDebLog.class.php');
 
 	$dist = $_POST['dist'];
 	

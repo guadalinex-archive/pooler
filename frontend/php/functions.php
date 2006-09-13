@@ -5,7 +5,7 @@
  * por el resto de módulos php.
  * 
  * @author Francisco Javier Ramos Álvarez
- * @version 1.0
+ * @version 1.1
  * @package php
  */
 
@@ -615,6 +615,7 @@ function openFileWithLock($filename, $mode, $attempts){
  * @return strin (html)
  */
 function imgByAction($action){
+
 	switch($action){
 		case LOGIN: return '<img src="../img/iconClient.gif" title="Usuario login" />'; break;
 		case LOGOUT: return '<img src="../img/s_loggoff.png" title="Usuario logout" />'; break;
@@ -638,8 +639,28 @@ function imgByAction($action){
  * @see myDebLog.class.php
  */
 function registerMovement($action, $param = array()){
-	require_once('myDebLog.class.php');
 	$log = new myDebLog($_SESSION['user_' . session_id()]['login']);
 	$log->putLine($action, $param); //imprimimos la línea
+}
+
+/**
+ * Registra los parámetros del usuario el cual se ha autenticado correctamente.
+ *
+ * @param string $login
+ * @param array of unknown $param
+ * @see check_user_ldap.php
+ */
+function ldapOk($login, $param){
+	require_once('myDebLog.class.php');
+	
+	$_SESSION['user_' . session_id()] = array(
+												'old_mktime' => mktime(),
+												'new_mktime' => mktime(),
+												'login' => $login,
+												'param' => $param
+												
+										);
+	registerMovement(LOGIN);
+	echo 'OK';
 }
 ?>

@@ -10,6 +10,25 @@
  * @see Log.class.php
  */
 
+//acciones de paquetes
+define('ADDPKG', 'addpkg');
+define('MOVPKG', 'movpkg');
+define('DELPKG', 'delpkg');
+
+//acciones con fuentes
+define('ADDSRC', 'addsrc');
+define('MOVSRC', 'movsrc');
+define('DELSRC', 'delsrc');
+
+//acciones de login
+define('LOGIN', 'login');
+define('LOGOUT', 'logout');
+
+//acciones de usuarios
+define('ADDUSER', 'adduser');
+define('EDTUSER', 'edtuser');
+define('DELUSER', 'deluser');
+
 include_once('config.php');
 require_once('Log.class.php');
 

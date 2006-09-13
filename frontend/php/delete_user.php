@@ -15,6 +15,7 @@
 		
 	include_once('config.php');
 	require_once('IniAccess.class.php');
+	require_once('myDebLog.class.php');
 
 	if(isset($_GET['user'])){
 		

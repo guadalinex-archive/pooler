@@ -1,5 +1,20 @@
 /**
+ * Module functions.js
+ * Contiene toda la funcionalidad AJAX y de componentes de la interfaz web.
+ * Podemos decir que es el corazón de la aplicación, con todas las funciones
+ * necesarias para una correcta ejecución.
  * 
+ * @author Francisco Javier Ramos Álvarez
+ * @version 1.1
+ * @package js
+ * @see dhtmlXGrid.js
+ * @see dhtmlXTabbar.js
+ * @see dhtmlXToolbar.js
+ * @see dhtmlXTree.js
+ * @see md5.js
+ * @see prototype.js
+ * @see wz_dragdrop.js
+ * @see prototype.js
  */
 
 function loadTreeDists(){
@@ -893,9 +908,10 @@ function updateUser(){
 		showDivLoading('Actualizando usuario...');
 		
 		//montamos la cadéna con los datos del usuario
-		var param = '', user, olduser, app = [], dists = [], rw = [];
+		var param = '', user, olduser, passuser, app = [], dists = [], rw = [];
 		user = $F('username');
 		olduser = $F('old_username');
+		passuser = $('pass_user') ? $F('pass_user') : '';
 		
 		if($('chk_pck').checked) app.push($F('chk_pck'));
 		if($('chk_user').checked) app.push($F('chk_user'));
@@ -913,6 +929,7 @@ function updateUser(){
 		
 		param += 'username=' + encodeURIComponent(user) + '&';
 		param += olduser ? 'olduser=' + encodeURIComponent(olduser) + '&' : '';
+		param += passuser ? 'passuser=' + hex_md5(passuser) + '&' : '';
 		param += 'app=' + encodeURIComponent(app.join('|')) + '&';
 		param += $('chk_user').checked ? 'users=rw&' : '';
 		for(var i = 0; i < dists.length; i++)
@@ -937,10 +954,28 @@ function updateUser(){
 }
 
 function evalInputUser(){
+	var isNew = !Field.present('old_username');
+	
 	if(!Field.present('username')){
 		alert('Introduzca al menos el nombre de usuario');
 		Field.focus('username');
 		return false;
+	}
+	if($('pass_user')){
+		if(Field.present('pass_user')){
+			if($F('pass_user') != $F('confirm_pass')){
+				alert('No coincides las password introducidas. Revise la confirmacion.');
+				Field.focus('confirm_pass');
+				return false;
+			}
+		}
+		else{
+			if(isNew){
+				alert('Introduzca la password.');
+				Field.focus('pass_user');
+				return false;
+			}
+		}
 	}
 	
 	return true;

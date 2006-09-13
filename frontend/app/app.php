@@ -4,7 +4,7 @@
  * Contenedor principal de la aplicación.
  * 
  * @author Francisco Javier Ramos Álvarez
- * @version 1.0
+ * @version 1.1
  * @package app
  * 
  * @return html
@@ -12,6 +12,7 @@
 
 include('../php/check_access.php');
 include('../php/functions.php');
+include_once('../php/config.php');
 ?>
 
 <html>
@@ -55,6 +56,11 @@ include('../php/functions.php');
 		
 		<!-- Librería para realizar Drag Drop con capas (http://www.walterzorn.com) -->
 		<script type="text/javascript" src="../js/wz_dragdrop.js"></script>
+		
+		<? if(!AUTH_LDAP and eregi('user', $_SESSION['user_' . $ids]['param']['app'])): ?>
+			<!-- Librería para encriptación MD5 -->
+			<script type="text/javascript" src="../js/md5.js"></script>
+		<? endif; ?>
 		
 		
 		<? if(eregi('log', $_SESSION['user_' . $ids]['param']['app'])): ?>

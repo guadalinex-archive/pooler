@@ -5,7 +5,7 @@
  * llama a un módulo en python que se encargará de colocarlos en su sitio.
  * 
  * @author Francisco Javier Ramos Álvarez
- * @version 1.0
+ * @version 1.1
  * @package php
  * @see addpkg.py by Antonio Gonzales Romero
  * 
@@ -16,6 +16,9 @@
 	
 	include_once('config.php');
 	include_once('functions.php');
+	require_once('myDebLog.class.php');
+	
+	$msg_err = '';
 	
 	if(isset($_FILES['in_srcs'])){
 		
@@ -28,16 +31,22 @@
 		for($i = 0; $i < $nfiles; $i++){
 			$src_tmp = PATH_TEMP . '/' . $in_srcs['name'][$i];
 			
-			//copiamos el fichero a un temporal donde python los pueda coger
-			if(@copy($in_srcs['tmp_name'][$i], $src_tmp)){
-				chmod($src_tmp, 0777);
-				
-				//separamos los dsc del resto. Python sólo necesita éstos
-				if(eregi('\.dsc$', $src_tmp))
-					$dscs[$in_srcs['name'][$i]] = $src_tmp;
+			if(!file_exists($src_tmp)){
+				//copiamos el fichero a un temporal donde python los pueda coger
+				if(@copy($in_srcs['tmp_name'][$i], $src_tmp)){
+					chmod($src_tmp, 0777);
+					
+					//separamos los dsc del resto. Python sólo necesita éstos
+					if(eregi('\.dsc$', $src_tmp))
+						$dscs[$in_srcs['name'][$i]] = $src_tmp;
+					else
+						$others[$in_srcs['name'][$i]] = $src_tmp;
+				}
 				else
-					$others[$in_srcs['name'][$i]] = $src_tmp;
+					$msg_err .= 'No se pudo copiar el fichero ' . $in_srcs['name'][$i] . '\\n';
 			}
+			else
+				$msg_err .= 'El fichero ' . $in_srcs['name'][$i] . ' ya existe en el temporal\\n';
 		}
 
 		foreach($dscs as $src => $src_tmp){
@@ -64,6 +73,9 @@
 	
 	var p = window.parent;
 	p.hideDivLoading();
+	<? if($msg_err != ''): ?>
+		alert('<?= $msg_err ?>');
+	<? endif; ?>
 	p.closePopup();
 	
 </script>
