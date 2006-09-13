@@ -15,6 +15,7 @@
 	
 	include_once('config.php');
 	include_once('functions.php');
+	require_once('myDebLog.class.php');
 	
 	$dist_o = $_POST['dist_o']; //distro origen
 	$dist_d = $_POST['dist_d']; //distro destino

@@ -8,7 +8,7 @@
  * ...
  * 
  * @author Francisco Javier Ramos Álvarez
- * @version 1.0
+ * @version 1.1
  * @package php
  */
 	
@@ -81,16 +81,16 @@ class IniReader{
 								$this->info[$section][$field] = $value;
 							}
 							else
-								$this->msg_err = '[!] Error: no es correcto el formato del fichero ini';
+								$this->msg_err = 'No es correcto el formato del fichero ini';
 						}
 					}
 				}
 			}
 			else
-				$this->msg_err = '[!] Error: no se pudo abrir el fichero ini';
+				$this->msg_err = 'No se pudo abrir el fichero ini';
 		}
 		else
-			$this->msg_err = '[!] Error: hay un problema con el fichero ini';
+			$this->msg_err = 'Hay un problema con el fichero ini';
 	}
 	
 	/**
@@ -101,7 +101,7 @@ class IniReader{
 	 * @return boolean
 	 */
 	function isOk(){
-		return $this->msg_err == '';
+		return ($this->msg_err == '');
 	}
 	
 	/**

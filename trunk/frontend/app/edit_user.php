@@ -4,7 +4,7 @@
  * formulario de nuevo/edición de usuarios
  * 
  * @author Francisco Javier Ramos Álvarez
- * @version 1.0
+ * @version 1.1
  * @package app
  * @see dists_user.xml. Muestra el listado de distribuciones por usuario.
  * 
@@ -13,6 +13,7 @@
 
 include('../php/check_access.php');
 include('../php/functions.php');
+include_once('../php/config.php');
 	
 $user = isset($_GET['user']) ? $_GET['user'] : '';
 $uparam = $user ? getParamByUser($user) : array();
@@ -27,6 +28,22 @@ $param = $_SESSION['user_' . $ids]['param'];
 			<input type="hidden" id="old_username" value="<?= $user ?>">
 		</td>
 	</tr>
+	
+	<? if(!AUTH_LDAP): ?>
+	<tr>
+		<td width="150" bgcolor="#EEEEEE">Password:</td>
+		<td>
+			<input type="password" id="pass_user" />
+		</td>
+	</tr>
+	<tr>
+		<td width="150" bgcolor="#EEEEEE">Confirmar:</td>
+		<td>
+			<input type="password" id="confirm_pass" />
+		</td>
+	</tr>
+	<? endif; ?>
+	
 	<tr>
 		<td width="150" bgcolor="#EEEEEE">Aplicaci&oacute;n:</td>
 		<td>

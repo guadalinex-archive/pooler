@@ -27,7 +27,7 @@
 			echo '</item>';
 		}
 		else
-			echo '<item id="no_access" text="No tiene acceso a las distribuciones" im0="s_cancel.png" />';
+			echo '<item id="no_access" text="No tiene acceso a las distribuciones" im0="s_cancel.png" imw="16" imh="16" />';
 		
 	echo '</tree>';
 	/*****************************************************************************/

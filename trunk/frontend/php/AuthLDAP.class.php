@@ -4,8 +4,9 @@
  * Nos sirve para realizar una autenticación LDAP
  * 
  * @author Francisco Javier Ramos Álvarez
- * @version 1.0
+ * @version 1.1
  * @package php
+ * @see check_user_ldap.php
  */
 
 //constantes de error para una atenticación LDAP
@@ -140,6 +141,27 @@ class AuthLDAP{
 			$this->cod_err = ERR_CONNECT;
 		
 		return !$this->cod_err; //si no hay errores la autenticación ha sido correcta
+	}
+	
+	/**
+	 * Devuelve el mensaje de error en la autenticación LDAP.
+	 * NOTA: Este método está implementado provisionalmente así.
+	 *
+	 * @access public
+	 * @return string
+	 */
+	function getMessageErr(){
+		switch($this->cod_err){
+			case ERR_BIND: return 'Error - Cod: ERR_BIND'; break;
+			case ERR_SEARCH: return 'Error - Cod: ERR_SEARCH'; break;
+			case ERR_USERNAME: return 'Error - Cod: ERR_USERNAME'; break;
+			case ERR_MORE_USERNAME: return 'Error - Cod: ERR_MORE_USERNAME'; break;
+			case ERR_FETCH: return 'Error - Cod: ERR_FETCH'; break;
+			case ERR_DN: return 'Error - Cod: ERR_DN'; break;
+			case ERR_AUTH: return 'Error - Cod: ERR_AUTH'; break;
+			case ERR_CONNECT: return 'Error - Cod: ERR_CONNECT'; break;
+			default: return '';
+		}
 	}
 }	
 ?>

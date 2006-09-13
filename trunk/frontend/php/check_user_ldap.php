@@ -1,11 +1,11 @@
 <?php
 /**
  * Module check_user_ldap.php
- * Realiza la autenticación por LDAP, devolviendo OK si la autenticación ha ido bien,
+ * Realiza la autenticación, devolviendo OK si ha ido bien,
  * en caso contrario devolverá el código del error.
  * 
  * @author Francisco Javier Ramos Álvarez
- * @version 1.0
+ * @version 1.1
  * @package php
  * @see AuthLDAP.class.php
  * @see IniReader.class.php
@@ -19,32 +19,33 @@
 	require_once('IniReader.class.php');
 	
 	if(isset($_GET['login']) and isset($_GET['password'])){
-		//distinguimos entre usuario normal y superusuario admin
-		if($_GET['login'] == 'admin'){
+		
+		//autenticamos desde el fichero users_repository.ini si somos 
+		//superusuario (admin) o no se realiza por LDAP
+		if($_GET['login'] == 'admin' or !AUTH_LDAP){
 			$inireader = new IniReader(USERS_INI);
-			$param = $inireader->getSection('admin');
 			
-			if(strcmp($param['password'], md5($_GET['password'])) == 0){
-				//autenticación correcta por parte de admin
-				session_start();
+			if($inireader->isOk()){
+				$param = $inireader->getSection($_GET['login']);
 				
-				//añadimos parámetros de administrador
-				addParamAdmin(&$param);
-				
-				$_SESSION['user_' . session_id()] = array(
-															'old_mktime' => mktime(),
-															'new_mktime' => mktime(),
-															'login' => 'admin',
-															'param' => $param
-															
-													);
-				registerMovement(LOGIN);
-				echo 'OK'; //retornamos OK
+				if(strcmp($param['password'], md5($_GET['password'])) == 0){
+					//autenticación correcta por users_repository.ini
+					session_start();
+					
+					if($_GET['login'] == 'admin')
+						//añadimos parámetros de admin
+						addParamAdmin(&$param);
+
+					ldapOk($_GET['login'], $param);
+					
+				}
+				else
+					echo 'Password incorrecta.';
 			}
 			else
-				echo ERR_AUTH;
+				echo $inireader->msg_err;
 		}
-		else{
+		else{ //autenticación LDAP
 			$objAuth = new AuthLDAP(
 				$_GET['login'],
 				$_GET['password']
@@ -52,25 +53,21 @@
 			
 			//nos logeamos
 			if($objAuth->Login()){
-			//if(true){
-				//autenticación correcta por parte de un usuario normal
+				//autenticación LDAP correcta
 				session_start();
 				
-				//obtenemos su permisos de usuario
+				//obtenemos permisos de usuario
 				$inireader = new IniReader(USERS_INI);
-				$param = $inireader->getSection($_GET['login']);
-				$_SESSION['user_' . session_id()] = array(
-															'old_mktime' => mktime(),
-															'new_mktime' => mktime(),
-															'login' => $_GET['login'],
-															'param' => $param
-															
-													);
-				registerMovement(LOGIN);
-				echo 'OK'; //retornamos OK
+				
+				if($inireader->isOk()){
+					$param = $inireader->getSection($_GET['login']);
+					ldapOk($_GET['login'], $param);
+				}
+				else
+					echo $inireader->msg_err;
 			}
 			else
-				echo $objAuth->cod_err;
+				echo $objAuth->getMessageErr();
 		}
 	}
 ?>

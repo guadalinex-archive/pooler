@@ -5,7 +5,7 @@
  * pueda tener acceso y sus permisos.
  * 
  * @author Francisco Javier Ramos Álvarez
- * @version 1.0
+ * @version 1.1
  * @package php
  * @see IniAccess.class.php by
  * 
@@ -18,6 +18,7 @@
 
 	include_once('config.php');
 	require_once('IniAccess.class.php');
+	require_once('myDebLog.class.php');
 	
 	if(isset($_POST['username'])){
 		
@@ -25,12 +26,14 @@
 		$oIni = new IniAccess(USERS_INI);
 		$user = $_POST['username'];
 		$isEdit = isset($_POST['olduser']);
+		$isPass = isset($_POST['passuser']);
 		
 		//si hemos actualizado el username eliminamos el anterior
 		if($isEdit) unset($oIni->info[$_POST['olduser']]);
 		
 		$oIni->info[$user] = array();
 		
+		if(!AUTH_LDAP and $isPass) $oIni->info[$user]['password'] = $_POST['passuser'];
 		if(isset($_POST['app'])) $oIni->info[$user]['app'] = $_POST['app'];
 		if(isset($_POST['users'])) $oIni->info[$user]['users'] = $_POST['users'];
 		
