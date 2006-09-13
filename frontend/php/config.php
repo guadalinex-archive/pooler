@@ -26,6 +26,10 @@
 	define('MV_PKG_PY', '/usr/share/poolmanager/bin/mvpkg.py'); $mv_pkg_py = MV_PKG_PY;
 	define('RM_PKG_PY', '/usr/share/poolmanager/bin/rmpkg.py'); $rm_pkg_py = RM_PKG_PY;
 	
+	//tiempo máximo de ejecución de ciertos scripts susceptibles
+	//de superar el time out
+	define('TIME_LIMIT', 300);
+	
 	//campos de filtrado, tanto de paquetes como de ficheros fuentes
 	$fieldsFilter = array(
 		'Package',

@@ -17,6 +17,8 @@
 	include_once('functions.php');
 	require_once('myDebLog.class.php');
 	
+	set_time_limit(TIME_LIMIT);
+	
 	$dist_o = $_POST['dist_o']; //distro origen
 	$dist_d = $_POST['dist_d']; //distro destino
 	

@@ -1,4 +1,4 @@
-<?php
+<?php 
 /**
  * Module upload_pkg.php
  * Realiza la subida de ficheros deb al servidor y a continuación 
@@ -17,6 +17,8 @@
 	include_once('config.php');
 	include_once('functions.php');
 	require_once('myDebLog.class.php');
+	
+	set_time_limit(TIME_LIMIT);
 	
 	$msg_err = '';
 	
