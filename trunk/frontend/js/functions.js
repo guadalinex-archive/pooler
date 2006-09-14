@@ -518,6 +518,7 @@ function openPopup(title, page, param, width, height, icon, other){
 }
 
 function closePopup(){
+	hideDivLoading();
 	if($('popup')){
 		dd.elements.titlebar.del();
 		dd.elements.frame.del();
@@ -740,6 +741,7 @@ function moveRegs(){
 		showDivLoading('Moviendo paquetes...');
 		var param = 'dist_o=' + encodeURIComponent(getDistByPath(myGridPkg.datas[0])); //origen
 		param += '&dist_d=' + encodeURIComponent($F('sel_distribucion')); //destino
+		param += '&arch=' + getArchByPath(myGridPkg.datas[0]); //arquitectura
 		param += '&' + serializeSelectedFiles();
 		
 		var myAjax = new Ajax.Request(
@@ -763,6 +765,7 @@ function deleteRegs(){
 	//procedemos a eliminarlos
 	showDivLoading('Eliminando paquetes...');
 	var param = 'dist=' + encodeURIComponent(getDistByPath(myGridPkg.datas[0])); //origen
+	param += '&arch=' + getArchByPath(myGridPkg.datas[0]); //arquitectura
 	param += '&' + serializeSelectedFiles();
 
 	var myAjax = new Ajax.Request(
@@ -981,6 +984,11 @@ function evalInputUser(){
 
 function getDistByPath(path){
 	var sub_path = myGridPkg.datas[0].substr(myGridPkg.datas[0].indexOf('dists/')+6);
+	return sub_path.substr(0, sub_path.indexOf('/'));
+}
+
+function getArchByPath(path){
+	var sub_path = myGridPkg.datas[0].substr(myGridPkg.datas[0].indexOf('binary-')+7);
 	return sub_path.substr(0, sub_path.indexOf('/'));
 }
 

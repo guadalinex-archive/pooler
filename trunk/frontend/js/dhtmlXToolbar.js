@@ -1,13 +1,3 @@
-/*
-Copyright Scand LLC http://www.scbr.com
-This version of Software is free for using in non-commercial applications. 
-For commercial use please contact info@scbr.com to obtain license
-
-*/ 
- 
-
-
- 
  function dhtmlXToolbarObject(htmlObject,width,height,name,vMode){
  this.width=width;this.height=height;
  if(typeof(htmlObject)!="object")

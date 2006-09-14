@@ -1,12 +1,3 @@
-/*
-Copyright Scand LLC http://www.scbr.com
-This version of Software is free for using in non-commercial applications. For commercial use please contact info@scbr.com to obtain license
-*/ 
-
- 
-
-
- 
 function dhtmlXTabBar(parentObject,mode,height)
 {
  mode=mode||"top";
@@ -33,7 +24,7 @@ function dhtmlXTabBar(parentObject,mode,height)
  this._content=new Array();
  this._tbst="win_text";
  this._styles={
- winDflt:["p_left.gif","p_middle.gif","p_right.gif","a_left.gif","a_middle.gif","a_right.gif","a_middle.gif",3,3,6,"#F4F3EE","#F0F8FF"],
+ winDflt:["p_left.gif","p_middle.gif","p_right.gif","a_left.gif","a_middle.gif","a_right.gif","a_middle.gif",3,3,6,"#F4F3EE","#EEEEEE"],
  winScarf:["with_bg/p_left.gif","with_bg/p_middle.gif","with_bg/p_right_skos.gif","with_bg/a_left.gif","with_bg/a_middle.gif","with_bg/a_right_skos.gif","with_bg/p_middle_over.gif",3,18,6,false,false],
  winBiScarf:["with_bg/p_left_skos.gif","with_bg/p_middle.gif","with_bg/p_right_skos.gif","with_bg/a_left_skos.gif","with_bg/a_middle.gif","with_bg/a_right_skos.gif","with_bg/p_middle_over.gif",18,18,6,false,false],
  winRound:["circuses/p_left.gif","circuses/p_middle.gif","circuses/p_right.gif","circuses/a_left.gif","circuses/a_middle.gif","circuses/a_right.gif","circuses/p_middle_over.gif",10,10,6,false,false]

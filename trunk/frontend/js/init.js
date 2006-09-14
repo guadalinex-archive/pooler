@@ -64,8 +64,7 @@ var myToolbarContentLog = null;
 
 function init_log(){
 	//configuramos calendario
-	myCalendar = Zapatec.Calendar.setup({
-		//align			  : 'cc',
+	myCalendar = Calendar.setup({
 		firstDay          : 1,
 		weekNumbers       : false,
 		step              : 1,
