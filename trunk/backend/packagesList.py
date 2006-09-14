@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
-# Author: Antonio González Romero <antonio.gonzalez.romero.ext@juntadeandalucia.es>
+# Author: Junta de Andalucía <devmaster@guadalinex.org>
+#  
+# Code: Antonio González Romero <antonio.gonzalez.romero.ext@juntadeandalucia.es>
 
 import package
 import os
@@ -95,10 +97,6 @@ class packagesList:
                 print 'Name: %s'%name
                 files = current.get('Files')
                 print 'Files content: %s'%files
-                if files.find(name) > -1:
-                    print "OK!"
-                else:
-                    print "Cagoen!"
                 result = current
                 break
         return result
