@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
-# Author: Antonio González Romero <antonio.gonzalez.romero.ext@juntadeandalucia.es>
+# Author: Junta de Andalucía <devmaster@guadalinex.org>
+#  
+# Code: Antonio González Romero <antonio.gonzalez.romero.ext@juntadeandalucia.es>
 
 import optparse
 import ConfigParser
@@ -53,6 +55,10 @@ def main():
     parser.add_option("-c", "--config",
                           dest="conf", default="/etc/poolmanager/repo.conf",
                           type="string", help="Especify the repo.conf file location")
+    parser.add_option("-a", "--arch",
+                          dest="arch", default="i386",
+                          type="string", help="Especify the architecture")
+
         
     (options,args)=parser.parse_args()
     del args
@@ -82,6 +88,7 @@ def main():
         repo = config.get('defaults', 'repositorio')
     else:
         repo = options.repo
+    
        
     pool = config.get('pools', options.destdist)
     apt_conf = config.get('defaults', 'apt_conf')
@@ -116,7 +123,7 @@ def main():
     
     print "rm data: %s; %s; %s; %s; %s"%(repo, srcdist, options.deb, pool, apt_conf)
       
-    rm = rmpkg.remover(repo, options.srcdist, options.deb, pool, apt_conf)
+    rm = rmpkg.remover(repo, options.srcdist, options.deb, pool, apt_conf, options.arch)
     if rm.rmpackage():
         rm.gen_Release()
         print '\n\n\nPackage removed successfully.....'

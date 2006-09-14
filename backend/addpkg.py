@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
-# Author: Antonio González Romero <antonio.gonzalez.romero.ext@juntadeandalucia.es>
+# Author: Junta de Andalucía <devmaster@guadalinex.org>
+#  
+# Code: Antonio González Romero <antonio.gonzalez.romero.ext@juntadeandalucia.es>
 
 import package
 import os
@@ -12,6 +14,7 @@ import packagesList
 import ConfigParser
 import sys
 import gzip
+import time
 
 from re import findall
 
@@ -35,7 +38,9 @@ class   option_parser:
         self.parser.add_option("-c", "--config",
                           dest="conf", default="/etc/poolmanager/repo.conf",
                           type="string", help="Especify the repo.conf file location")
-      
+        self.parser.add_option("-a", "--arch",
+                          dest="arch", default="i386",
+                          type="string", help="Especify the architecture")
     
     def parse_args(self):
         return self.parser.parse_args()
@@ -70,13 +75,14 @@ class   adder:
             current.setBinary(False)
         #TODO:filter wrong input
         if os.path.exists(self.deb):
-            current.importInfo(self.deb)
+            if current.importInfo(self.deb):
+                sys.exit(2)
         else:
             print "The file %s doesn't exists"%self.deb
             sys.exit(2)
         
         current_section = current.get('Section')
-        current_arch = current.get('Architecture')
+        current_arch = current.get('Architecture').strip()
         #Get supported sections and architectures from apt config file
         (dist_sections, dist_architectures) = self.getAptInfo()
     
@@ -89,19 +95,58 @@ class   adder:
             self.section = 'main'
         print "section\t\t\t%s"%self.section
         #Check if architecture exists
+        #TODO: Add in all  architectures.
+        dist_architectures.append('all')
+        default = 'i386'
+        print 'current_arch: %s'%current_arch
         if current.isBinary() and current_arch in dist_architectures:
+            if current_arch == 'all':
+                current_arch = default
             self.arch = 'binary-%s'%current_arch
         elif not current.isBinary() and current_arch == 'any':
-                self.arch = 'source'
+            self.arch = 'source'
         else:
             print '\nUnknown architecture: %s'%current_arch
             sys.exit(3)
-        
+        print 'Architecture: %s'%self.arch
+        self.branch = os.path.join(os.sep,self.repo, 'dists', self.dist, self.section, self.arch)
+        self.lockBranch()
         self.updateIndexFiles(current, file_name)
         self.updatePool(current)
-        self.gen_Release()
+        #self.gen_Release()
+        self.unLockBranch()
     
-    '''Update information in index files (Packages and Sources)'''
+    
+    def lockBranch(self):
+        lock = os.sep.join([self.branch, '.lock'])
+        success = False
+        print 'Waiting to lock.'
+        for i in range(10):
+            if not os.path.exists(lock):
+                os.system('touch %s'%lock)
+                print '\n-------------------------------------------------'
+                print 'locking branch %s'%self.branch
+                print '-------------------------------------------------\n'
+                success = True
+                break
+            else:
+                time.sleep(0.1)
+
+        if not success:
+            print '\nError: branch already locked: %s'%self.branch
+            sys.exit(4)
+            
+    def unLockBranch(self):
+        lock = os.sep.join([self.branch, '.lock'])
+        if os.path.exists(lock):
+            print '\n-----------------------------------------------'
+            print 'unlocking branch %s'%self.branch
+            os.system('rm %s'%lock)
+            print '-------------------------------------------------\n'
+            
+    '''
+    Update information in index files (Packages and Sources)
+    '''    
     def updateIndexFiles(self, current, file):
         
         #Build index files path
@@ -152,6 +197,7 @@ class   adder:
             
         else:
             print "The package is in the current distribution"
+            self.unLockBranch()
             sys.exit(1)
                 
     '''Update the pool structure'''    
@@ -169,37 +215,46 @@ class   adder:
         
         if not os.path.exists(destination):
             os.makedirs(destination) 
-        #The file exists in the pool         
-            if os.path.exists(os.path.join(os.sep,destination,file_name)):
-                print "The package  %s already exists in the pool"%file_name
-                sys.exit(1)
+            #The file exists in the pool         
+        print "file_name %s"%file_name
+        if os.path.exists(os.path.join(os.sep,destination,file_name)):
+            print '\nThe file exists in the pool\n'
+            self.unLockBranch()
+            sys.exit(0)
+        else:
+            if current.isBinary():
+                shutil.copy(self.deb, destination)
             else:
-                if current.isBinary():
-                    shutil.copy(self.deb, destination)
-                else:
-                    for i in current.files:
-                        path = self.deb.split(os.sep)[:-1]
-                        path.append(i.split(' ')[-1])
-                        print "files.........%s"%(os.sep.join(path))
+                for i in current.files:
+                    path = self.deb.split(os.sep)[:-1]
+                    path.append(i.split(' ')[-1])
+                    print "files.........%s"%(os.sep.join(path))
+                    if  os.path.exists(os.sep.join(path)):
                         shutil.copy(os.sep.join(path),destination)
-        else:                        
-            print "The package is already in the pool"
-            print "Package.......................%s"%self.deb
-            print "Location......................%s"%os.path.join(os.sep, self.repo, 'dists', self.dist, self.section, self.arch)
-            sys.exit(1)
-    
-    '''Retrieve supported architectures and sections in the dist'''
+                    else:
+                        self.unLockBranch()
+                        print 'El fichero %s'%os.sep.join(path)
+                        sys.exit(6)
+        #else:                        
+        #    print "The package is already in the pool"
+        #    print "Package.......................%s"%self.deb
+        #    print "Location......................%s"%os.path.join(os.sep, self.repo, 'dists', self.dist, self.section, self.arch)
+                
+    '''
+    Retrieve supported architectures and sections in the dist
+    '''
     def getAptInfo(self):
         apt_fd = open (self.apt_file,"r")
         content = apt_fd.read()
         apt_fd.close()
         sections = findall('Components ".+"\S',content)[0].split('\"')[1].split(' ')
         architectures = findall('Architectures ".+"\S',content)[0].split('\"')[1].split(' ')
-        #architectures.append('all')
         del content
         return (sections, architectures)
     
-    '''Returns the content of index file or create one if it doesn't exists'''    
+    '''
+    Returns the content of index file or create one if it doesn't exists
+    '''    
     def getContent(self, file_path, isBinary):
         fd = None
         content = None
@@ -232,7 +287,9 @@ class   adder:
            content = ''            
         return content
                 
-    '''Generates release information of the branch'''
+    '''
+    Generates release information of the branch
+    '''
     def gen_Release(self):
         #apt config files should be named apt_'codename'.conf. The location can be changed in repo.conf
         conf = os.path.join(os.sep, self.apt_conf, 'apt_%s.conf'%self.dist)
@@ -241,7 +298,9 @@ class   adder:
         command = 'apt-ftparchive -c %s release %s > %s/Release'%(conf, location, location)
         os.system(command)
         print "Regenerando releases......"
-        
+'''
+Main addpkg function...
+'''
 def main():
     
     parser = option_parser()
@@ -267,7 +326,7 @@ def main():
       
     if not options.deb:
         print "No ha introducido el nombre del paquete"
-        sys.exit(5)
+        sys.exit(20)
     else:
         deb = options.deb
         
@@ -276,12 +335,9 @@ def main():
     apt_conf = config.get('defaults', 'apt_conf')
     
     addr = adder(repo, dist, deb, pool, apt_conf)
+    addr.add_package()
     #Package successfully added 
-    if addr.add_package():
-        addr.gen_Release()
     
-    
-        
 if __name__=='__main__':
     main()
 

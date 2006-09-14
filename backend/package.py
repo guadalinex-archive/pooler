@@ -1,7 +1,8 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
-# Author: Antonio González Romero <antonio.gonzalez.romero.ext@juntadeandalucia.es>
-
+# Author: Junta de Andalucía <devmaster@guadalinex.org>
+#  
+# Code: Antonio González Romero <antonio.gonzalez.romero.ext@juntadeandalucia.es>
 
 
 import apt_pkg
@@ -66,7 +67,7 @@ class package:
         else:
             print "Error: Especified file doesn't exists"
             print "File: %s"%file
-            sys.exit(70)
+            return 1
         
     '''Imports debian control fields info from .deb file'''
     def importDebInfo(self,path):
