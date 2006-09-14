@@ -1,8 +1,3 @@
-/*
-Copyright Scand LLC http://www.scbr.com
-This version of Software is free for using in non-commercial applications. For commercial use please contact info@scbr.com to obtain license
-*/ 
- 
 function dtmlXMLLoaderObject(funcObject,dhtmlObject,async){
  this.xmlDoc="";
  if(arguments.length==2)

@@ -64,13 +64,11 @@ include_once('../php/config.php');
 		
 		
 		<? if(eregi('log', $_SESSION['user_' . $ids]['param']['app'])): ?>
-			<!-- Calendario de Zapatec (http://www.zapatec.com) -->
-			<link rel="stylesheet" type="text/css" href="../zpcal/themes/mycal.css">
-			<link rel="stylesheet" type="text/css" href="../zpcal/themes/layouts/big.css">
-			<script type="text/javascript" src="../zpcal/utils/zapatec.js"></script>
-			<script type="text/javascript" src="../zpcal/src/calendar.js"></script>
-			<script type="text/javascript" src="../zpcal/lang/calendar-sp.js"></script>
-			<a href="http://www.zapatec.com" />
+			<!-- Calendario JSCalendar -->
+			<link rel="stylesheet" type="text/css" href="../css/calendar.css">
+			<script type="text/javascript" src="../js/calendar.js"></script>
+			<script type="text/javascript" src="../js/calendar-setup.js"></script>
+			<script type="text/javascript" src="../js/calendar-es.js"></script>
 		<? endif; ?>
 		
 	</head>

@@ -1,9 +1,3 @@
-/*
-Copyright Scand LLC http://www.scbr.com
-This version of Software is free for using in non-commercial applications. For commercial use please contact info@scbr.com to obtain license
-*/ 
- 
-
 var globalActiveDHTMLGridObject;
 String.prototype._dhx_trim = function(){
  return this.replace(/&nbsp;/g," ").replace(/(^[ \t]*)|([ \t]*$)/g,"");

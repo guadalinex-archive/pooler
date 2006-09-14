@@ -1,10 +1,3 @@
-/*
-Copyright Scand LLC http://www.scbr.com
-This version of Software is free for using in non-commercial applications. For commercial use please contact info@scbr.com to obtain license
-*/ 
- 
-
- 
 function dhtmlXTreeObject(htmlObject,width,height,rootId){
  this._isOpera=(navigator.userAgent.indexOf('Opera')!= -1);
 
