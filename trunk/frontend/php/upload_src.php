@@ -56,12 +56,16 @@
 			/** COMANDO ************************************************/
 			$cmd = "$add_pkg_py -p $src_tmp -d $dist -c $repo_conf";
 			$out_ret = execCmdV3($cmd);
+			debugPython($cmd, $out_ret);
 			/***********************************************************/
 			
 			@unlink($src_tmp);
 			
-			//registramos el movimiento
-			registerMovement(ADDSRC, array($src, $dist));
+			if($out_ret[1] == 0)
+				//registramos el movimiento
+				registerMovement(ADDSRC, array($src, $dist));
+			else
+				$msg_err .= 'Error Cod. ' . $out_ret[1] . '\\n';
 		}
 		
 		//eliminamos resto de ficheros temporales

@@ -14,7 +14,7 @@
  * @see md5.js
  * @see prototype.js
  * @see wz_dragdrop.js
- * @see prototype.js
+ * @see calendar.js
  */
 
 function loadTreeDists(){
@@ -742,6 +742,7 @@ function moveRegs(){
 		var param = 'dist_o=' + encodeURIComponent(getDistByPath(myGridPkg.datas[0])); //origen
 		param += '&dist_d=' + encodeURIComponent($F('sel_distribucion')); //destino
 		param += '&arch=' + getArchByPath(myGridPkg.datas[0]); //arquitectura
+		param += $('maintain').checked ? '' : '&del=1';
 		param += '&' + serializeSelectedFiles();
 		
 		var myAjax = new Ajax.Request(
@@ -755,8 +756,10 @@ function moveRegs(){
 	}
 }
 
-function endMoveHandler(){
+function endMoveHandler(req){
 	hideDivLoading(); 
+	if(req.responseText != 'OK')
+		alert(req.responseText);
 	closePopup();
 	loadGridPackages();
 }
@@ -779,8 +782,8 @@ function deleteRegs(){
 
 }
 
-function endDeleteHandler(){
-	endMoveHandler();
+function endDeleteHandler(req){
+	endMoveHandler(req);
 }
 
 function serializeSelectedFiles(){

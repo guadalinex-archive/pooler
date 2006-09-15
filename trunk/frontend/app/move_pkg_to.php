@@ -27,6 +27,11 @@ $noDist = isset($_GET['dist']) ? $_GET['dist'] : '';
 			</td>
 		</tr>
 		<tr>
+			<td bgcolor="#EEEEEE" align="right">
+				Mantener <input type="checkbox" id="maintain" value="1" />
+			</td>
+		</tr>
+		<tr>
 			<td>
 				<div style="font-size:10px">
 					<span id="msg_move"></span><br />
