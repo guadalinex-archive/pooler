@@ -7,10 +7,7 @@
  * @author Francisco Javier Ramos Álvarez
  * @version 1.1
  * @package js
- * @see uiGrid.js
- * @see uiTabbar.js
- * @see uiToolbar.js
- * @see uiTree.js
+ * @see ui.js
  * @see md5.js
  * @see prototype.js
  * @see wz_dragdrop.js
