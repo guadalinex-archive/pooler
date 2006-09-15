@@ -7,10 +7,10 @@
  * @author Francisco Javier Ramos Álvarez
  * @version 1.1
  * @package js
- * @see dhtmlXGrid.js
- * @see dhtmlXTabbar.js
- * @see dhtmlXToolbar.js
- * @see dhtmlXTree.js
+ * @see uiGrid.js
+ * @see uiTabbar.js
+ * @see uiToolbar.js
+ * @see uiTree.js
  * @see md5.js
  * @see prototype.js
  * @see wz_dragdrop.js
@@ -24,7 +24,7 @@ function loadTreeDists(){
 	}
 	
 	//cargamos el árbol de directorio de distribuciones
-	myTreeDists = new dhtmlXTreeObject('dists', '100%', '100%', 0);
+	myTreeDists = new uiTreeObject('dists', '100%', '100%', 0);
 	
 	var loading = getLoading('Cargando distribuciones');
 	myTreeDists.allTree.appendChild(loading);
@@ -43,7 +43,7 @@ function loadTreeUsers(){
 		$('users').innerHTML = '';
 	}
 	//cargamos el árbol de usuarios
-	myTreeUsers = new dhtmlXTreeObject('users', '100%', '100%', 0);
+	myTreeUsers = new uiTreeObject('users', '100%', '100%', 0);
 
 	var loading = getLoading('Cargando usuarios');
 	myTreeUsers.allTree.appendChild(loading);
@@ -82,7 +82,7 @@ function selectedNodeDists(id){
 		$('path').innerHTML = '';
 		if(myGridPkg == null){
 			$('content').innerHTML = '<div id="gridcontrol" style="width:100%; height:100%"></div>';
-	 		myGridPkg = new dhtmlXGridObject('gridcontrol');
+	 		myGridPkg = new uiGridObject('gridcontrol');
 			configureGridPkg();
 			myGridPkg.init();
 		}
@@ -138,14 +138,14 @@ function configureGridLog(){
 function createToolBarContentPkg(){
 	myToolbarContent = null;
 	$('toolbar_content').innerHTML = '';
-	myToolbarContent = new dhtmlXToolbarObject('toolbar_content','100%','20');
+	myToolbarContent = new uiToolbarObject('toolbar_content','100%','20');
 	myToolbarContent.setOnClickHandler(toolbarContentClick);
 }
 
 function createToolBarContentLog(){
 	myToolbarContentLog = null;
 	$('toolbar_content').innerHTML = '';
-	myToolbarContentLog = new dhtmlXToolbarObject('toolbar_content','100%','20');
+	myToolbarContentLog = new uiToolbarObject('toolbar_content','100%','20');
 	myToolbarContentLog.setOnClickHandler(toolbarContentLogClick);
 }
 
@@ -815,7 +815,7 @@ function isUserSelected(){
 function showDistsUser(user){
 	if(myGridDistsUser == null){
 		$('dists_user').innerHTML = '<div id="gridcontrol" style="width:100%; height:100%"></div>';
-		myGridDistsUser = new dhtmlXGridObject('gridcontrol');
+		myGridDistsUser = new uiGridObject('gridcontrol');
 		configureGridDistsUser();
 		myGridDistsUser.init();
 		
