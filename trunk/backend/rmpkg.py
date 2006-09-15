@@ -78,7 +78,7 @@ class remover:
         
         architecture = self.arch
         if current_pkg.isBinary():
-			architecture = 'binary-%s'%self.arch
+						architecture = 'binary-%s'%self.arch
         else:
             architecture = 'source'            
 
@@ -166,8 +166,8 @@ class remover:
         directory = os.walk(path)
         files = directory.next()[2]
         for file in files:
+	    print 'File: %s'%file
             if file.endswith('gz'):
-                
                 fd = gzip.open(path + os.sep + file,'rb')
                 file_content = fd.read()
                 fd.close()
@@ -183,11 +183,13 @@ class remover:
                     file_content = fd.read()
                     fd.close()
                     break
-                else:
-                    print "Error: Unknown index file format %s"%path
-                    self.unLockBranch()
-                    sys.exit(7)      
-        return file_content, file
+    				                   
+  	if not file_content:
+	    print "Error: Index file not found"
+            self.unLockBranch()
+            sys.exit(7)
+        else:
+	    return file_content, file
         
     def gen_Release(self):
         #apt config files should be named apt_'codename'.conf. The location can be changed in repo.conf
