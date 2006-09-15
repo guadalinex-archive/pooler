@@ -9,7 +9,7 @@ var exitApp = false;
 var numRegsBuffer = 50;
 
 function init_app(){
-	myTabbar = new dhtmlXTabBar("tabbar","top");
+	myTabbar = new uiTabBar("tabbar","top");
 	myTabbar.setImagePath("../img/");
 	myTabbar.setOnSelectHandler(function(id){
 		closePopup(); //cerramos cualquier popup abierto
@@ -27,7 +27,7 @@ var myTreeDists = null;
 
 function init_pck(){
 	//cargamos la barra de herramientas
-	myToolbarDists = new dhtmlXToolbarObject('toolbar_dists','100%','20');
+	myToolbarDists = new uiToolbarObject('toolbar_dists','100%','20');
 	myToolbarDists.setOnClickHandler(toolbarDistsClick);
 	myToolbarDists.loadXML("../php/toolbar_dists.xml.php");
 	myToolbarDists.showBar();
@@ -45,7 +45,7 @@ var myGridDistsUser = null;
 
 function init_user(){
 	//cargamos la barra de herramientas
-	myToolbarUsers = new dhtmlXToolbarObject('toolbar_users','100%','20');
+	myToolbarUsers = new uiToolbarObject('toolbar_users','100%','20');
 	myToolbarUsers.setOnClickHandler(toolbarUsersClick);
 	myToolbarUsers.loadXML("../php/toolbar_users.xml.php");
 	myToolbarUsers.showBar();
@@ -73,14 +73,14 @@ function init_log(){
 	});
 	
 	//cargamos la barra de herramientas
-	myToolbarCalendar = new dhtmlXToolbarObject('toolbar_calendar','100%','20');
+	myToolbarCalendar = new uiToolbarObject('toolbar_calendar','100%','20');
 	myToolbarCalendar.setOnClickHandler(toolbarCalendarClick);
 	myToolbarCalendar.loadXML("../php/toolbar_calendar.xml.php");
 	myToolbarCalendar.showBar();
 	
 	if(myGridLog == null){
 		$('content').innerHTML = '<div id="gridcontrol" style="width:100%; height:100%"></div>';
- 		myGridLog = new dhtmlXGridObject('gridcontrol');
+ 		myGridLog = new uiGridObject('gridcontrol');
 		configureGridLog();
 		myGridLog.init();
 	}

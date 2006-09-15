@@ -23,10 +23,7 @@ include_once('../php/config.php');
 		
 		<!-- Cargamos hojas de estilo -->
 		<link rel="stylesheet" type="text/css" href="../css/styles.css">
-		<link rel="stylesheet" type="text/css" href="../css/dhtmlXToolbar.css">
-		<link rel="stylesheet" type="text/css" href="../css/dhtmlXTree.css">
-		<link rel="stylesheet" type="text/css" href="../css/dhtmlXGrid.css">
-		<link rel="stylesheet" type="text/css" href="../css/dhtmlXTabBar.css">
+		<link rel="stylesheet" type="text/css" href="../css/ui.css">
 		
 		<!-- Cargamos librerías JavaScript que componene la aplicación AJAX -->
 		
@@ -39,22 +36,16 @@ include_once('../php/config.php');
 		<!-- Funciones del núcleo de la aplicación -->
 		<script type="text/javascript" src="../js/functions.js"></script>
 		
-		<!-- Framework Prototype (http://prototype.conio.net) -->
+		<!-- Framework Prototype -->
 		<script type="text/javascript" src="../js/prototype.js"></script>
 		
 		<!-- 
 			Componentes para la interfaz gráfica (regilla de datos, 
 			árboles, barras de herramientas, pestañas, etc...)
 		-->
-		<script type="text/javascript" src="../js/dhtmlXCommon.js"></script>
-		<script type="text/javascript" src="../js/dhtmlXProtobar.js"></script>
-		<script type="text/javascript" src="../js/dhtmlXToolbar.js"></script>
-		<script type="text/javascript" src="../js/dhtmlXTree.js"></script>
-		<script type="text/javascript" src="../js/dhtmlXGrid.js"></script>
-		<script type="text/javascript" src="../js/dhtmlXGridCell.js"></script>
-		<script type="text/javascript" src="../js/dhtmlXTabbar.js"></script>
+		<script type="text/javascript" src="../js/ui.js"></script>
 		
-		<!-- Librería para realizar Drag Drop con capas (http://www.walterzorn.com) -->
+		<!-- Librería para realizar Drag Drop con capas -->
 		<script type="text/javascript" src="../js/wz_dragdrop.js"></script>
 		
 		<? if(!AUTH_LDAP and eregi('user', $_SESSION['user_' . $ids]['param']['app'])): ?>
