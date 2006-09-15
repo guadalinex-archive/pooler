@@ -1,4 +1,4 @@
-function dtmlXMLLoaderObject(funcObject,dhtmlObject,async){
+function xmlLoaderObject(funcObject,dhtmlObject,async){
  this.xmlDoc="";
  if(arguments.length==2)
  this.async=true;
@@ -9,7 +9,7 @@ function dtmlXMLLoaderObject(funcObject,dhtmlObject,async){
  return this;
 };
  
- dtmlXMLLoaderObject.prototype.waitLoadFunction=function(dhtmlObject){
+ xmlLoaderObject.prototype.waitLoadFunction=function(dhtmlObject){
  this.check=function(){
  if(dhtmlObject.onloadAction!=null){
  if(!dhtmlObject.xmlDoc.readyState)dhtmlObject.onloadAction(dhtmlObject.mainObject);
@@ -22,7 +22,7 @@ function dtmlXMLLoaderObject(funcObject,dhtmlObject,async){
 };
  
  
- dtmlXMLLoaderObject.prototype.getXMLTopNode=function(tagName){
+ xmlLoaderObject.prototype.getXMLTopNode=function(tagName){
  if(this.xmlDoc.responseXML){var temp=this.xmlDoc.responseXML.getElementsByTagName(tagName);var z=temp[0];}
  else var z=this.xmlDoc.documentElement;
  if(z)return z;
@@ -31,7 +31,7 @@ function dtmlXMLLoaderObject(funcObject,dhtmlObject,async){
 };
  
  
- dtmlXMLLoaderObject.prototype.loadXMLString=function(xmlString){
+ xmlLoaderObject.prototype.loadXMLString=function(xmlString){
  try
 {
  var parser = new DOMParser();
@@ -45,7 +45,7 @@ function dtmlXMLLoaderObject(funcObject,dhtmlObject,async){
  this.onloadAction(this.mainObject);
 }
  
- dtmlXMLLoaderObject.prototype.loadXML=function(filePath){
+ xmlLoaderObject.prototype.loadXML=function(filePath){
  try
 {
  this.xmlDoc = new XMLHttpRequest();
@@ -70,7 +70,7 @@ function dtmlXMLLoaderObject(funcObject,dhtmlObject,async){
 }
 };
  
- dtmlXMLLoaderObject.prototype.destructor=function(){
+ xmlLoaderObject.prototype.destructor=function(){
  this.onloadAction=null;
  this.mainObject=null;
  this.xmlDoc=null;
@@ -322,7 +322,7 @@ function isIE(){
 }
 
  
-dtmlXMLLoaderObject.prototype.doXPath = function(xpathExp,docObj){
+xmlLoaderObject.prototype.doXPath = function(xpathExp,docObj){
  if((_isOpera)||(_isKHTML))return this.doXPathOpera(xpathExp,docObj);
  if(isIE()){
  if(arguments.length==1){
@@ -394,7 +394,7 @@ window.uiError=new _uiError();
 
  
  
-dtmlXMLLoaderObject.prototype.doXPathOpera = function(xpathExp,docObj){
+xmlLoaderObject.prototype.doXPathOpera = function(xpathExp,docObj){
  
  var z=xpathExp.replace(/[\/]+/gi,"/").split('/');
  var obj=null;
@@ -418,7 +418,7 @@ dtmlXMLLoaderObject.prototype.doXPathOpera = function(xpathExp,docObj){
  return obj;
 }
 
-dtmlXMLLoaderObject.prototype._filterXPath = function(a,b){
+xmlLoaderObject.prototype._filterXPath = function(a,b){
  var c=new Array();
  var b=b.replace(/[^\[]*\[\@/g,"").replace(/[\[\]\@]*/g,"");
  for(var i=0;i<a.length;i++)
@@ -427,7 +427,7 @@ dtmlXMLLoaderObject.prototype._filterXPath = function(a,b){
 
  return c;
 }
-dtmlXMLLoaderObject.prototype._getAllNamedChilds = function(a,b){
+xmlLoaderObject.prototype._getAllNamedChilds = function(a,b){
  var c=new Array();
  for(var i=0;i<a.length;i++)
  for(var j=0;j<a[i].childNodes.length;j++)
@@ -633,7 +633,7 @@ function uiGridObject(id){
  self.parseXML(self.xmlLoader.xmlDoc);
 }
 }
- this.xmlLoader = new dtmlXMLLoaderObject(this.doLoadDetails,window);
+ this.xmlLoader = new xmlLoaderObject(this.doLoadDetails,window);
  this.dragger=new dhtmlDragAndDropObject();
 
  
@@ -3777,13 +3777,13 @@ uiTabBar.prototype.setImagePath = function(path){
 
  
 uiTabBar.prototype.loadXMLString=function(xmlString,afterCall){
- this.XMLLoader=new dtmlXMLLoaderObject(this._parseXML,this);
+ this.XMLLoader=new xmlLoaderObject(this._parseXML,this);
  this.waitCall=afterCall||0;
  this.XMLLoader.loadXMLString(xmlString);
 };
  
  uiTabBar.prototype.loadXML=function(file,afterCall){
- this.XMLLoader=new dtmlXMLLoaderObject(this._parseXML,this);
+ this.XMLLoader=new xmlLoaderObject(this._parseXML,this);
  this.waitCall=afterCall||0;
  this.XMLLoader.loadXML(file);
 }
@@ -3926,7 +3926,7 @@ uiTabBar.prototype.loadXMLString=function(xmlString,afterCall){
  var z=this._content[tab.idd]; 
  if(!z._loaded){
  z.innerHTML="<div class='dhx_ajax_loader'><img src='"+this._imgPath+"loading_blue.gif' />&nbsp;Loading...</div>";
-(new dtmlXMLLoaderObject(this._ajaxOnLoad,this,true)).loadXML(this._hrefs[tab.idd]);
+(new xmlLoaderObject(this._ajaxOnLoad,this,true)).loadXML(this._hrefs[tab.idd]);
  z._loaded=true;
 }
  break;
@@ -4060,7 +4060,7 @@ uiTabBar.prototype.goToPrevTab=function(){
 };
  
  if(this._extendedInit)this._extendedInit();
- this.xmlUnit=new dtmlXMLLoaderObject(this._parseXMLTree,this);
+ this.xmlUnit=new xmlLoaderObject(this._parseXMLTree,this);
  return this;
  
 };
@@ -4766,7 +4766,7 @@ function uiTreeObject(htmlObject,width,height,rootId){
  this.allTree=this._createSelf();
  this.allTree.appendChild(this.htmlNode.htmlNode);
  this.allTree.onselectstart=new Function("return false;");
- this.XMLLoader=new dtmlXMLLoaderObject(this._parseXMLTree,this);
+ this.XMLLoader=new xmlLoaderObject(this._parseXMLTree,this);
  
  this.selectionBar=document.createElement("DIV");
  this.selectionBar.className="selectionBar";
