@@ -13,11 +13,13 @@
 //acciones de paquetes
 define('ADDPKG', 'addpkg');
 define('MOVPKG', 'movpkg');
+define('CPYPKG', 'cpypkg');
 define('DELPKG', 'delpkg');
 
 //acciones con fuentes
 define('ADDSRC', 'addsrc');
 define('MOVSRC', 'movsrc');
+define('CPYSRC', 'cpysrc');
 define('DELSRC', 'delsrc');
 
 //acciones de login

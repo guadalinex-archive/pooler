@@ -45,7 +45,7 @@ class Log{
 	function putLine($line){
 		//abre bloqueando fichero log
 		if($fp = openFileWithLock($this->log, 'a', 10)){
-			//imprime, desbloquea un cierra
+			//imprime, desbloquea y cierra
 			fputs($fp, $line . "\n");
 			flock($fp, LOCK_UN);
 			fclose($fp);

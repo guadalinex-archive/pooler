@@ -46,7 +46,7 @@
 						echo '<cell>' . $exp_content[0] . '</cell>';
 						//acción realizada
 						echo '<cell><![CDATA[' . imgByAction($exp_content[1]) . ']]></cell>';
-						echo '<cell>' . (isset($exp_content[3]) ? '[' . $exp_content[2] . ']' . (isset($exp_content[4]) ? '-[' . $exp_content[3] . ']' : '') : '') . '</cell>';
+						echo '<cell><![CDATA[' . (isset($exp_content[3]) ? '[' . $exp_content[2] . ']' . (isset($exp_content[4]) ? '-[' . $exp_content[3] . ']' : '') : '') . ']]></cell>';
 						//hora a la que se ha ejecutado
 						echo '<cell>' . rtrim((isset($exp_content[4]) ? $exp_content[4] : (isset($exp_content[3]) ? $exp_content[3] : $exp_content[2]))) . '</cell>';
 					echo '</row>';

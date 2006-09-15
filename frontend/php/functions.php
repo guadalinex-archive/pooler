@@ -621,9 +621,11 @@ function imgByAction($action){
 		case LOGOUT: return '<img src="../img/s_loggoff.png" title="Usuario logout" />'; break;
 		case ADDPKG: return '<img src="../img/upload.gif" title="Subido paquete" />'; break;
 		case MOVPKG: return '<img src="../img/move2.png" title="Paquete movido" />'; break;
+		case CPYPKG: return '<img src="../img/copy.png" title="Paquete copiado" />'; break;
 		case DELPKG: return '<img src="../img/delpkg.png" title="Paquete eliminado" />'; break;
 		case ADDSRC: return '<img src="../img/upload_src.gif" title="Subido fuente" />'; break;
 		case MOVSRC: return '<img src="../img/move2_src.png" title="Fuente movido" />'; break;
+		case CPYSRC: return '<img src="../img/copy_src.png" title="Fuente copiado" />'; break;
 		case DELSRC: return '<img src="../img/delsrc.png" title="Fuente eliminado" />'; break;
 		case ADDUSER: return '<img src="../img/b_usradd.png" title="Usuario a&ntilde;adido" />'; break;
 		case EDTUSER: return '<img src="../img/b_usredit.png" title="Usuario editado" />'; break;
@@ -662,5 +664,27 @@ function ldapOk($login, $param){
 										);
 	registerMovement(LOGIN);
 	echo 'OK';
+}
+
+/**
+ * Imprime el resultado de ejecutar un python en un log
+ *
+ * @param array of string $out. Salida de una llamada a python
+ */
+function debugPython($cmd, $out_ret){
+	if(PY_DEBUG){
+		require_once('Log.class.php');
+		$log = new Log(PATH_LOG . '/python.log');
+		
+		$str = "## Comando ejecutado ##\n";
+		$str .= "$cmd\n\n";
+		$str .= "## Salida por pantalla ##\n";
+		$str .= implode("\n", $out_ret[0]) . "\n\n";
+		$str .= "## Código de retorno ##\n";
+		$str .= $out_ret[1] . "\n";
+		$str .= "## Fin ##\n\n";
+		
+		$log->putLine($str);
+	}
 }
 ?>

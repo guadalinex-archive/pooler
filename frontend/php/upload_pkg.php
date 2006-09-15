@@ -40,12 +40,17 @@
 					/** COMANDO ************************************************/
 					$cmd = "$add_pkg_py -p $pck_tmp -d $dist -c $repo_conf";
 					$out_ret = execCmdV3($cmd);
+					debugPython($cmd, $out_ret);
 					/***********************************************************/
 					
 					@unlink($pck_tmp);
 					
-					//registramos el movimiento
-					registerMovement(ADDPKG, array($in_debs['name'][$i], $dist));
+					if($out_ret[1] == 0)
+						//registramos el movimiento
+						registerMovement(ADDPKG, array($in_debs['name'][$i], $dist));
+					else
+						$msg_err .= 'Error Cod. ' . $out_ret[1] . '\\n';
+						
 				}
 				else
 					$msg_err .= 'No se pudo copiar el fichero ' . $in_debs['name'][$i] . ' al temporal\\n';
