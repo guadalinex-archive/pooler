@@ -115,6 +115,7 @@ class   adder:
         self.updatePool(current)
         #self.gen_Release()
         self.unLockBranch()
+        sys.exit(0)
     
     
     def lockBranch(self):
@@ -219,8 +220,8 @@ class   adder:
         print "file_name %s"%file_name
         if os.path.exists(os.path.join(os.sep,destination,file_name)):
             print '\nThe file exists in the pool\n'
-            self.unLockBranch()
-            sys.exit(0)
+            #self.unLockBranch()
+            #sys.exit(0)
         else:
             if current.isBinary():
                 shutil.copy(self.deb, destination)
@@ -235,6 +236,7 @@ class   adder:
                         self.unLockBranch()
                         print 'El fichero %s'%os.sep.join(path)
                         sys.exit(6)
+            
         #else:                        
         #    print "The package is already in the pool"
         #    print "Package.......................%s"%self.deb
