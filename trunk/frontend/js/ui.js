@@ -1,9 +1,9 @@
 /**
  * Module ui.js
  * Proporciona los controles utilizados en la aplicación
- * tales como DataGrid, TreeView, Tabs, etc... by
+ * tales como DataGrid, TreeView y Tabs
  * 
- * @author Scand LLC http://www.scbr.com
+ * @author Scand LLC http://www.scbr.com (standard edition - Open Source - GPL)
  * @changes Francisco Javier Ramos Álvarez
  * @version 1.0
  * @package js
@@ -5003,7 +5003,7 @@ uiTreeObject.prototype.setSubChecked=function(itemId,state){
 var sNode=this._globalIdStorageFind(itemId);
 this._setSubChecked(state,sNode);
 this._correctCheckStates(sNode.parentObject);
-}
+};
 uiTreeObject.prototype._setSubCheckedXML=function(state,sNode){
 if(!sNode)return;
 for(var i=0;i<sNode.childNodes.length;i++){
@@ -5014,7 +5014,7 @@ else tag.setAttribute("checked","");
 this._setSubCheckedXML(state,tag);
 }
 }
-}
+};
 uiTreeObject.prototype._setSubChecked=function(state,sNode){
 state=convertStringToBoolean(state);
 if(!sNode)return;
@@ -5173,11 +5173,11 @@ dragSpan.innerHTML=dhtmlObject.label;
 dragSpan.style.position="absolute";
 dragSpan.className="dragSpanDiv";
 return dragSpan;
-}
+};
 uiTreeObject.prototype._preventNsDrag=function(e){
 if((e)&&(e.preventDefault)){e.preventDefault();return false;}
 return false;
-}
+};
 uiTreeObject.prototype._drag=function(sourceHtmlObject,dhtmlObject,targetHtmlObject){
 if(this._autoOpenTimer)clearTimeout(this._autoOpenTimer);
 if(!targetHtmlObject.parentObject){
@@ -5196,7 +5196,7 @@ try{}
 catch(e){
 return;
 }
-}
+};
 uiTreeObject.prototype._dragIn=function(htmlObject,shtmlObject,x,y){
 if(!htmlObject.parentObject)
 {
@@ -5213,14 +5213,14 @@ this._autoOpenId=htmlObject.parentObject.id;
 return htmlObject;
 }
 else return 0;
-}
+};
 uiTreeObject.prototype._autoOpenItem=function(e,treeObject){
 treeObject.openItem(treeObject._autoOpenId);
 };
 uiTreeObject.prototype._dragOut=function(htmlObject){
 this._clearMove(htmlObject);
 if(this._autoOpenTimer)clearTimeout(this._autoOpenTimer);
-}
+};
 uiTreeObject.prototype._getNextNode=function(item,mode){
 if((!mode)&&(item.childsCount))return item.childNodes[0];
 if(item==this.htmlNode)
@@ -5244,11 +5244,11 @@ else return -1;
 uiTreeObject.prototype.isLocked = function(itemId){
 if(this._getOpenState(this._globalIdStorageFind(itemId)) == -1) return true;
 else return false;
-}
+};
 uiTreeObject.prototype.deleteSelectedItem=function(selectParent){
 var itemId = this.getSelectedItemId();
 if(itemId != '') this.deleteItem(itemId, selectParent);
-}
+};
 uiTreeObject.prototype.clearSelection=function(){
 this._unselectItem(this._globalIdStorageFind(this.getSelectedItemId()));
-}
+};

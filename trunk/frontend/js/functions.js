@@ -825,7 +825,7 @@ function showDistsUser(user){
 function configureGridDistsUser(){
 	if(myGridDistsUser != null){
 		myGridDistsUser.setImagePath('../img/');
-		myGridDistsUser.setHeader('Distribuci&oacute;n,r,w,<img src="../img/iconNewNewsEntry.gif" style="cursor:pointer" onclick="selDistributionUser()" />');
+		myGridDistsUser.setHeader('Distribuci&oacute;n,<span class="alink" onclick="selAllCheckReader()">r</span>,<span class="alink" onclick="selAllWriter()">w</span>,<img src="../img/iconNewNewsEntry.gif" style="cursor:pointer" onclick="selDistributionUser()" />');
 		myGridDistsUser.setInitWidths('250,25,25,30');
 		myGridDistsUser.setColAlign("left,center,center,center");
 		myGridDistsUser.setColTypes("ro,ch,ch,ro");
@@ -1000,4 +1000,22 @@ function emptyFieldsFilterLog(){
 	myToolbarContentLog.items[3].setSelected('0');
 	myToolbarContentLog.items[4].setSelected('0');
 	myToolbarContentLog.items[5].clearField();
+}
+
+function selAllCheckReader(){
+	var numRows = myGridDistsUser.getRowsNum();
+	if(numRows){
+		numRows.times(function(i){
+			myGridDistsUser.cells2(i, 1).setValue(Math.abs(myGridDistsUser.cells2(i, 1).getValue()-1));
+		});
+	}
+}
+
+function selAllWriter(){
+	var numRows = myGridDistsUser.getRowsNum();
+	if(numRows){
+		numRows.times(function(i){
+			myGridDistsUser.cells2(i, 2).setValue(Math.abs(myGridDistsUser.cells2(i, 2).getValue()-1));
+		});
+	}
 }

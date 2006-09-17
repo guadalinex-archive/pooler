@@ -66,9 +66,9 @@ include_once('../php/config.php');
 	<body onload="init_app()" onbeforeunload="endSession()">
 		
 		<center>
-			<!-- Pestañas de la aplicación -->
+			<!-- Sistema de pestañas -->
 			<div id="tabbar"></div>
 		</center>
-
+		
 	</body>
 </html>
