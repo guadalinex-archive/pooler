@@ -23,12 +23,12 @@ var myTreeDists = null;
 
 function init_pck(){
 	//cargamos la barra de herramientas
-	myToolbarDists = new uiToolbarObject('toolbar_dists','100%','20');
+	myToolbarDists = new poolerToolBar('toolbar_dists','100%');
 	myToolbarDists.setOnClickHandler(toolbarDistsClick);
-	myToolbarDists.loadXML("../php/toolbar_dists.xml.php");
-	myToolbarDists.showBar();
+	myToolbarDists.loadXML("../php/toolbar_dists.xml.php", true);
+	//myToolbarDists.showBar();
 	
-	loadTreeDists();
+	//loadTreeDists();
 	
 	emptyContentPkg();
 }
@@ -43,8 +43,8 @@ function init_user(){
 	//cargamos la barra de herramientas
 	myToolbarUsers = new uiToolbarObject('toolbar_users','100%','20');
 	myToolbarUsers.setOnClickHandler(toolbarUsersClick);
-	myToolbarUsers.loadXML("../php/toolbar_users.xml.php");
-	myToolbarUsers.showBar();
+	myToolbarUsers.loadXML("../php/toolbar_users.xml.php", true);
+	//myToolbarUsers.showBar();
 	
 	loadTreeUsers();
 	
@@ -69,10 +69,10 @@ function init_log(){
 	});
 	
 	//cargamos la barra de herramientas
-	myToolbarCalendar = new uiToolbarObject('toolbar_calendar','100%','20');
+	myToolbarCalendar = new poolerToolBar('toolbar_calendar','100%');
 	myToolbarCalendar.setOnClickHandler(toolbarCalendarClick);
-	myToolbarCalendar.loadXML("../php/toolbar_calendar.xml.php");
-	myToolbarCalendar.showBar();
+	myToolbarCalendar.loadXML("../php/toolbar_calendar.xml.php", true);
+	//myToolbarCalendar.showBar();
 	
 	if(myGridLog == null){
 		$('content').innerHTML = '<div id="gridcontrol" style="width:100%; height:100%"></div>';
@@ -83,7 +83,7 @@ function init_log(){
 	
 	//cargamos la barra de herramientas y el grid
 	createToolBarContentLog();
+	myToolbarContentLog.setOnShowHandler(setTimeout('loadGridLog("' + myCalendar.date.print("%Y%m%d") + '")', 500));
 	myToolbarContentLog.loadXML("../php/toolbar_content_log.xml.php");
 	myToolbarContentLog.showBar();
-	myToolbarContentLog.setOnShowHandler(setTimeout('loadGridLog("' + myCalendar.date.print("%Y%m%d") + '")', 500));
 }

@@ -85,9 +85,9 @@ function selectedNodeDists(id){
 		}
 		myGridPkg.datas = [path, 1, 50, ''];
 		createToolBarContentPkg();
+		myToolbarContent.setOnShowHandler(setTimeout(loadGridPackages, 500));
 		myToolbarContent.loadXML("../php/toolbar_content.xml.php?path=" + encodeURIComponent(myGridPkg.datas[0]));
 		myToolbarContent.showBar();
-		myToolbarContent.setOnShowHandler(setTimeout(loadGridPackages, 500));
 	}
 	
 	

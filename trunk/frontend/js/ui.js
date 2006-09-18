@@ -1,11 +1,12 @@
 /**
  * Module ui.js
  * Proporciona los controles utilizados en la aplicación
- * tales como DataGrid, TreeView y Tabs
+ * tales como DataGrid, TreeView y Tabs.
  * 
- * @author Scand LLC http://www.scbr.com (standard edition - Open Source - GPL)
+ * @author Scand LLC 
+ * @link http://www.scbr.com
  * @changes Francisco Javier Ramos Álvarez
- * @version 1.0
+ * @version Standard Edition - Open Source - GPL for non-commercial use
  * @package js
  */
 

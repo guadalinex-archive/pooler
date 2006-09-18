@@ -41,9 +41,12 @@ include_once('../php/config.php');
 		
 		<!-- 
 			Componentes para la interfaz gráfica (regilla de datos, 
-			árboles, barras de herramientas, pestañas, etc...)
+			árboles, y pestañas)
 		-->
 		<script type="text/javascript" src="../js/ui.js"></script>
+		
+		<!-- Barra de herramientas -->
+		<script type="text/javascript" src="../js/poolerToolBar.class.js"></script>
 		
 		<!-- Librería para realizar Drag Drop con capas -->
 		<script type="text/javascript" src="../js/wz_dragdrop.js"></script>
