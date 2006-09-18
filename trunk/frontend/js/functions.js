@@ -7,11 +7,17 @@
  * @author Francisco Javier Ramos Álvarez
  * @version 1.1
  * @package js
- * @see ui.js
+ * @see dhtmlXCommon.js
+ * @see dhtmlXGrid.js
+ * @see dhtmlXGridCell.js
+ * @see dhtmlXTabbar.js
+ * @see dhtmlXTree.js
  * @see md5.js
  * @see prototype.js
  * @see wz_dragdrop.js
  * @see calendar.js
+ * @see calendar-setup.js
+ * @see calendar-es.js
  */
 
 function loadTreeDists(){
@@ -21,7 +27,7 @@ function loadTreeDists(){
 	}
 	
 	//cargamos el árbol de directorio de distribuciones
-	myTreeDists = new uiTreeObject('dists', '100%', '100%', 0);
+	myTreeDists = new dhtmlXTreeObject('dists', '100%', '100%', 0);
 	
 	var loading = getLoading('Cargando distribuciones');
 	myTreeDists.allTree.appendChild(loading);
@@ -40,7 +46,7 @@ function loadTreeUsers(){
 		$('users').innerHTML = '';
 	}
 	//cargamos el árbol de usuarios
-	myTreeUsers = new uiTreeObject('users', '100%', '100%', 0);
+	myTreeUsers = new dhtmlXTreeObject('users', '100%', '100%', 0);
 
 	var loading = getLoading('Cargando usuarios');
 	myTreeUsers.allTree.appendChild(loading);
@@ -79,15 +85,16 @@ function selectedNodeDists(id){
 		$('path').innerHTML = '';
 		if(myGridPkg == null){
 			$('content').innerHTML = '<div id="gridcontrol" style="width:100%; height:100%"></div>';
-	 		myGridPkg = new uiGridObject('gridcontrol');
+	 		myGridPkg = new dhtmlXGridObject('gridcontrol');
 			configureGridPkg();
 			myGridPkg.init();
 		}
 		myGridPkg.datas = [path, 1, 50, ''];
 		createToolBarContentPkg();
-		myToolbarContent.setOnShowHandler(setTimeout(loadGridPackages, 500));
-		myToolbarContent.loadXML("../php/toolbar_content.xml.php?path=" + encodeURIComponent(myGridPkg.datas[0]));
-		myToolbarContent.showBar();
+		myToolbarContent.setOnShowHandler(function(){
+			setTimeout(loadGridPackages, 500);
+		});
+		myToolbarContent.loadXML("../php/toolbar_content.xml.php?path=" + encodeURIComponent(myGridPkg.datas[0]), true);
 	}
 	
 	
@@ -135,14 +142,14 @@ function configureGridLog(){
 function createToolBarContentPkg(){
 	myToolbarContent = null;
 	$('toolbar_content').innerHTML = '';
-	myToolbarContent = new uiToolbarObject('toolbar_content','100%','20');
+	myToolbarContent = new poolerToolBar('toolbar_content','100%','30px');
 	myToolbarContent.setOnClickHandler(toolbarContentClick);
 }
 
 function createToolBarContentLog(){
 	myToolbarContentLog = null;
 	$('toolbar_content').innerHTML = '';
-	myToolbarContentLog = new uiToolbarObject('toolbar_content','100%','20');
+	myToolbarContentLog = new poolerToolBar('toolbar_content','100%','30px');
 	myToolbarContentLog.setOnClickHandler(toolbarContentLogClick);
 }
 
@@ -812,7 +819,7 @@ function isUserSelected(){
 function showDistsUser(user){
 	if(myGridDistsUser == null){
 		$('dists_user').innerHTML = '<div id="gridcontrol" style="width:100%; height:100%"></div>';
-		myGridDistsUser = new uiGridObject('gridcontrol');
+		myGridDistsUser = new dhtmlXGridObject('gridcontrol');
 		configureGridDistsUser();
 		myGridDistsUser.init();
 		

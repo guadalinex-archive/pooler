@@ -21,9 +21,8 @@ include_once('../php/config.php');
 		
 		<title>..:: Pooler ::..</title>
 		
-		<!-- Cargamos hojas de estilo -->
+		<!-- Cargamos hoja de estilo de la aplicación -->
 		<link rel="stylesheet" type="text/css" href="../css/styles.css">
-		<link rel="stylesheet" type="text/css" href="../css/ui.css">
 		
 		<!-- Cargamos librerías JavaScript que componene la aplicación AJAX -->
 		
@@ -39,13 +38,18 @@ include_once('../php/config.php');
 		<!-- Framework Prototype -->
 		<script type="text/javascript" src="../js/prototype.js"></script>
 		
-		<!-- 
-			Componentes para la interfaz gráfica (regilla de datos, 
-			árboles, y pestañas)
-		-->
-		<script type="text/javascript" src="../js/ui.js"></script>
+		<!-- Componentes para la interfaz gráfica (DataGrid, TreeView, Tabs) -->
+		<link rel="stylesheet" type="text/css" href="../css/dhtmlXGrid.css">
+		<link rel="stylesheet" type="text/css" href="../css/dhtmlXTabBar.css">
+		<link rel="stylesheet" type="text/css" href="../css/dhtmlXTree.css">
+		<script type="text/javascript" src="../js/dhtmlXCommon.js"></script>
+		<script type="text/javascript" src="../js/dhtmlXGrid.js"></script>
+		<script type="text/javascript" src="../js/dhtmlXGridCell.js"></script>
+		<script type="text/javascript" src="../js/dhtmlXTabbar.js"></script>
+		<script type="text/javascript" src="../js/dhtmlXTree.js"></script>
 		
 		<!-- Barra de herramientas -->
+		<link rel="stylesheet" type="text/css" href="../css/toolbar.css">
 		<script type="text/javascript" src="../js/poolerToolBar.class.js"></script>
 		
 		<!-- Librería para realizar Drag Drop con capas -->
