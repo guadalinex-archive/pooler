@@ -7,11 +7,10 @@
 	<body>
 		<div id="toolbar_content"></div>
 		<script type="text/javascript">
-			var myToolbarContent = new poolerToolBar('toolbar_content', '400px', '30px');
+			var myToolbarContent = new poolerToolBar('toolbar_content', '100%', '30px');
 			myToolbarContent.setOnClickHandler(function(id){alert(id)});
 			myToolbarContent.setOnShowHandler(function(){});
 			myToolbarContent.loadXML('toolbar_content_log.xml.php', true);
 		</script>
-		<span onclick="myToolbarContent.setText('yo mismo')">Yo mismo</span>
 	</body>
 </html>

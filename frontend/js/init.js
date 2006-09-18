@@ -5,7 +5,7 @@ var exitApp = false;
 var numRegsBuffer = 50;
 
 function init_app(){
-	myTabbar = new uiTabBar("tabbar","top");
+	myTabbar = new dhtmlXTabBar("tabbar","top");
 	myTabbar.setImagePath("../img/");
 	myTabbar.setOnSelectHandler(function(id){
 		closePopup(); //cerramos cualquier popup abierto
@@ -23,12 +23,11 @@ var myTreeDists = null;
 
 function init_pck(){
 	//cargamos la barra de herramientas
-	myToolbarDists = new poolerToolBar('toolbar_dists','100%');
+	myToolbarDists = new poolerToolBar('toolbar_dists','100%', '30px');
 	myToolbarDists.setOnClickHandler(toolbarDistsClick);
 	myToolbarDists.loadXML("../php/toolbar_dists.xml.php", true);
-	//myToolbarDists.showBar();
 	
-	//loadTreeDists();
+	loadTreeDists();
 	
 	emptyContentPkg();
 }
@@ -41,10 +40,9 @@ var myGridDistsUser = null;
 
 function init_user(){
 	//cargamos la barra de herramientas
-	myToolbarUsers = new uiToolbarObject('toolbar_users','100%','20');
+	myToolbarUsers = new poolerToolBar('toolbar_users','100%','30px');
 	myToolbarUsers.setOnClickHandler(toolbarUsersClick);
 	myToolbarUsers.loadXML("../php/toolbar_users.xml.php", true);
-	//myToolbarUsers.showBar();
 	
 	loadTreeUsers();
 	
@@ -69,21 +67,21 @@ function init_log(){
 	});
 	
 	//cargamos la barra de herramientas
-	myToolbarCalendar = new poolerToolBar('toolbar_calendar','100%');
+	myToolbarCalendar = new poolerToolBar('toolbar_calendar','100%', '30px');
 	myToolbarCalendar.setOnClickHandler(toolbarCalendarClick);
 	myToolbarCalendar.loadXML("../php/toolbar_calendar.xml.php", true);
-	//myToolbarCalendar.showBar();
 	
 	if(myGridLog == null){
 		$('content').innerHTML = '<div id="gridcontrol" style="width:100%; height:100%"></div>';
- 		myGridLog = new uiGridObject('gridcontrol');
+ 		myGridLog = new dhtmlXGridObject('gridcontrol');
 		configureGridLog();
 		myGridLog.init();
 	}
 	
 	//cargamos la barra de herramientas y el grid
 	createToolBarContentLog();
-	myToolbarContentLog.setOnShowHandler(setTimeout('loadGridLog("' + myCalendar.date.print("%Y%m%d") + '")', 500));
-	myToolbarContentLog.loadXML("../php/toolbar_content_log.xml.php");
-	myToolbarContentLog.showBar();
+	myToolbarContentLog.setOnShowHandler(function(){
+		setTimeout('loadGridLog("' + myCalendar.date.print("%Y%m%d") + '")', 500);
+	});
+	myToolbarContentLog.loadXML("../php/toolbar_content_log.xml.php", true);
 }

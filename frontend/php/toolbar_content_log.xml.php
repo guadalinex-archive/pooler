@@ -28,14 +28,14 @@ echo '<toolbar name=" " width="645" toolbarAlign="left">';
 	$sections = getOrderedKeys($oIni->info);
 	
 	//filtro por usuario
-	echo '<SelectButton id="sel_user" width="200px" height="25px">';
+	echo '<SelectButton id="sel_user" width="200px" height="23px">';
 	echo '<option value="0">[Usuario...]</option>';
 	foreach($sections as $section)
 		echo '<option value="' . $section  . '">' . $section  . '</option>';
 	echo '</SelectButton>';
 	
 	//filtro por acción realizada
-	echo '<SelectButton id="sel_actionr" width="130px" height="25px">';
+	echo '<SelectButton id="sel_actionr" width="130px" height="23px">';
 	echo '<option value="0">[Acción...]</option>';
 	echo '<option value="' . LOGIN . '">Logins</option>';
 	echo '<option value="' . LOGOUT . '">Logouts</option>';
@@ -51,7 +51,7 @@ echo '<toolbar name=" " width="645" toolbarAlign="left">';
 	echo '<option value="' . EDTUSER . '">Usr. Editados</option>';
 	echo '<option value="' . DELUSER . '">Usr. Borrados</option>';
 	echo '</SelectButton>';
-	echo '<InputText id="in_text" width="245" height="25"></InputText>';
+	echo '<InputText id="in_text" width="230px" height="25px"></InputText>';
 	
 	
 echo '</toolbar>';
