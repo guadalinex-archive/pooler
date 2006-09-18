@@ -117,11 +117,11 @@ class packagesList:
         if binary:
             control_fields = ['Package', 'Source', 'Version', 'Section','Priority', 'Architecture', 'Maintainer','Pre-Depends',
                           'Depends', 'Suggests', 'Recommends', 'Enhances', 'enhances', 'Conflicts', 'Provides','Replaces',
-                           'Esential', 'Filename', 'Size', 'Installed-Size', 'MD5sum', 'Description', '']
+                           'Esential', 'Filename', 'Size', 'Installed-Size', 'MD5sum', 'Description', 'Uploaders', 'Bugs', 'Origin', 'Task', '']
         else:
             control_fields = ['Package', 'Binary', 'Version', 'Priority', 'Section', 'Maintainer', 'Build-Depends',
                               'Build-Depends-Indep', 'Build-Conflicts', 'Build-Conflicts-Indep', 'Architecture',
-                                'Standards-Version', 'Format', 'Directory', 'Files', 'Uploaders']
+                                'Standards-Version', 'Format', 'Directory', 'Files', 'Uploaders', 'Bugs', 'Origin', 'Task', '']
         for package in self.pkg_list:
             for k in control_fields:
                 if package.hasKey(k):
