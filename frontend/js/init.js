@@ -2,7 +2,7 @@
 var myTabbar = null;
 var typeFile = '' //rls, pkg or src
 var exitApp = false;
-var numRegsBuffer = 50;
+var numRegsBuffer = 40;
 
 function init_app(){
 	myTabbar = new dhtmlXTabBar("tabbar","top");
