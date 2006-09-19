@@ -1,5 +1,6 @@
 /**
  * @author Scand LLC 
+ * @copyright Scand LLC
  * @link http://www.scbr.com
  * @version Standard Edition - Open Source - GPL for non-commercial use
  */
