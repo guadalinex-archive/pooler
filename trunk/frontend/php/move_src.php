@@ -6,7 +6,7 @@
  * @author Francisco Javier Ramos Álvarez
  * @version 1.0
  * @package php
- * @see mvpkg.py by Antonio Gonzales Romero
+ * @see mvpkg.py by Antonio Gonzalez Romero
  * 
  * @return $code
  */

@@ -26,6 +26,14 @@ class Log{
 	var $log = '';
 	
 	/**
+	 * Almacena el mensaje de error, si lo hubiera.
+	 * 
+	 * @var string
+	 * @access public
+	 */
+	var $msg_err = '';
+	
+	/**
 	 * Constructor de la clase
 	 *
 	 * @access public
@@ -51,7 +59,17 @@ class Log{
 			fclose($fp);
 		}
 		else
-			die('[!] Error: no se pudo abrir el fichero log');
+			$this->msg_err = '[!] Error: no se pudo abrir el fichero log';
+	}
+	
+	/**
+	 * Indica si todo ha ido correctamente en el putLine.
+	 *
+	 * @access public
+	 * @return boolean
+	 */
+	function putLineOk(){
+		return $this->msg_err == '';
 	}
 	
 	/**
