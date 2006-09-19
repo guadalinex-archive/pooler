@@ -23,7 +23,7 @@ echo '<?xml version="1.0" encoding="iso-8859-1"?>';
 	<tr>
 		<td>
 			<fieldset class="frame1">
-				<legend><img src="../img/icon20.gif" align="absmiddle" /> Listado de Usuarios</legend>
+				<legend><img src="../img/iconClient.gif" align="absmiddle" /> Listado de Usuarios</legend>
 				<div id="toolbar_users"></div>
 				<div id="users"></div>
 			</fieldset>
