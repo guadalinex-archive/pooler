@@ -1,36 +1,43 @@
-﻿####################
+﻿
+####################
 # Pooler v1.0 beta #
 ####################
 
 Autores:
 --------
 Junta de Andalucía <devmaster@juntadeandalucia.es>
-Codificadores:
+
+Desarrolladores:
+---------------
+
 Francisco Javier Ramos Álvarez <franciscoj.ramos.ext@juntadeandalucia.es>
 Antonio González Romero <antonio.gonzalez.romero.ext@juntadeandalucia.es>
 
 Descripción:
 ------------
-Aplicación web con la que podremos gestionar un repositorio debian, llevando 
-un control de usuarios, con autenticación LDAP, y un revisado de logs diarios.
+Aplicación web con la que podremos gestionar un repositorio de paquetes debian
+basado en pool, llevando un control de usuarios, con autenticación LDAP, y un 
+revisado de logs diarios.
 
 Instalación y Configuración:
 ----------------------------
 La aplicación está dividida en dos partes:
 
 ################################################################################
-1. Parte binaria, que está compuesta por una serie de módulos en python:
-  - addpkg.py: añadirá nuevos paquetes y/o ficheros fuente
-  - mvpkg.py:  moverá paquetes y/o ficheros fuente de una distribución a otra.
-  - rmpkg.py: eliminará paquetes y/o ficheros fuente.
-  - package.py
-  - packagesList.py
+1. Parte de bajo nivel, que está compuesta por una serie de módulos en python:
+  - addpkg.py: Añade un nuevo paquete (binario o fuente).
+  - mvpkg.py:  Mueve paquetes entre las distintas ramas del repositorio.
+  - rmpkg.py: elimina paquetes (binarios o fuentes) del repositorio.
+  - package.py: estructura de datos con toda la información perteneciente a un
+    paquete
+  - packagesList.py: estructura que mantiene una lista ordenada de paquetes con
+    operaciones básicas.
 
-junto con sus correspodientes ficheros de configuración:
+junto con sus correspodientes ficheros de configuración (mirar fichero de
+configuración de ejemplo incluído):
   - repo.conf: Este fichero está compuesto por varias secciones:
-      [repositorios] -> se indicarán los diferentes repositorios con los que
-		      	se va a trabajar (aunque en esta versión sólo se podrá
-		      	trabajar con uno sólo).
+      [repositorios] -> Indica el path de los diferentes repositorios con los que
+		      	se va a trabajar. (p.ejemplo /var/www/repositorio-ejemplo/)
       [pools]	     -> donde se asocian las distribuciones a los pools
       [defaults]     -> son datos por defecto en ausencia de ciertos parámetros.
 			Es conveniente que si se va a trabajar con una única 
@@ -45,7 +52,8 @@ junto con sus correspodientes ficheros de configuración:
   - apt_distribucion.conf: Nos encontraremos uno por cada distribución. Por 
 			   ejemplo, para dos distribuciones, flamenco y 
 			   guadalinfo, tendremos dos ficheros apt_flamenco.conf 
-			   y apt_guadalinfo.conf.
+			   y apt_guadalinfo.conf. Son empleados para generar los ficheros
+               Release de cada rama.
 
 No se requiere una estructura específica de carpetas, aunque sería una buena 
 idea dividirla en:
@@ -53,7 +61,7 @@ idea dividirla en:
   - conf: los ficheros de configuración.
 
 NOTA: Para que los python puedan gestionar los repositorios, el usuario 
-www-data ha de tener permisos de lectura y escritura dichos repositorios.
+del servidor web (normalmente www-data) ha de tener permisos de lectura y escritura dichos repositorios.
  
 Como requisitos de software decir que es imprescindible tener instalado el 
 interprete de python, como mínimo la versión 2.3 
