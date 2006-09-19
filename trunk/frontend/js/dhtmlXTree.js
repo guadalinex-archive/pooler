@@ -1,7 +1,8 @@
 /**
  * @author Scand LLC 
+ * @copyright Scand LLC May 16, 2006
  * @link http://www.scbr.com
- * @version Standard Edition - Open Source - GPL for non-commercial use
+ * @version 1.3 Standard Edition - Open Source - GPL for non-commercial use
  */
 
 function dhtmlXTreeObject(htmlObject,width,height,rootId){

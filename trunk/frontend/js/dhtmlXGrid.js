@@ -1,7 +1,8 @@
 /**
  * @author Scand LLC 
+ * @copyright Scand LLC May 16, 2006
  * @link http://www.scbr.com
- * @version Standard Edition - Open Source - GPL for non-commercial use
+ * @version 1.0 Standard Edition - Open Source - GPL for non-commercial use
  */
 
 var globalActiveDHTMLGridObject;

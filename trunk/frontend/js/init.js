@@ -1,8 +1,18 @@
+/**
+ * Module init.js
+ * Contiene la declaración de variables globales utilizadas así como 
+ * las funciones que inician controles, y en general la aplicación.
+ * 
+ * @author Francisco Javier Ramos Álvarez
+ * @version 1.1
+ * @package js
+ */
+
 //App
 var myTabbar = null;
 var typeFile = '' //rls, pkg or src
 var exitApp = false;
-var numRegsBuffer = 40;
+var numRegsBuffer = 50;
 
 function init_app(){
 	myTabbar = new dhtmlXTabBar("tabbar","top");
