@@ -676,7 +676,7 @@ function debugPython($cmd, $out_ret){
 		require_once('Log.class.php');
 		$log = new Log(PATH_LOG . '/python.log');
 		
-		$str = "## Comando ejecutado ##\n";
+		$str = "## Comando ejecutado " . date('d/m/Y H:i:s') . " ##\n";
 		$str .= "$cmd\n\n";
 		$str .= "## Salida por pantalla ##\n";
 		$str .= implode("\n", $out_ret[0]) . "\n\n";

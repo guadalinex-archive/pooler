@@ -164,20 +164,35 @@ Firefox.
 Configuración del fichero PHP.ini:
 A continuación explicaremos cuales son las directivas más importantes a 
 configurar para un buen funcionamiento de la aplicación:
-  ;;;;;;;;;;;;;
-  ; Safe Mode ;
-  ;;;;;;;;;;;;;
-  safe_mode = Off ; Modo seguro ha de estar a off
+
+  ; Tamaño máximo de envíos por POST, que dependerá de las necesidades
+  ; que tenga el usuario, por ejemplo 150 megas
+  post_max_size = 150M
+
+  ; Tamaño máximo permitido en la subida de ficheros al servidor, 
+  ; también dependerá de las necesidades, y será igual al parámetro
+  ; anterior, es decir, 150 megas
+  upload_max_filesize = 150M
+
+  ; Tiempo máximo de ejecución para un script, que para este caso
+  ; hemos puesto 5 minutos (300 s), teniendo en cuenta que para subir
+  ; grandes ficheros hará falta bastante tiempo.
+  max_execution_time = 300
+
+  ; Muy similar al anterior, pero para el envío de datos por POST
+  ; o cuadros de texto. Hemos puesto otros 5 minutos.
+  max_input_time = 300
+
+  ; Memoria que puede consumir un script, en principio, para esta
+  ; aplicación con 8 megas basta (valor por defecto)
+  memory_limit = 8M
+
+  ; Modo seguro, que deberá estar a Off para un correcto
+  ; funcionamiento
+  safe_mode = Off
 
 NOTA: si no se quiere cambiar esta directiva por temas de seguridad, se podría 
 crear un Virtual Host para la aplicación (en el fichero de configuración del 
 apache httpd.conf) e introducir la siguiente directiva: 
-  php_admin_flag safe_mode off.
 
-  ;;;;;;;;;;;;;;;;;;;
-  ; Resource Limits ;
-  ;;;;;;;;;;;;;;;;;;;
-
-  max_execution_time = 300 ; Tiempo máximo de ejecución para un script
-  max_input_time = 300 	   ; Tiempo de envío de datos por POST
-  memory_limit = 8M        ; Memoria que puede consumir un script (8 Megas)
+  php_admin_flag safe_mode off
