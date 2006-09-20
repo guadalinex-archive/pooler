@@ -103,7 +103,7 @@ class   adder:
             if current_arch == 'all':
                 current_arch = default
             self.arch = 'binary-%s'%current_arch
-        elif not current.isBinary() and current_arch == 'any':
+        elif not current.isBinary() and current_arch in ['all','any']:
             self.arch = 'source'
         else:
             print '\nUnknown architecture: %s'%current_arch
