@@ -7,7 +7,7 @@
  * @author Francisco Javier Ramos Álvarez
  * @version 1.1
  * @package php
- * @see addpkg.py by Antonio Gonzalez Romero
+ * @see addpkg.py by Antonio González Romero
  * 
  * @return $code
  */

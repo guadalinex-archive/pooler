@@ -687,4 +687,36 @@ function debugPython($cmd, $out_ret){
 		$log->putLine($str);
 	}
 }
+
+/**
+ * Comprueba que el usuario www-data pueda escribir en un path 
+ * determinado, que puede ser un directorio o un archivo.
+ * O sólo indica si existe o no el fichero.
+ *
+ * @param string $path
+ * @param string $msg_err (in/out)
+ * @param boolean $chkWritable (default true)
+ */
+function checkPath($path, $msg_err, $fWritable = true){
+	if(is_dir($path)){
+		slashes(&$path);
+		$filetmp = $path . '.' . uniqid(mt_rand()) . '.tmp';
+		if(!($fp = @fopen($filetmp, 'a')))
+			$msg_err[] = 'Pooler no tiene permisos de escritura en el directorio<br><b>' . $path . '</b>';
+		
+		@fclose($fp);
+		@unlink($filetmp);
+	}
+	elseif(file_exists($path)){
+		if($fWritable){
+			if(!($fp = @fopen($path, 'a')))
+				$msg_err[] = 'Pooler no tiene permisos de escritura en el fichero<br><b>' . $path . '</b>';
+			
+			//fputs($fp, 'Prueba');
+			@fclose($fp);
+		}
+	}
+	else
+		$msg_err[] = 'No existe el fichero o directorio<br>' . $path;
+}
 ?>
