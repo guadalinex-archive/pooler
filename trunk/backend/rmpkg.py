@@ -34,7 +34,7 @@ class   option_parser:
                           dest="dist", default=None,
                           type="string", help="name of the distribution")
         self.parser.add_option("-c", "--config",
-                          dest="conf", default="/etc/poolmanager/repo.conf",
+                          dest="conf", default="/home/admin/pooler/conf/repo.conf",
                           type="string", help="Especify the repo.conf file location")
         self.parser.add_option("-a", "--arch",
                           dest="arch", default="i386",
