@@ -4,7 +4,7 @@
  * Inicio de la aplicación. Lanzará el formulario de autenticación.
  * 
  * @author Francisco Javier Ramos Álvarez
- * @version 1.0
+ * @version 1.1
  * @package app
  * @see auth.php
  * 
@@ -14,7 +14,11 @@
 //evitamos el uso de Internet Explorer
 include('../php/no_ie.php');
 include('../php/end_session.php');
+include_once('../php/config.php');
 include_once('../php/functions.php');
+
+//comprobamos posibles errores en la configuración
+include('../php/check_app.php');
 ?>
 
 <html>

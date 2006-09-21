@@ -6,7 +6,7 @@
  * @author Francisco Javier Ramos Álvarez
  * @version 1.0
  * @package php
- * @see rmpkg.py by Antonio Gonzalez Romero
+ * @see rmpkg.py by Antonio González Romero
  * 
  * @return $code
  */
