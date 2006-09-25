@@ -62,7 +62,7 @@ class packagesList:
         if not self.searchPackage(package):
             self.pkg_list.append(package)
             self.pkg_list.sort()
-            print "Package %s added to the repository..................."
+            print "Package added to the repository..................."
         else:
             print "The package already exists in the repository"
         
@@ -113,7 +113,17 @@ class packagesList:
             file = 'Packages'
         else:
             file = 'Sources'
-        new_fd = open (out + os.sep + file, "w", os.O_CREAT)
+	filename = out + os.sep + file
+        if os.path.exists(filename):
+		try:
+		    os.remove(filename)
+		except:
+		    print 'Error regenerando fichero de índices'
+		    sys.exit(10)
+	try:
+ 	    new_fd = open (out + os.sep + file, "w", os.O_CREAT)
+	except:
+	    sys.exit(11)
         if binary:
             control_fields = ['Package', 'Source', 'Version', 'Section','Priority', 'Architecture', 'Maintainer','Pre-Depends',
                           'Depends', 'Suggests', 'Recommends', 'Enhances', 'enhances', 'Conflicts', 'Provides','Replaces',

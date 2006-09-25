@@ -177,12 +177,11 @@ class remover:
                 file_content = fd.read()
                 fd.close()
                 break
-            else:
-                if file == 'Sources' or file == 'Packages':
-                    fd = open(path + os.sep + file, 'rb')
-                    file_content = fd.read()
-                    fd.close()
-                    break
+            elif file in ['Sources', 'Packages']:
+                fd = open(path + os.sep + file, 'rb')
+                file_content = fd.read()
+                fd.close()
+                break
     				                   
   	if not file_content:
 	    print "Error: Index file not found"
