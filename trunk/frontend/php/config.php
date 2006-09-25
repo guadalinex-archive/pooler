@@ -4,7 +4,7 @@
  * Parámetros de configuración de la aplicación
  * 
  * @author Francisco Javier Ramos Álvarez
- * @version 1.1
+ * @version 1.3
  * @package php
  */
 	
@@ -15,7 +15,6 @@
 	define('DN_BASE', 'o=sadesi,o=empleados,o=juntadeandalucia,c=es');
 	
 	//paths de la aplicación
-	define('PATH_REPOSITORY', '/home/fran/repositorios/guadalinex-flamenco');
 	define('USERS_INI', '/var/www/pooler/trunk/frontend/other/users_repository.ini');
 	define('PATH_LOG', '/var/www/pooler/trunk/frontend/logs');
 	define('PATH_TEMP', '/var/www/pooler/trunk/frontend/tmp');

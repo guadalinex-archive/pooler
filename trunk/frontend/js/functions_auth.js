@@ -4,7 +4,7 @@
  * chequeo de formulario, comprobación asíncrona en el LDAP, etc...
  * 
  * @author Francisco Javier Ramos Álvarez
- * @version 1.1
+ * @version 1.3
  * @package js
  * @see prototype.js (uso del AJAX, y manejo de formularios)
  */
@@ -15,7 +15,7 @@
  * @see functions.js (openPopup)
  */
 function auth(){
-	openPopup('Autenticaci&oacute;n', 'auth.php', '', 400, 135, '../img/iconClient.gif', 'auth')
+	openPopup('Autenticaci&oacute;n', 'auth.php', '', 400, 165, '../img/iconClient.gif', 'auth')
 	$('imgCloseWin').style.visibility = 'hidden';
 }
 
@@ -28,12 +28,17 @@ function auth(){
 function checkAuth(){
 	if(evalInputAuth()){
 		showDivLoading('Comprobando usuario...');
-		var param = Form.serialize('frmAuth'); //obtenemos los campos
+		//var param = Form.serialize('frmAuth'); //obtenemos los campos
+		var param = 'login=' + encodeURIComponent($F('login')) + '&';
+		param += 'password=' + encodeURIComponent($F('password')) + '&';
+		param += 'sel_repository[name]=' + encodeURIComponent($TSEL('sel_repository')) + '&';
+		param += 'sel_repository[path]=' + encodeURIComponent($F('sel_repository'));
+		
 		//realizamos la llamada al módulo de comprobación
 		var myAjax = new Ajax.Request(
 			'../php/check_user_ldap.php',
 			{
-				method: 'get',
+				method: 'post',
 				parameters: param,
 				onComplete: completeAuth
 			}
@@ -68,7 +73,12 @@ function completeAuth(request){
  * @see method checkAuth
  */
 function evalInputAuth(){
-	if(!Field.present('login')){
+	if(!Field.present('sel_repository')){
+		alert('No hay repositorio seleccionado.');
+		Field.focus('sel_repository');
+		return false;
+	}
+	else if(!Field.present('login')){
 		alert('Introduzca el nombre de usuario.');
 		Field.focus('login');
 		return false;
@@ -86,6 +96,7 @@ function evalInputAuth(){
  * Limpia los cuadros de texto del formulario.
  */
 function resetFieldAuth(){
+	$('sel_repository').selectedIndex = 0;
 	Field.clear('login');
 	Field.clear('password');
 	Field.focus('login');

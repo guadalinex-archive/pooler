@@ -3,10 +3,10 @@
  * Module check_app.php
  * Comprueba los permisos de las diferentes carpetas y archivos a los que 
  * ha de tener acceso la aplicación, e informa de posibles problemas que
- * pueda tener la aplicación.
+ * pueda haber.
  * 
  * @author Francisco Javier Ramos Álvarez
- * @version 1.1
+ * @version 1.2
  * @package php
  * @see inform_events.php
  */
@@ -18,7 +18,11 @@ $msg_err = array();
 $msg_warn = array();
 
 //comprobamos permisos de carpetas y directorios
-checkPath(PATH_REPOSITORY, &$msg_err);
+
+$repos = getListRepositories();
+foreach($repos as $repo => $path)
+	checkPath($path, &$msg_err);
+	
 checkPath(USERS_INI, &$msg_err);
 checkPath(PATH_LOG, &$msg_err);
 checkPath(PATH_TEMP, &$msg_err);

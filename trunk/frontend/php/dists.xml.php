@@ -20,9 +20,9 @@
 	echo '<tree id="0">';
 	
 		if($dists = getAccessDists()){
-			echo '<item id="' . PATH_REPOSITORY . '/dists" text="dists" open="1">';
+			echo '<item id="' . $_SESSION['repository']['path'] . '/dists" text="dists" open="1">';
 				//creamos el arbol recursivamente
-				createTreeItems(PATH_REPOSITORY . '/dists', 1);
+				createTreeItems($_SESSION['repository']['path'] . '/dists', 1);
 			echo '</item>';
 		}
 		else

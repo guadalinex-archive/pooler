@@ -71,7 +71,8 @@ include_once('../php/config.php');
 		
 	</head>
 	<body onload="init_app()" onbeforeunload="endSession()">
-		
+		<!-- Título del repositorio -->
+		<div id="titleRepo"><img src="../img/repository.png" align="absmiddle" /> <?= $_SESSION['repository']['name'] ?></div>
 		<center>
 			<!-- Sistema de pestañas -->
 			<div id="tabbar"></div>

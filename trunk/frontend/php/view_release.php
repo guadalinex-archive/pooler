@@ -24,7 +24,8 @@
 			$release = new FileInfo($path);
 			
 			//Construimos una tabla para mostrar los datos
-			$datas = $release->getBlockInfo(0)->getDatas();
+			$block = $release->getBlockInfo(0);
+			$datas = $block->getDatas();
 			echo '<table class="table1">';
 			foreach($datas as $field => $value){
 				echo '<tr>';

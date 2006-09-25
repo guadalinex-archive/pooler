@@ -4,11 +4,11 @@
  * Con ella podremos leer los ficheros con formato ini:
  * 
  * [section]
- * field = value
+ * field = value [ó field : value]
  * ...
  * 
  * @author Francisco Javier Ramos Álvarez
- * @version 1.1
+ * @version 1.2
  * @package php
  */
 	
@@ -55,8 +55,8 @@ class IniReader{
 				while(!feof($fp)){
 					$line = trim(fgets($fp));
 					
-					//controlamos los comentarios (;)
-					if($line and substr($line, 0, 1) != ';'){
+					//controlamos los comentarios (; o #)
+					if($line and !ereg(';|#', substr($line, 0, 1))){
 						
 						//formato de sección ([section])
 						if(ereg('^\[.+\]$', $line)){
@@ -66,15 +66,16 @@ class IniReader{
 						else{
 							
 							//controlamos el formato (param = value)
-							if(ereg('^[a-zA-Z0-9\._-]+[[:space:]]*=[[:space:]]*.*$', $line)){
-								list($field, $value) = split('[[:space:]]*=[[:space:]]*', $line);
+							if(ereg('^[a-zA-Z0-9\._-]+[[:space:]]*(=|:)[[:space:]]*.*$', $line)){
+								list($field, $value) = split('[[:space:]]*(=|:)[[:space:]]*', $line);
 								
 								//tratamos los values para eliminar los comentarios
 								if(ereg('^\".+\"', $value))
 									$value = substr($value, 0, strpos($value, '"', 1)+1);
-								else
-									if(($pc = strpos($value, ';')) !== false)
-										$value = rtrim(substr($value, 0, $pc));
+								else{
+									$aux = split(';|#', $value);
+									$value = rtrim($aux[0]);
+								}
 								
 								
 								$section = !isset($section) ? 'main' : $section;
@@ -138,5 +139,4 @@ class IniReader{
 		return array_key_exists($section, $this->info);
 	}
 }
-
 ?>

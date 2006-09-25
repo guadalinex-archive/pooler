@@ -10,11 +10,21 @@
  * 
  * @return html
  */
+
+include_once('../php/functions.php');
 ?>
 
 <div id="contentAuth">
 	<form id="frmAuth">
 		<table id="tableAuth">
+			<tr>
+				<td bgcolor="#EEEEEE" align="right">Repositorio:</td>
+				<td>
+					<select id="sel_repository" name="sel_repository" style="width:200px">
+						<? printListRespositories() ?>
+					</select>
+				</td>
+			</tr>
 			<tr>
 				<td bgcolor="#EEEEEE" align="right">Usuario:</td>
 				<td><input type="text" name="login" id="login" style="width:200px" /></td>
