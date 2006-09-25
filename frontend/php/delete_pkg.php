@@ -37,7 +37,7 @@
 			$ok = $ok and true;
 		}
 		else{
-			$msg_err .= 'Error Cod. ' . $out_ret[1] . '\\n';
+			$msg_err .= "Error Cod. " . $out_ret[1] . "\n";
 			$ok = false;
 		}
 	}

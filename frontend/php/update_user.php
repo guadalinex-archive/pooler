@@ -47,9 +47,10 @@
 		
 		if(isset($_POST['dists']) and is_array($_POST['dists'])){
 			$dists = $_POST['dists'];
+			$repository = $_SESSION['repository']['name'];
 			foreach($dists as $dist => $rw)
 				//damos nuevos valores
-				$oIni->info[$user]['dist.' . $dist] = $rw;
+				$oIni->info[$user]["dist.$repository." . $dist] = $rw;
 		}
 		
 		$oIni->printFileIni(); //guardamos cambios

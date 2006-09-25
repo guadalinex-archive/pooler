@@ -19,7 +19,7 @@ $msg_warn = array();
 
 //comprobamos permisos de carpetas y directorios
 
-$repos = getListRepositories();
+$repos = getSectionRepoConf('repositorios');
 foreach($repos as $repo => $path)
 	checkPath($path, &$msg_err);
 	

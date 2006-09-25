@@ -318,19 +318,9 @@ function createTreeItems($path, $nivel){
 			
 			//imprimirmos
 			foreach($content as $item){
-				if($nivel == 1){
-					//comprobamos si tiene acceso a nivel de distribución
-					if(hasPermission($item, 'r')){
-						echo '<item id="' . $item  . '" text="' . basename($item) . '" ' . getFieldImg0($item) . '>';
-						createTreeItems($item, $nivel+1);
-						echo '</item>';
-					}
-				}
-				else{
-					echo '<item id="' . $item  . '" text="' . basename($item) . '" ' . getFieldImg0($item) . '>';
-					createTreeItems($item, $nivel+1);
-					echo '</item>';
-				}
+				echo '<item id="' . $item  . '" text="' . basename($item) . '" ' . getFieldImg0($item) . '>';
+				createTreeItems($item, $nivel+1);
+				echo '</item>';
 			}
 		}
 	}
@@ -399,22 +389,35 @@ function getNumBlocks($path, $condition = null){
 }
 
 /**
- * Devuelve la lista total de distribuciones del repositorio.
+ * Devuelve la lista total de distribuciones del repositorio que pueden
+ * ser gestionados.
  *
  * @return array of string
  */
 function getListDistribution(){
 	$dists = array();
 	
-	$pathDists = (isset($_SESSION['repository']) ? $_SESSION['repository']['path'] : $_POST['sel_repository']['path']) . '/dists';
+	if(isset($_SESSION['repository'])){
+		$nameRepo = $_SESSION['repository']['name'];
+		$pathDists = $_SESSION['repository']['path'] . '/dists';
+	}
+	else{
+		$nameRepo = $_POST['sel_repository']['name'];
+		$pathDists = $_POST['sel_repository']['path'] . '/dists';
+	}
 	
-	// consultamos la raiz de distribuciones
-	$out =  execCmdV2('ls ' . $pathDists);
+	//trabajamos sólo con las distribuciones del repo.conf
+	$pools = getSectionRepoConf('pools');
 	
-	for($i = 0; $i < count($out); $i++){
-		$p = $pathDists . '/' . $out[$i];
-		if(isDirectory($p)) // filtramos los directorios . y ..
-			$dists[] = $out[$i];
+	foreach($pools as $rep_dist => $pool){
+		//filtramos las distribuciones (sólo las del repositorio con el que
+		//estemos trabajando)
+		if(eregi("^$nameRepo.", $rep_dist)){
+			$dist = str_replace("$nameRepo.", '', $rep_dist);
+			$p =  "$pathDists/$dist";
+			if(isDirectory($p)) // filtramos los directorios . y ..
+				$dists[] = $dist;
+		}
 	}
 	
 	return $dists;
@@ -495,10 +498,11 @@ function getAccessDists($user = null){
  */
 function getDistsByParamUser($param){
 	$dists = array();
+	$repository = $_SESSION['repository']['name'];
 	foreach($param as $key => $value){
-		if(eregi('^dist.', $key))
+		if(eregi("^dist.$repository.", $key))
 			//guardamos los permisos asociados a la distribución
-			$dists[substr($key, strpos($key, '.')+1)] = $value;
+			$dists[str_replace("dist.$repository.", '', $key)] = $value;
 	}
 	
 	return $dists;
@@ -550,8 +554,9 @@ function addParamAdmin($param){
 	
 	//todas las distribuciones con lectura y escritura
 	$dists = getListDistribution();
+	$repository = $_POST['sel_repository']['name'];
 	for($i = 0; $i < count($dists); $i++)
-		$param['dist.' . $dists[$i]] = 'rw'; //damos permisos de rw
+		$param["dist.$repository." . $dists[$i]] = 'rw'; //damos permisos de rw
 	
 	//permisos de lectura y escritura para la sección de Usuarios
 	$param['users'] = 'rw';
@@ -726,15 +731,15 @@ function checkPath($path, $msg_err, $fWritable = true){
 }
 
 /**
- * Devuelve la lista de repositorios configurados en repo.conf
+ * Devuelve la lista con los parámetros de una sección del fichero repo.conf.
  *
  * @return associative array of string
  * @see repo.conf by Antonio González Romero
  */
-function getListRepositories(){
+function getSectionRepoConf($section){
 	require_once('IniReader.class.php');
 	$objIni = new IniReader(REPO_CONF);
-	return $objIni->getSection('repositorios');
+	return $objIni->getSection($section);
 }
 
 /**
@@ -743,7 +748,7 @@ function getListRepositories(){
  * aparecerá seleccionado el primero de ellos.
  */
 function printListRespositories(){
-	$repos = getListRepositories();
+	$repos = getSectionRepoConf('repositorios');
 	foreach($repos as $repo => $path){
 		rtrimslash(&$path);
 		echo "<option value=\"$path\">$repo</option>";
