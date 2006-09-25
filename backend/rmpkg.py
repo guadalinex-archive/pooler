@@ -199,7 +199,7 @@ class remover:
         
         if not os.path.exists(conf):
             print "No se encuentra el fichero de configuración apt_%s.conf"%self.dist
-        
+       	    sys.exit(9) 
         command = 'apt-ftparchive -c %s release %s > %s/Release'%(conf, location, location)
         os.system(command)
         print "Regenerado Releases..................." 
@@ -216,10 +216,10 @@ def main():
         print "\n\n\nError: no encuentro el fichero de configuración repo.conf\n\n\n "
               
     if not options.repo:
-        repo = config.get('defaults', 'repositorio')
+        name = config.get('defaults', 'repositorio')
     else:
-        repo = config.get('repositorios',options.repo)
-    
+    	name = options.repo
+    repo = config.get('repositorios', name)
     if not options.dist:
         dist = config.get('defaults', 'dist')
     else:
@@ -236,7 +236,7 @@ def main():
         print 'No architectures especified'
         sys.exit(8)
         
-    pool = config.get('pools', dist)
+    pool = config.get('pools', name + '.' + dist)
     apt_conf = config.get('defaults', 'apt_conf')
     
     rm = remover(repo, dist, deb, pool, apt_conf, arch)

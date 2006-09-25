@@ -67,7 +67,7 @@ class   adder:
         
     def add_package(self):
         
-        #Creating package instance
+	#Creating package instance
         current = package.package()      
         file_name = self.deb.split(os.sep)[-1]
         #Source files support
@@ -246,7 +246,10 @@ class   adder:
     Retrieve supported architectures and sections in the dist
     '''
     def getAptInfo(self):
-        apt_fd = open (self.apt_file,"r")
+    	try:
+	        apt_fd = open (self.apt_file,"r")
+	except:
+		sys.exit(9)
         content = apt_fd.read()
         apt_fd.close()
         sections = findall('Components ".+"\S',content)[0].split('\"')[1].split(' ')
@@ -317,8 +320,10 @@ def main():
         print "\n\n\nError: no encuentro el fichero de configuración del resositorio repo.conf\n\n\n "
             
     if not options.repo:
-        repo = config.get('defaults', 'repositorio')
+    	name = config.get('defaults', 'repositorio')
+	repo = config.get('repositorios', name)
     else:
+    	name = options.repo
         repo = config.get('repositorios',options.repo)
             
     if not options.dist:
@@ -333,7 +338,7 @@ def main():
         deb = options.deb
         
     #arch = config.get('defaults', 'arch')
-    pool = config.get('pools', dist)
+    pool = config.get('pools', name + '.' + dist)
     apt_conf = config.get('defaults', 'apt_conf')
     
     addr = adder(repo, dist, deb, pool, apt_conf)

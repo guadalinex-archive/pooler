@@ -85,12 +85,13 @@ def main():
         print "The package will be added to the especified location but it will not be removed from source"
     
     if not options.repo:
-        repo = config.get('defaults', 'repositorio')
+    	name = config.get('defaults','repositorio')
+	repo = config.get('repositorios', name)
     else:
         repo = options.repo
     
        
-    pool = config.get('pools', options.destdist)
+    pool = config.get('pools', name + '.' + options.destdist)
     apt_conf = config.get('defaults', 'apt_conf')
     
     #Compose de path to the debian package
@@ -111,7 +112,7 @@ def main():
     
     location_info = options.deb.split(os.sep)
     
-    pool = config.get('pools', options.srcdist)
+    pool = config.get('pools', name + '.' + options.srcdist)
     
     print '\n\n\n\n'
     
