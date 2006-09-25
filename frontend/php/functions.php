@@ -5,7 +5,7 @@
  * por el resto de módulos php.
  * 
  * @author Francisco Javier Ramos Álvarez
- * @version 1.1
+ * @version 1.3
  * @package php
  */
 
@@ -62,7 +62,7 @@ function execCmdV3($cmd){
  * @return array of string
  */
 function getListPackages(){
-	$pathDists = PATH_REPOSITORY . '/dists';
+	$pathDists = $_SESSION['repository']['path'] . '/dists';
 	return execCmdV2('find ' . $pathDists . ' -name Packages*');
 }
 
@@ -405,7 +405,8 @@ function getNumBlocks($path, $condition = null){
  */
 function getListDistribution(){
 	$dists = array();
-	$pathDists = PATH_REPOSITORY . '/dists';
+	
+	$pathDists = (isset($_SESSION['repository']) ? $_SESSION['repository']['path'] : $_POST['sel_repository']['path']) . '/dists';
 	
 	// consultamos la raiz de distribuciones
 	$out =  execCmdV2('ls ' . $pathDists);
@@ -530,7 +531,7 @@ function hasPermission($path, $type, $user = null){
  * @return string
  */
 function getDistributionFromPath($path){
-	$dpath = str_replace(PATH_REPOSITORY . '/dists/', '', $path);
+	$dpath = str_replace($_SESSION['repository']['path'] . '/dists/', '', $path);
 	$exp = explode('/', $dpath);
 	
 	if(count($exp))
@@ -660,8 +661,12 @@ function ldapOk($login, $param){
 												'new_mktime' => mktime(),
 												'login' => $login,
 												'param' => $param
-												
 										);
+	
+	//guardamos el path del repositorio con el que vamos a trabajar
+	
+	$_SESSION['repository'] = $_POST['sel_repository'];
+	
 	registerMovement(LOGIN);
 	echo 'OK';
 }
@@ -717,6 +722,31 @@ function checkPath($path, $msg_err, $fWritable = true){
 		}
 	}
 	else
-		$msg_err[] = 'No existe el fichero o directorio<br>' . $path;
+		$msg_err[] = 'No existe el fichero o directorio<br><b>' . $path . '</b>';
+}
+
+/**
+ * Devuelve la lista de repositorios configurados en repo.conf
+ *
+ * @return associative array of string
+ * @see repo.conf by Antonio González Romero
+ */
+function getListRepositories(){
+	require_once('IniReader.class.php');
+	$objIni = new IniReader(REPO_CONF);
+	return $objIni->getSection('repositorios');
+}
+
+/**
+ * Imprimirá la lista de repositorios configurados en el fichero
+ * repo.conf, como lista de options de un control select. Por defecto
+ * aparecerá seleccionado el primero de ellos.
+ */
+function printListRespositories(){
+	$repos = getListRepositories();
+	foreach($repos as $repo => $path){
+		rtrimslash(&$path);
+		echo "<option value=\"$path\">$repo</option>";
+	}
 }
 ?>

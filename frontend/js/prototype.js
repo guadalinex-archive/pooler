@@ -1349,6 +1349,13 @@ Form.Element.Serializers = {
 /*--------------------------------------------------------------------------*/
 
 var $F = Form.Element.getValue;
+var $TSEL = function(idSel){
+	var sel = $(idSel);
+	if(sel.selectedIndex >= 0)
+		return sel.options[sel.selectedIndex].text;
+	else
+		return null;
+}
 
 /*--------------------------------------------------------------------------*/
 
