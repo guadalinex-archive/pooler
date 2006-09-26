@@ -72,13 +72,15 @@ class remover:
         else:
             print "Error: Unknown file format"
             sys.exit(7)
-        
+        if not os.path.exists(os.path.join(os.sep, self.apt_conf, 'apt_%s.conf'%self.dist)):
+	    print "Error: No se encuentra el fichero de configuraci√n de apt"
+	    sys.exit(9)
         print "File: %s"%os.path.join(os.sep, self.repo, self.deb)
         current_pkg.importInfo(os.path.join(os.sep, self.repo, self.deb))
         
         architecture = self.arch
         if current_pkg.isBinary():
-						architecture = 'binary-%s'%self.arch
+	    architecture = 'binary-%s'%self.arch
         else:
             architecture = 'source'            
 
