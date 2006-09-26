@@ -41,7 +41,7 @@ $noDist = isset($_GET['dist']) ? $_GET['dist'] : '';
 		</tr>
 		<tr>
 			<td align="center">
-				<button id="but_move" onclick="moveRegs(); return false;"><img src="../img/b_firstpage.png" align="absmiddle"> Mover</button>
+				<button id="but_move" onclick="moveRegs(); return false;"><img src="../img/move3.png" align="absmiddle"> Mover</button>
 				&nbsp;
 				<button onclick="closePopup(); return false;"><img src="../img/s_error.png" align="absmiddle"> Cancelar</button>
 			</td>

@@ -1,4 +1,4 @@
-<?php set_time_limit(TIME_LIMIT);
+<?php
 /**
  * Module move_src.php
  * Mueve ficheros fuente hacia otras distribuciones.
