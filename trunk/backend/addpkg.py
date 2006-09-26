@@ -81,7 +81,11 @@ class   adder:
             print "The file %s doesn't exists"%self.deb
             sys.exit(2)
         
-        current_section = current.get('Section')
+        if not os.path.exists(self.apt_file)
+	    print "No se encuentra el fichero de configuraci√n apt_codename.conf"
+	    sys.exit(9)
+
+	current_section = current.get('Section')
         current_arch = current.get('Architecture').strip()
         #Get supported sections and architectures from apt config file
         (dist_sections, dist_architectures) = self.getAptInfo()
