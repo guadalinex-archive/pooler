@@ -46,7 +46,7 @@ class   option_parser:
         return self.parser.parse_args()
         
 class   adder:
-    def __init__(self, repo, dist, deb, pool, apt_conf):
+    def __init__(self, repo, dist, deb, pool, apt_conf, gid):
 
         #root directory (containning pool and dists)
         self.repo = repo
@@ -56,6 +56,7 @@ class   adder:
         self.apt_conf = apt_conf
         self.section = None
         self.apt_file = self.apt_conf + 'apt_%s.conf'%self.dist
+	self.gid = gid
         
         
         #Printting params
@@ -203,7 +204,7 @@ class   adder:
         else:
             print "The package is in the current distribution"
             self.unLockBranch()
-            sys.exit(1)
+            sys.exit(11)
                 
     '''Update the pool structure'''    
     def updatePool(self, current):
@@ -218,17 +219,20 @@ class   adder:
             destination = os.path.join(os.sep, self.repo, current.get('Directory'))
         print "Destination: %s"%destination
         
-        if not os.path.exists(destination):
-            os.makedirs(destination) 
-            #The file exists in the pool         
+        try:
+     	    os.makedirs(destination) 
+            os.chown(destination, os.getuid(), self.gid)
+	    #The file exists in the pool         
+	except:
+	    pass
+	    
         print "file_name %s"%file_name
         if os.path.exists(os.path.join(os.sep,destination,file_name)):
             print '\nThe file exists in the pool\n'
-            #self.unLockBranch()
-            #sys.exit(0)
         else:
             if current.isBinary():
                 shutil.copy(self.deb, destination)
+		os.chown(os.sep.join([destination, file_name]), os.getuid(), self.gid)
             else:
                 for i in current.files:
                     path = self.deb.split(os.sep)[:-1]
@@ -236,9 +240,10 @@ class   adder:
                     print "files.........%s"%(os.sep.join(path))
                     if  os.path.exists(os.sep.join(path)):
                         shutil.copy(os.sep.join(path),destination)
+			os.chown(os.sep.join([destination,i]), os.getuid(), self.gid)
                     else:
                         self.unLockBranch()
-                        print 'El fichero %s'%os.sep.join(path)
+                        print 'No se encuentra el fichero %s'%os.sep.join(path)
                         sys.exit(6)
             
         #else:                        
@@ -317,12 +322,16 @@ def main():
     del args
     
     #Searching for the config file
-    if os.path.exists(options.conf):
-        config = ConfigParser.ConfigParser()
+    try:
+    	config = ConfigParser.ConfigParser()
         config.read(options.conf)
-    else:
+    except:
         print "\n\n\nError: no encuentro el fichero de configuración del resositorio repo.conf\n\n\n "
-            
+     	sys.exit(9)       
+    try:
+	gid = int(config.get('defaults', 'gid'))
+    except:
+    	gid = os.getgid()
     if not options.repo:
     	name = config.get('defaults', 'repositorio')
 	repo = config.get('repositorios', name)
@@ -345,7 +354,7 @@ def main():
     pool = config.get('pools', name + '.' + dist)
     apt_conf = config.get('defaults', 'apt_conf')
     
-    addr = adder(repo, dist, deb, pool, apt_conf)
+    addr = adder(repo, dist, deb, pool, apt_conf, gid)
     addr.add_package()
     #Package successfully added 
     

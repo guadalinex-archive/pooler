@@ -114,16 +114,11 @@ class packagesList:
         else:
             file = 'Sources'
 	filename = out + os.sep + file
-        if os.path.exists(filename):
-		try:
-		    os.remove(filename)
-		except:
-		    print 'Error regenerando fichero de índices'
-		    sys.exit(10)
 	try:
- 	    new_fd = open (out + os.sep + file, "w", os.O_CREAT)
+	    new_fd = open (out + os.sep + file, "wp")
 	except:
-	    sys.exit(11)
+	    print "Error abriendo archivo de indices (Packages o Sources)"
+	    sys.exit(10)
         if binary:
             control_fields = ['Package', 'Source', 'Version', 'Section','Priority', 'Architecture', 'Maintainer','Pre-Depends',
                           'Depends', 'Suggests', 'Recommends', 'Enhances', 'enhances', 'Conflicts', 'Provides','Replaces',
@@ -138,6 +133,7 @@ class packagesList:
                     new_fd.write("%s: %s\n"%(k, package.get(k)))
             new_fd.write('\n')
         new_fd.close()
+	os.chmod(out + os.sep + file, 0664)
         self.gen_compressed(out + os.sep + file, binary)
     
     def gen_compressed(self, file, binary):
@@ -146,12 +142,12 @@ class packagesList:
         content = fd.read()
         fd.close()
                 
-        gz_file = gzip.open("%s.gz"%file, "wb")
+        gz_file = gzip.open("%s.gz"%file, "wb", 0664)
         gz_file.write(content)
         gz_file.close()
         
         if binary:
-            bz2_file = open("%s.bz2"%file, "w", os.O_CREAT)
+            bz2_file = open("%s.bz2"%file, "wb", 0664)
             bz2_file.write(bz2.compress(content))
             bz2_file.close()
         else:
