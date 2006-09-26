@@ -35,7 +35,7 @@
 				//copiamos a un temporal, renombrándolos
 				if(@copy($in_debs['tmp_name'][$i], $pck_tmp)){
 					
-					chmod($pck_tmp, 0777);
+					chmod($pck_tmp, 0664);
 					
 					/** COMANDO ************************************************/
 					$cmd = "$add_pkg_py -p $pck_tmp -d $dist -c $repo_conf";
@@ -48,8 +48,12 @@
 					if($out_ret[1] == 0)
 						//registramos el movimiento
 						registerMovement(ADDPKG, array($in_debs['name'][$i], $dist));
-					else
+					else{
+						include('msg_err_python.php');
 						$msg_err .= 'Error Cod. ' . $out_ret[1] . '\\n';
+						$msg_err .= 'Fichero: ' . $in_debs['name'][$i] . '\\n';
+						$msg_err .= 'Mensaje: ' . $err_python[$out_ret[1]] . '.\\n\\n';
+					}
 						
 				}
 				else
