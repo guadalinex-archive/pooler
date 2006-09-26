@@ -415,7 +415,7 @@ function getListDistribution(){
 		if(eregi("^$nameRepo.", $rep_dist)){
 			$dist = str_replace("$nameRepo.", '', $rep_dist);
 			$p =  "$pathDists/$dist";
-			if(isDirectory($p)) // filtramos los directorios . y ..
+			if(is_dir($p))
 				$dists[] = $dist;
 		}
 	}
@@ -500,9 +500,9 @@ function getDistsByParamUser($param){
 	$dists = array();
 	$repository = $_SESSION['repository']['name'];
 	foreach($param as $key => $value){
-		if(eregi("^dist.$repository.", $key))
+		if(eregi("^$repository.", $key))
 			//guardamos los permisos asociados a la distribución
-			$dists[str_replace("dist.$repository.", '', $key)] = $value;
+			$dists[str_replace("$repository.", '', $key)] = $value;
 	}
 	
 	return $dists;
@@ -556,7 +556,7 @@ function addParamAdmin($param){
 	$dists = getListDistribution();
 	$repository = $_POST['sel_repository']['name'];
 	for($i = 0; $i < count($dists); $i++)
-		$param["dist.$repository." . $dists[$i]] = 'rw'; //damos permisos de rw
+		$param["$repository." . $dists[$i]] = 'rw'; //damos permisos de rw
 	
 	//permisos de lectura y escritura para la sección de Usuarios
 	$param['users'] = 'rw';
