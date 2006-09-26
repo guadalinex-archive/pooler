@@ -36,7 +36,8 @@
 			if(!file_exists($src_tmp)){
 				//copiamos el fichero a un temporal donde python los pueda coger
 				if(@copy($in_srcs['tmp_name'][$i], $src_tmp)){
-					chmod($src_tmp, 0777);
+					
+					chmod($src_tmp, 0664);
 					
 					//separamos los dsc del resto. Python sólo necesita éstos
 					if(eregi('\.dsc$', $src_tmp))
@@ -64,8 +65,12 @@
 			if($out_ret[1] == 0)
 				//registramos el movimiento
 				registerMovement(ADDSRC, array($src, $dist));
-			else
+			else{
+				include('msg_err_python.php');
 				$msg_err .= 'Error Cod. ' . $out_ret[1] . '\\n';
+				$msg_err .= 'Fichero: ' . $in_debs['name'][$i] . '\\n';
+				$msg_err .= 'Mensaje: ' . $err_python[$out_ret[1]] . '.\\n\\n';
+			}
 		}
 		
 		//eliminamos resto de ficheros temporales
