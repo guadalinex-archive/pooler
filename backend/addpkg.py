@@ -81,7 +81,7 @@ class   adder:
             print "The file %s doesn't exists"%self.deb
             sys.exit(2)
         
-        if not os.path.exists(self.apt_file)
+        if not os.path.exists(self.apt_file):
 	    print "No se encuentra el fichero de configuraci√n apt_codename.conf"
 	    sys.exit(9)
 
