@@ -53,7 +53,6 @@ class remover:
         self.apt_conf = apt_conf
         self.section = self.deb.split(os.sep)[1]
         self.arch = arch
-                 
         #Checking params
         print "raiz del repositorio...............%s"%self.repo
         print "pool...............................%s"%self.pool
@@ -209,13 +208,12 @@ def main():
     parser = option_parser()
     (options,args) = parser.parse_args()
     del args
-    
-    if os.path.exists(options.conf):
-        config = ConfigParser.ConfigParser()
-        config.read(options.conf)
-    else:
+    try:
+    	config = ConfigParser.ConfigParser()
+	config.read(options.conf)
+    except:
         print "\n\n\nError: no encuentro el fichero de configuración repo.conf\n\n\n "
-              
+        sys.exit(9)     
     if not options.repo:
         name = config.get('defaults', 'repositorio')
     else:
