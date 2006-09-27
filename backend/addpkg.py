@@ -198,13 +198,28 @@ class   adder:
             
             print "Adding it to the Packages/Sources file....."
             pkglist.addPackage(current)
-            pkglist.newFiles(f_packages_path, current.isBinary())
-            self.gen_Release()
+	    pkglist.newFiles(f_packages_path, current.isBinary())
+	    dirs = os.walk(f_packages_path)	    
+	    dirs = dirs.next()[-1]
+            for f in dirs:
+	    	if not f.startswith('.'):
+	            try:
+		        print "cambiando permisos a %s"%(f_packages_path + os.sep + f)
+			os.chmod(f_packages_path + os.sep + f, 0664)
+			print "cambiando grupo a %s"%(f_packages_path + os.sep + f)
+			os.chown(f_packages_path + os.sep + f, os.getuid(), self.gid)
+	    	    except:
+	    	        print 'Error cambiando los permisos a %s'%(f_packages_path + os.sep + f)
+ 	                #sys.exit(12)
+		else:
+		    pass
+	    del dirs
+	    self.gen_Release()
             
         else:
             print "The package is in the current distribution"
             self.unLockBranch()
-            sys.exit(11)
+            sys.exit(1)
                 
     '''Update the pool structure'''    
     def updatePool(self, current):
@@ -240,7 +255,7 @@ class   adder:
                     print "files.........%s"%(os.sep.join(path))
                     if  os.path.exists(os.sep.join(path)):
                         shutil.copy(os.sep.join(path),destination)
-			os.chown(os.sep.join([destination,i]), os.getuid(), self.gid)
+			os.chown(os.sep.join([destination,i.split(' ')[-1]]), os.getuid(), self.gid)
                     else:
                         self.unLockBranch()
                         print 'No se encuentra el fichero %s'%os.sep.join(path)
@@ -274,10 +289,10 @@ class   adder:
         content = None
         if isBinary:
             files = ['Packages','Packages.bz2', 'Packages.gz']
-            default = 'Packages'
+            default = 'Packages.gz'
         else:
             files = ['Sources.gz','Sources.bz2', 'Sources']
-            default = 'Sources'
+            default = 'Sources.gz'
         for i in files:
             if os.path.exists(file_path + os.sep + i):
                 if i.endswith('gz'):
@@ -296,7 +311,7 @@ class   adder:
                 break
         
         if not content:
-           fd = open(file_path + os.sep + default, "wb")
+           fd = gzip.open(file_path + os.sep + default, "wb")
            fd.close()
            content = ''            
         return content

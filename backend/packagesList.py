@@ -100,22 +100,24 @@ class packagesList:
                 result = current
                 break
         return result
-                
+
     def removePackage(self,package):
         if self.searchPackage(package):
             self.pkg_list.remove(package)
-            print "Package %s removed from the repo"%package.get('Package')[:-1]
+            print "Package %s removed from the repo"%package.get('Package')
         else:
             print "El paquete no se encuentra en el repositorio"
     
     def newFiles(self, out, binary):
         if binary:
-            file = 'Packages'
+            file = 'Packages.gz'
         else:
-            file = 'Sources'
+            file = 'Sources.gz'
 	filename = out + os.sep + file
 	try:
-	    new_fd = open (out + os.sep + file, "wp")
+	    print 'Abriendo archivo %s'%filename
+	    #new_fd = open(filename, "wb")
+	    new_fd = gzip.open(filename, "wb")
 	except:
 	    print "Error abriendo archivo de indices (Packages o Sources)"
 	    sys.exit(10)
@@ -133,26 +135,34 @@ class packagesList:
                     new_fd.write("%s: %s\n"%(k, package.get(k)))
             new_fd.write('\n')
         new_fd.close()
-	os.chmod(out + os.sep + file, 0664)
-        self.gen_compressed(out + os.sep + file, binary)
+	    
+        self.gen_compressed(filename, binary)
     
     def gen_compressed(self, file, binary):
             
-        fd = open (file,"r")
+        fd = gzip.open(file,"r")
         content = fd.read()
         fd.close()
-                
-        gz_file = gzip.open("%s.gz"%file, "wb", 0664)
-        gz_file.write(content)
-        gz_file.close()
         
+#	try:
+#            print "Abriendo .gz en modo escritura"
+#	    gz_file = gzip.open("%s.gz"%file, "wb")
+#	except:
+#	    print 'Error abriendo %s para escritura'%(file + '.gz')
+#	    sys.exit(11)
+#        gz_file.write(content)
+#        gz_file.close()
+#	try:
+#            os.chmod(file + '.gz', 0664)
+#	except:
+#	    print "Error cambiando los permisos de %f"%(file + '.gz')
+#	    sys.exit(10)
         if binary:
-            bz2_file = open("%s.bz2"%file, "wb", 0664)
+            print "generando archivo .bz2"
+	    name = file.split('.')[0]
+	    bz2_file = open("%s.bz2"%name, "wb", 0664)
             bz2_file.write(bz2.compress(content))
             bz2_file.close()
-        else:
-            os.system('rm %s'%file)
-
         
         del content
                  

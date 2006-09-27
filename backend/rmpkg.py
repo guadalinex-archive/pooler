@@ -95,8 +95,20 @@ class remover:
         if result:
             print "Localizando.............OK\nPath: %s"%self.deb
             plist.removePackage(result)
+	    path = os.path.join(os.sep, self.repo, 'dists', self.dist, self.section, architecture)
             print 'Index file: ' + os.path.join(os.sep, self.repo, 'dists', self.dist, self.section, architecture, index_file)
-            plist.newFiles(os.path.join(os.sep, self.repo, 'dists', self.dist, self.section, architecture), current_pkg.isBinary())
+            plist.newFiles(path, current_pkg.isBinary())
+	    dirs = os.walk(path)
+	    dirs = dirs.next()[-1]
+	    for f in dirs:
+	    	if not f.startswith('.'):
+			try:
+			     print "cambiando permisos a %s"%(path + os.sep + f)
+                             os.chmod(path + os.sep + f, 0664)
+                             print "cambiando grupo a %s"%(path + os.sep + f)
+                             os.chown(path + os.sep + f, os.getuid(), self.gid)
+			except:
+			     print 'Error cambiando permisos a %s'%(os.sep.join([path,f]))
             print "File removed from index....%s"%os.path.join(os.sep, self.repo, self.deb)
             #TODO: Keep the file in the pool if is included in any other dist
             #if not current_pkg.isBinary():
