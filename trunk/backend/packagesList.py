@@ -163,7 +163,10 @@ class packagesList:
 	    bz2_file = open("%s.bz2"%name, "wb", 0664)
             bz2_file.write(bz2.compress(content))
             bz2_file.close()
-        
+       	    non_compressed_file = open(name,"wb", 0664)
+	    non_compressed_file.write(content)
+	    non_compressed_file.close()
+	    
         del content
                  
 
