@@ -4,7 +4,7 @@
  * Elimina paquetes del repositorio.
  * 
  * @author Francisco Javier Ramos Álvarez
- * @version 1.0
+ * @version 1.1
  * @package php
  * @see rmpkg.py by Antonio González Romero
  * 
@@ -19,6 +19,7 @@
 	
 	set_time_limit(TIME_LIMIT);
 	
+	$repository = $_SESSION['repository']['name'];
 	$dist = $_POST['dist'];
 	$ok = true;
 	
@@ -28,7 +29,7 @@
 		
 		
 		/** COMANDO ********************************************/
-		$cmd = "$rm_pkg_py -p $filename -d $dist -c $repo_conf";
+		$cmd = "$rm_pkg_py -p $filename -d $dist -c $repo_conf -r $repository";
 		$out_ret = execCmdV3($cmd);
 		debugPython($cmd, $out_ret);
 		/*******************************************************/

@@ -5,7 +5,7 @@
  * llama a un módulo en python que se encargará de colocarlos en su sitio.
  * 
  * @author Francisco Javier Ramos Álvarez
- * @version 1.1
+ * @version 1.2
  * @package php
  * @see addpkg.py by Antonio González Romero
  * 
@@ -24,6 +24,7 @@
 	
 	if(isset($_FILES['in_debs'])){
 		
+		$repository = $_SESSION['repository']['name'];
 		$dist = $_POST['sel_distribution'];
 		$in_debs = $_FILES['in_debs'];
 		$nfiles = count($in_debs['name']);
@@ -38,7 +39,7 @@
 					chmod($pck_tmp, 0664);
 					
 					/** COMANDO ************************************************/
-					$cmd = "$add_pkg_py -p $pck_tmp -d $dist -c $repo_conf";
+					$cmd = "$add_pkg_py -p $pck_tmp -d $dist -c $repo_conf -r $repository";
 					$out_ret = execCmdV3($cmd);
 					debugPython($cmd, $out_ret);
 					/***********************************************************/

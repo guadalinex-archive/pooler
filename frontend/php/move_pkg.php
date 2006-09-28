@@ -4,7 +4,7 @@
  * Mueve paquetes hacia otras distribuciones.
  * 
  * @author Francisco Javier Ramos Álvarez
- * @version 1.0
+ * @version 1.1
  * @package php
  * @see mvpkg.py by Antonio González Romero
  * 
@@ -19,6 +19,7 @@
 	
 	set_time_limit(TIME_LIMIT);
 	
+	$repository = $_SESSION['repository']['name'];
 	$dist_o = $_POST['dist_o']; //distro origen
 	$dist_d = $_POST['dist_d']; //distro destino
 	$arch = $_POST['arch'];
@@ -28,14 +29,14 @@
 	foreach($_POST['files'] as $pck => $filename){
 		
 		/** COMANDO ************************************************/
-		$cmd = "$mv_pkg_py -p $filename -o $dist_o -d $dist_d -a $arch -c $repo_conf";
+		$cmd = "$mv_pkg_py -p $filename -o $dist_o -d $dist_d -a $arch -c $repo_conf -r $repository";
 		$out_ret = execCmdV3($cmd);
 		debugPython($cmd, $out_ret);
 		
 		$action = CPYPKG; //estamos copiando
 		
 		if(isset($_POST['del'])){
-			$cmd = "$rm_pkg_py -p $filename -d $dist_o -a $arch -c $repo_conf";
+			$cmd = "$rm_pkg_py -p $filename -d $dist_o -a $arch -c $repo_conf -r $repository";
 			$out_ret = execCmdV3($cmd);
 			debugPython($cmd, $out_ret);
 			
