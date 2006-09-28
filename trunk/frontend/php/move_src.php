@@ -4,7 +4,7 @@
  * Mueve ficheros fuente hacia otras distribuciones.
  * 
  * @author Francisco Javier Ramos Álvarez
- * @version 1.0
+ * @version 1.1
  * @package php
  * @see mvpkg.py by Antonio González Romero
  * 
@@ -19,6 +19,7 @@
 	
 	set_time_limit(TIME_LIMIT);
 	
+	$repository = $_SESSION['repository']['name'];
 	$dist_o = $_POST['dist_o']; //distribución origen
 	$dist_d = $_POST['dist_d']; //distribución destino
 	$ok = true;
@@ -29,14 +30,14 @@
 			if(eregi('\.dsc$', $filename)) break;
 		
 		/** COMANDO ************************************************/
-		$cmd = "$mv_pkg_py -p $filename -o $dist_o -d $dist_d -c $repo_conf";
+		$cmd = "$mv_pkg_py -p $filename -o $dist_o -d $dist_d -c $repo_conf -r $repository";
 		$out_ret = execCmdV3($cmd);
 		debugPython($cmd, $out_ret);
 		
 		$action = CPYSRC; //estamos copiando
 		
 		if(isset($_POST['del'])){
-			$cmd = "$rm_pkg_py -p $filename -d $dist_o -c $repo_conf";
+			$cmd = "$rm_pkg_py -p $filename -d $dist_o -c $repo_conf -r $repository";
 			$out_ret = execCmdV3($cmd);
 			debugPython($cmd, $out_ret);
 			
