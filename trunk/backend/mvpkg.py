@@ -90,8 +90,8 @@ def main():
     else:
         repo = options.repo
     
-       
-    pool = config.get('pools', name + '.' + options.destdist)
+    print '#debugging: repository: %s'%repo
+    pool = config.get('pools', repo)
     apt_conf = config.get('defaults', 'apt_conf')
     
     #Compose de path to the debian package
