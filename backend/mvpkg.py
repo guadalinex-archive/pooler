@@ -53,7 +53,7 @@ def main():
                            type="string", help="repository path ")
     
     parser.add_option("-c", "--config",
-                          dest="conf", default="/etc/poolmanager/repo.conf",
+                          dest="conf", default="/home/admin/pooler/conf/repo.conf",
                           type="string", help="Especify the repo.conf file location")
     parser.add_option("-a", "--arch",
                           dest="arch", default="i386",
@@ -64,16 +64,14 @@ def main():
     del args
     
     
-    if os.path.exists(options.conf):
-        config = ConfigParser.ConfigParser()
-        config.read(options.conf)
-    else:
+    config = ConfigParser.ConfigParser()
+    try:
+	config.read(options.conf)
+    except:
         print "\n\n\nError: There is no repository config file (/etc/repo.conf?)\n\n\n "
-        
+        sys.exit(20)
     if not options.deb:
         print "No package name was given"
-        
-        
     if not options.srcdist:
         print "No destination distribution was especified"
         srcdist = config.get('defaults', 'dist')
@@ -88,12 +86,16 @@ def main():
     	name = config.get('defaults','repositorio')
 	repo = config.get('repositorios', name)
     else:
-        repo = options.repo
-    
+        name = options.repo
+	repo = config.get('repositorios', name)
+    try:
+        gid = int(config.get('defaults', 'gid'))
+    except:
+	gid = os.getgid()
     print '#debugging: repository: %s'%repo
-    pool = config.get('pools', repo)
+    pool = config.get('pools', name + '.' + options.destdist)
     apt_conf = config.get('defaults', 'apt_conf')
-    
+    print '\Poooooool: %s'%pool 
     #Compose de path to the debian package
     deb = os.path.join(os.sep, repo, options.deb)
     print "debian package path: %s"%deb
@@ -104,7 +106,7 @@ def main():
     print "\%s"%pool
     
     print "add data: %s; %s; %s; %s; %s"%(repo, options.destdist, deb, pool, apt_conf)
-    add = addpkg.adder(repo, options.destdist, deb, pool, apt_conf)
+    add = addpkg.adder(repo, options.destdist, deb, pool, apt_conf, gid)
     
     if add.add_package():
         add.gen_Release()

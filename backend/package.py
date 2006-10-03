@@ -131,6 +131,7 @@ class package:
         #Get name of diff.gz file
         location = path.split(os.sep)[:-1]
         exists_diff = False
+	priority,section = (None, 'main')
         for file in self.files:
             file_name = file.split(' ')[3]
             if file_name.endswith('diff.gz'):
@@ -142,11 +143,11 @@ class package:
             fd =  gzip.open(filename,'rb')
             content = fd.read()
             fd.close()
-            priority = findall('Priority: .+\S',content)[0].split(':')[1].strip()
-            section = findall('Section: .+\S',content)[0].split(':')[1].strip()
-        else:
-            priority = None
-            section = 'main'
+            try:
+	    	priority = findall('Priority: .+\S',content)[0].split(':')[1].strip()
+	        section = findall('Section: .+\S',content)[0].split(':')[1].strip()
+	    except:
+	    	pass
         
         return (priority,section)
                         
