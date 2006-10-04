@@ -69,7 +69,7 @@
 			else{
 				include('msg_err_python.php');
 				$msg_err .= 'Error Cod. ' . $out_ret[1] . '\\n';
-				$msg_err .= 'Fichero: ' . $in_debs['name'][$i] . '\\n';
+				$msg_err .= 'Fichero: ' . $in_srcs['name'][$i] . '\\n';
 				$msg_err .= 'Mensaje: ' . $err_python[$out_ret[1]] . '.\\n\\n';
 			}
 		}
