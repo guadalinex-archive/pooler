@@ -32,15 +32,16 @@
 		debugPython($cmd, $out_ret);
 		/*******************************************************/
 		
+		$bnf = basename($filename);
 		if($out_ret[1] == 0){
 			//registramos el movimiento
-			registerMovement(DELPKG, array(basename($filename), $dist));
+			registerMovement(DELPKG, array($bnf, $dist));
 			$ok = $ok and true;
 		}
 		else{
 			include('msg_err_python.php');
 			$msg_err .= "Error Cod. " . $out_ret[1] . "\n";
-			$msg_err .= "Fichero: " . $in_debs['name'][$i] . "\n";
+			$msg_err .= "Fichero: " . $bnf . "\n";
 			$msg_err .= "Mensaje: " . $err_python[$out_ret[1]] . ".\n\n";
 			$ok = false;
 		}

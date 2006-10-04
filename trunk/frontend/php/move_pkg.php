@@ -44,15 +44,16 @@
 		}
 		/***********************************************************/
 		
+		$bnf = basename($filename);
 		if($out_ret[1] == 0){
 			//registramos el movimiento
-			registerMovement($action, array(basename($filename), $dist_o . ($action == CPYPKG ? '<=>' : '=>') . $dist_d));
+			registerMovement($action, array($bnf, $dist_o . ($action == CPYPKG ? '<=>' : '=>') . $dist_d));
 			$ok = $ok and true;
 		}
 		else{
 			include('msg_err_python.php');
 			$msg_err .= "Error Cod. " . $out_ret[1] . "\n";
-			$msg_err .= "Fichero: " . $in_debs['name'][$i] . "\n";
+			$msg_err .= "Fichero: " . $bnf . "\n";
 			$msg_err .= "Mensaje: " . $err_python[$out_ret[1]] . ".\n\n";
 			$ok = false;
 		}
