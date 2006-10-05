@@ -237,16 +237,18 @@ class   adder:
         try:
      	    os.makedirs(destination) 
             os.chown(destination, os.getuid(), self.gid)
-	    #The file exists in the pool         
+	    os.chmod(destination, 0775)
+	    #The directory exists in the pool         
 	except:
 	    pass
 	    
-        print "file_name %s"%file_name
+        print "file_name %s"%os.path.join(os.sep,destination,file_name)
         if os.path.exists(os.path.join(os.sep,destination,file_name)):
             print '\nThe file exists in the pool\n'
         else:
             if current.isBinary():
-                shutil.copy(self.deb, destination)
+                print "##destino en el pool: %s"%destination
+		shutil.copy(self.deb, destination)
 		os.chown(os.sep.join([destination, file_name]), os.getuid(), self.gid)
             else:
                 for i in current.files:
@@ -254,8 +256,11 @@ class   adder:
                     path.append(i.split(' ')[-1])
                     print "files.........%s"%(os.sep.join(path))
                     if  os.path.exists(os.sep.join(path)):
-                        shutil.copy(os.sep.join(path),destination)
+                        #print "##_1"
+			shutil.copy(os.sep.join(path),destination)
+                        #print "##_2"
 			os.chown(os.sep.join([destination,i.split(' ')[-1]]), os.getuid(), self.gid)
+			#print "##_3"
                     else:
                         self.unLockBranch()
                         print 'No se encuentra el fichero %s'%os.sep.join(path)
