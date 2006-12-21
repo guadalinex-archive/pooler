@@ -50,7 +50,7 @@
 		
 		/*****************************************************************************/
 		header("Content-type:text/xml"); 
-		echo '<?xml version="1.0" encoding="iso-8859-1"?>';
+		echo '<?xml version="1.0" encoding="utf-8"?>';
 		
 		echo '<rows>';
 			//echo '<row id="new_user">';

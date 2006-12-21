@@ -37,7 +37,7 @@
 		$bnf = basename($filename);
 		if($out_ret[1] == 0){
 			//registramos el movimiento
-			registerMovement(DELSRC, $bnf, $dist);
+			registerMovement(DELSRC, array($bnf, $dist));
 			$ok = $ok and true;
 		}
 		else{

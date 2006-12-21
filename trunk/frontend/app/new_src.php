@@ -31,6 +31,7 @@ include('../php/functions.php');
 				<td>
 					<input type="file" name="in_srcs[]" size="30" /><br />
 					<input type="file" name="in_srcs[]" size="30" /><br />
+					<input type="file" name="in_srcs[]" size="30" /><br />
 					<span id="srcs"></span>
 					<span class="alink" onclick="addInputFile('srcs')">[A&ntilde;adir otro] <img src="../img/arrow_up.gif" align="top" /></span>
 				</td>
