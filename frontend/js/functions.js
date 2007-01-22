@@ -188,7 +188,7 @@ function newPackages(){
 }
 
 function newSources(){
-	openPopup('Subier nuevos ficheros fuente', '../app/new_src.php', '', 640, 480, '../img/source.png', 'new');
+	openPopup('Subir nuevos ficheros fuente', '../app/new_src.php', '', 640, 480, '../img/source.png', 'new');
 }
 
 function findPackages(){
