@@ -110,17 +110,17 @@ class packagesList:
     
     def newFiles(self, out, binary):
         if binary:
-            file = 'Packages.gz'
+           	file = 'Packages.gz'
         else:
-            file = 'Sources.gz'
+		file = 'Sources.gz'
 	filename = out + os.sep + file
 	try:
-	    print 'Abriendo archivo %s'%filename
-	    #new_fd = open(filename, "wb")
-	    new_fd = gzip.open(filename, "wb")
+								  print 'Abriendo archivo %s'%filename
+								  #new_fd = open(filename, "wb")
+								  new_fd = gzip.open(filename, "wb")
 	except:
-	    print "Error abriendo archivo de indices (Packages o Sources)"
-	    sys.exit(10)
+								  print "Error abriendo archivo de indices (Packages o Sources)"
+								  sys.exit(10)
         if binary:
             control_fields = ['Package', 'Source', 'Version', 'Section','Priority', 'Architecture', 'Maintainer','Pre-Depends',
                           'Depends', 'Suggests', 'Recommends', 'Enhances', 'enhances', 'Conflicts', 'Provides','Replaces',
@@ -135,7 +135,7 @@ class packagesList:
                     new_fd.write("%s: %s\n"%(k, package.get(k)))
             new_fd.write('\n')
         new_fd.close()
-	    
+																																																																								   
         self.gen_compressed(filename, binary)
     
     def gen_compressed(self, file, binary):
@@ -143,33 +143,25 @@ class packagesList:
         fd = gzip.open(file,"r")
         content = fd.read()
         fd.close()
-        
-#	try:
-#            print "Abriendo .gz en modo escritura"
-#	    gz_file = gzip.open("%s.gz"%file, "wb")
-#	except:
-#	    print 'Error abriendo %s para escritura'%(file + '.gz')
-#	    sys.exit(11)
-#        gz_file.write(content)
-#        gz_file.close()
-#	try:
-#            os.chmod(file + '.gz', 0664)
-#	except:
-#	    print "Error cambiando los permisos de %f"%(file + '.gz')
-#	    sys.exit(10)
+        name = file.split('.')[0]
         if binary:
-            print "generando archivo .bz2"
-	    name = file.split('.')[0]
-	    bz2_file = open("%s.bz2"%name, "wb", 0664)
-            bz2_file.write(bz2.compress(content))
-            bz2_file.close()
-       	    non_compressed_file = open(name,"wb", 0664)
-	    non_compressed_file.write(content)
-	    non_compressed_file.close()
-	    
+    	        print "generando archivo .bz2"
+    		#name = file.split('.')[0]
+    		bz2_file = open("%s.bz2"%name, "wb", 0664)
+    		bz2_file.write(bz2.compress(content))
+    		bz2_file.close()
+    		non_compressed_file = open(name,"wb", 0664)
+    		non_compressed_file.write(content)
+    		non_compressed_file.close()
+	else:
+    		if os.path.exists(name):
+				sources_file = open(name,"w+", 0664)
+				sources_file.write(content)
+				sources_file.close()
+																								 
         del content
+																																																  
                  
-
 #Testing module
 #if __name__=='__main__':
 #    file = open ('/home/agonzalez/repo/debs/Sources',"r")
