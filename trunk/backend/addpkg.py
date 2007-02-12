@@ -41,12 +41,14 @@ class   option_parser:
         self.parser.add_option("-a", "--arch",
                           dest="arch", default="i386",
                           type="string", help="Especify the architecture")
-    
+	self.parser.add_option("-s", "--section",
+			  dest="sect", default=None,
+			  type="string", help="Set the section")
     def parse_args(self):
         return self.parser.parse_args()
         
 class   adder:
-    def __init__(self, repo, dist, deb, pool, apt_conf, gid):
+    def __init__(self, repo, dist, deb, pool, apt_conf, gid, sect):
 
         #root directory (containning pool and dists)
         self.repo = repo
@@ -54,9 +56,10 @@ class   adder:
         self.deb = deb
         self.pool = pool
         self.apt_conf = apt_conf
-        self.section = None
+        self.section = sect
         self.apt_file = self.apt_conf + 'apt_%s.conf'%self.dist
 	self.gid = gid
+
         
         
         #Printting params
@@ -83,21 +86,22 @@ class   adder:
             sys.exit(2)
         
         if not os.path.exists(self.apt_file):
-	    print "No se encuentra el fichero de configuraci√n apt_codename.conf"
-	    sys.exit(9)
-
+			print "No se encuentra el fichero de configuraci√n apt_codename.conf"
+			sys.exit(9)
+	#if not self.section:	
 	current_section = current.get('Section')
-        current_arch = current.get('Architecture').strip()
-        #Get supported sections and architectures from apt config file
-        (dist_sections, dist_architectures) = self.getAptInfo()
-    
-        #Check if both section and architectures exist in the repository
-        current_section = current_section.split('/')
-        if len(current_section) > 1 and current_section[0] in dist_sections:
-            self.section = current_section.split('/')[0].strip()
-        #If no section is especified or it doesn't exists set main section as default.
-        else:
-            self.section = 'main'
+    	current_arch = current.get('Architecture').strip()
+    	#Get supported sections and architectures from apt config file
+    	(dist_sections, dist_architectures) = self.getAptInfo()
+    	
+	#Check if both section and architectures exist in the repository
+    	if not self.section:
+	    current_section = current_section.split('/')
+            if len(current_section) > 1 and current_section[0] in dist_sections:
+     	        self.section = current_section.split('/')[0].strip()
+     	    #If no section is especified or it doesn't exists set main section as default.
+     	    else:
+	    	        self.section = 'main'
         print "section\t\t\t%s"%self.section
         #Check if architecture exists
         #TODO: Add in all  architectures.
@@ -199,20 +203,20 @@ class   adder:
             print "Adding it to the Packages/Sources file....."
             pkglist.addPackage(current)
 	    pkglist.newFiles(f_packages_path, current.isBinary())
-	    dirs = os.walk(f_packages_path)	    
+	    dirs = os.walk(f_packages_path)			
 	    dirs = dirs.next()[-1]
             for f in dirs:
-	    	if not f.startswith('.'):
-	            try:
-		        print "cambiando permisos a %s"%(f_packages_path + os.sep + f)
-			os.chmod(f_packages_path + os.sep + f, 0664)
-			print "cambiando grupo a %s"%(f_packages_path + os.sep + f)
-			os.chown(f_packages_path + os.sep + f, os.getuid(), self.gid)
-	    	    except:
-	    	        print 'Error cambiando los permisos a %s'%(f_packages_path + os.sep + f)
- 	                #sys.exit(12)
-		else:
-		    pass
+			if not f.startswith('.'):
+				try:
+					print "cambiando permisos a %s"%(f_packages_path + os.sep + f)
+					os.chmod(f_packages_path + os.sep + f, 0664)
+					print "cambiando grupo a %s"%(f_packages_path + os.sep + f)
+					os.chown(f_packages_path + os.sep + f, os.getuid(), self.gid)
+				except:
+					print 'Error cambiando los permisos a %s'%(f_packages_path + os.sep + f)
+					#sys.exit(12)
+			else:
+				pass
 	    del dirs
 	    self.gen_Release()
             
@@ -229,19 +233,19 @@ class   adder:
         if current.isBinary():
             dir = os.sep.join(current.get('Filename').split(os.sep)[:-1])
             print "Dir: %s"%dir
-            destination = os.sep.join([self.repo[:-1], dir])
+            destination = os.sep.join([self.repo, dir])
         else:
             destination = os.path.join(os.sep, self.repo, current.get('Directory'))
         print "Destination: %s"%destination
         
         try:
-     	    os.makedirs(destination) 
+	    os.makedirs(destination) 
             os.chown(destination, os.getuid(), self.gid)
 	    os.chmod(destination, 0775)
-	    #The directory exists in the pool         
+	#The directory exists in the pool         
 	except:
 	    pass
-	    
+			
         print "file_name %s"%os.path.join(os.sep,destination,file_name)
         if os.path.exists(os.path.join(os.sep,destination,file_name)):
             print '\nThe file exists in the pool\n'
@@ -257,10 +261,10 @@ class   adder:
                     print "files.........%s"%(os.sep.join(path))
                     if  os.path.exists(os.sep.join(path)):
                         #print "##_1"
-			shutil.copy(os.sep.join(path),destination)
+						shutil.copy(os.sep.join(path),destination)
                         #print "##_2"
-			os.chown(os.sep.join([destination,i.split(' ')[-1]]), os.getuid(), self.gid)
-			#print "##_3"
+						os.chown(os.sep.join([destination,i.split(' ')[-1]]), os.getuid(), self.gid)
+						#print "##_3"
                     else:
                         self.unLockBranch()
                         print 'No se encuentra el fichero %s'%os.sep.join(path)
@@ -275,8 +279,8 @@ class   adder:
     Retrieve supported architectures and sections in the dist
     '''
     def getAptInfo(self):
-    	try:
-	        apt_fd = open (self.apt_file,"r")
+	try:
+		apt_fd = open (self.apt_file,"r")
 	except:
 		sys.exit(9)
         content = apt_fd.read()
@@ -343,20 +347,20 @@ def main():
     
     #Searching for the config file
     try:
-    	config = ConfigParser.ConfigParser()
+	config = ConfigParser.ConfigParser()
         config.read(options.conf)
     except:
         print "\n\n\nError: no encuentro el fichero de configuraci√≥n del resositorio repo.conf\n\n\n "
-     	sys.exit(9)       
+	sys.exit(9)       
     try:
 	gid = int(config.get('defaults', 'gid'))
     except:
-    	gid = os.getgid()
+	gid = os.getgid()
     if not options.repo:
-    	name = config.get('defaults', 'repositorio')
+	name = config.get('defaults', 'repositorio')
 	repo = config.get('repositorios', name)
     else:
-    	name = options.repo
+	name = options.repo
         repo = config.get('repositorios',options.repo)
             
     if not options.dist:
@@ -374,7 +378,7 @@ def main():
     pool = config.get('pools', name + '.' + dist)
     apt_conf = config.get('defaults', 'apt_conf')
     
-    addr = adder(repo, dist, deb, pool, apt_conf, gid)
+    addr = adder(repo, dist, deb, pool, apt_conf, gid, options.sect)
     addr.add_package()
     #Package successfully added 
     
