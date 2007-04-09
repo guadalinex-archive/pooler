@@ -72,7 +72,7 @@ class remover:
             print "Error: Unknown file format"
             sys.exit(7)
         if not os.path.exists(os.path.join(os.sep, self.apt_conf, 'apt_%s.conf'%self.dist)):
-	    print "Error: No se encuentra el fichero de configuraciÃn de apt"
+	    print "Error: No se encuentra el fichero de configuraciï¿½n de apt"
 	    sys.exit(9)
         print "File: %s"%os.path.join(os.sep, self.repo, self.deb)
         current_pkg.importInfo(os.path.join(os.sep, self.repo, self.deb))
@@ -110,19 +110,6 @@ class remover:
 			except:
 			     print 'Error cambiando permisos a %s'%(os.sep.join([path,f]))
             print "File removed from index....%s"%os.path.join(os.sep, self.repo, self.deb)
-            #TODO: Keep the file in the pool if is included in any other dist
-            #if not current_pkg.isBinary():
-            #location = os.path.join(os.sep, self.repo, self.deb).split(os.sep)[:-1]
-            #    path = os.sep.join(location)
-            #    print "Path: " + path
-            #    self.removeSourceFiles(path, current_pkg)
-            #elif current_pkg.isBinary() and os.path.exists(os.path.join(os.sep, self.repo, self.deb)):
-            #    os.remove(os.path.join(os.sep, self.repo, self.deb))
-            #    print "os.remove(%s)"%os.path.join(os.sep, self.repo, self.deb)
-            #else:
-            #    print "Error: File not found"
-            #    print "File: %s"%os.path.join(os.sep, self.repo, self.deb)
-            #    sys.exit(39)
             done = True
             self.unLockBranch()
         else:

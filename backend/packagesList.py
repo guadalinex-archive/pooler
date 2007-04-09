@@ -11,6 +11,7 @@ import md5
 import bz2
 import gzip
 import re
+import shutil
 
 
 '''This class keeps a data estructure with information in Packages/Sources index files'''
@@ -112,15 +113,17 @@ class packagesList:
         if binary:
            	file = 'Packages.gz'
         else:
-		file = 'Sources.gz'
-	filename = out + os.sep + file
-	try:
-								  print 'Abriendo archivo %s'%filename
-								  #new_fd = open(filename, "wb")
-								  new_fd = gzip.open(filename, "wb")
-	except:
-								  print "Error abriendo archivo de indices (Packages o Sources)"
-								  sys.exit(10)
+            file = 'Sources.gz'
+        filename = out + os.sep + file
+        try:
+            print 'Abriendo archivo %s'%filename
+		    #new_fd = open(filename, "wb")
+            print 
+            #shutil.copyfile(filename,"%s.old"%filename)
+            new_fd = gzip.open(filename, "wb")
+        except:
+            print "Error abriendo archivo de indices (Packages o Sources)"
+            sys.exit(10)
         if binary:
             control_fields = ['Package', 'Source', 'Version', 'Section','Priority', 'Architecture', 'Maintainer','Pre-Depends',
                           'Depends', 'Suggests', 'Recommends', 'Enhances', 'enhances', 'Conflicts', 'Provides','Replaces',
@@ -137,6 +140,10 @@ class packagesList:
         new_fd.close()
 																																																																								   
         self.gen_compressed(filename, binary)
+        try:
+            os.remove(filename + ".old")
+        except:
+            pass
     
     def gen_compressed(self, file, binary):
             
@@ -145,15 +152,15 @@ class packagesList:
         fd.close()
         name = file.split('.')[0]
         if binary:
-    	        print "generando archivo .bz2"
+    	    print "generando archivo .bz2"
     		#name = file.split('.')[0]
-    		bz2_file = open("%s.bz2"%name, "wb", 0664)
-    		bz2_file.write(bz2.compress(content))
-    		bz2_file.close()
-    		non_compressed_file = open(name,"wb", 0664)
-    		non_compressed_file.write(content)
-    		non_compressed_file.close()
-	else:
+            bz2_file = open("%s.bz2"%name, "wb", 0664)
+            bz2_file.write(bz2.compress(content))
+            bz2_file.close()
+            non_compressed_file = open(name,"wb", 0664)
+            non_compressed_file.write(content)
+            non_compressed_file.close()
+        else:
     		if os.path.exists(name):
 				sources_file = open(name,"w+", 0664)
 				sources_file.write(content)
