@@ -80,16 +80,36 @@ class package:
         file.close()
         md5_sum = md5.new(content).hexdigest()
         file = open(path,"r")
-        debinfo = apt_pkg.ParseSection(apt_inst.debExtractControl(file))
+        try:
+           debinfo = apt_pkg.ParseSection(apt_inst.debExtractControl(file))
+           for key in debinfo.keys():
+               value = debinfo.get(key)
+               self.set(key, value)
+        except:
+            self.getFromDpkg(path)
         file.close()
         self.set('Size', size)
         self.set('MD5sum', md5_sum)
         
-        '''Import information from Control section'''
-        for key in debinfo.keys():
-            value = debinfo.get(key)
-            self.set(key, value)
-          
+    '''Patch for olders python-apt libraries'''      
+    def getFromDpkg(self,path):
+        control_fields = ['Package', 'Source', 'Version', 'Section','Priority', 'Architecture', 'Maintainer','Pre-Depends',
+              'Depends', 'Suggests', 'Recommends', 'Enhances', 'enhances', 'Conflicts', 'Provides','Replaces',
+               'Esential', 'Filename', 'Size', 'Installed-Size', 'MD5sum', 'Description', 'Uploaders', 'Bugs', 'Origin', 'Task']
+        for key in control_fields:
+            try:
+                #print path
+                #print key
+                command = "/usr/bin/dpkg --field %s %s"%(path, key)
+                #print command
+                value = os.popen(command).read()
+                if len(value) > 0:
+                    self.set(key, value.strip())
+                    #sys.stdout.write("%s: %s"%(key, value.strip()))
+            except:
+                print "Error lanzando dpkg"
+                sys.exit(-20)   
+        #sys.exit(1)
     '''Gets information from .dsc file of a source package'''
     def importDscInfo(self, file):
         
@@ -131,7 +151,7 @@ class package:
         #Get name of diff.gz file
         location = path.split(os.sep)[:-1]
         exists_diff = False
-	priority,section = (None, 'main')
+        priority,section = (None, 'main')
         for file in self.files:
             file_name = file.split(' ')[3]
             if file_name.endswith('diff.gz'):
