@@ -36,7 +36,7 @@ class   option_parser:
                           dest="dist", default=None,
                           type="string", help="Especify the distribution name")
         self.parser.add_option("-c", "--config",
-                          dest="conf", default="/home/admin/pooler/conf/repo.conf",
+                          dest="conf", default="/home/agonzalez/workspace/pooler/conf/repo.conf",
                           type="string", help="Especify the repo.conf file location")
         self.parser.add_option("-a", "--arch",
                           dest="arch", default="i386",
@@ -56,7 +56,7 @@ class   adder:
         self.apt_conf = apt_conf
         self.section = None
         self.apt_file = self.apt_conf + 'apt_%s.conf'%self.dist
-	self.gid = gid
+        self.gid = gid
         
         
         #Printting params
@@ -83,10 +83,10 @@ class   adder:
             sys.exit(2)
         
         if not os.path.exists(self.apt_file):
-	    print "No se encuentra el fichero de configuraciÃn apt_codename.conf"
-	    sys.exit(9)
+            print "No se encuentra el fichero de configuraciï¿½n apt_codename.conf"
+            sys.exit(9)
 
-	current_section = current.get('Section')
+        current_section = current.get('Section')
         current_arch = current.get('Architecture').strip()
         #Get supported sections and architectures from apt config file
         (dist_sections, dist_architectures) = self.getAptInfo()
@@ -161,7 +161,13 @@ class   adder:
         
         #create new branch if needed
         if not os.path.exists(f_packages_path):
-            os.makedirs(os.path.join(os.sep,self.repo, 'dists', self.dist, self.section, self.arch))
+            newdir = os.path.join(os.sep,self.repo, 'dists', self.dist, self.section, self.arch)
+            try:
+                os.makedirs(newdir)
+            except:
+                print "Error creando directorio: %"%newdir
+                sys.exit(10)
+            os.chown(newdir, os.getuid(), self.gid)
             print "Creada rama nueva: %s"%f_packages_path 
                
         #Explore both .gz & .bz2 files
@@ -198,24 +204,23 @@ class   adder:
             
             print "Adding it to the Packages/Sources file....."
             pkglist.addPackage(current)
-	    pkglist.newFiles(f_packages_path, current.isBinary())
-	    dirs = os.walk(f_packages_path)	    
-	    dirs = dirs.next()[-1]
+    	    print "archivo: %s"%f_packages_path
+            pkglist.newFiles(f_packages_path, current.isBinary())
+            dirs = os.walk(f_packages_path)	    
+            dirs = dirs.next()[-1]
             for f in dirs:
-	    	if not f.startswith('.'):
-	            try:
-		        print "cambiando permisos a %s"%(f_packages_path + os.sep + f)
-			os.chmod(f_packages_path + os.sep + f, 0664)
-			print "cambiando grupo a %s"%(f_packages_path + os.sep + f)
-			os.chown(f_packages_path + os.sep + f, os.getuid(), self.gid)
-	    	    except:
-	    	        print 'Error cambiando los permisos a %s'%(f_packages_path + os.sep + f)
- 	                #sys.exit(12)
-		else:
-		    pass
-	    del dirs
-	    self.gen_Release()
-            
+                if not f.startswith('.'):
+                    try:
+                        os.chmod(f_packages_path + os.sep + f, 0664)
+                       # print "cambiando grupo a %s"%(f_packages_path + os.sep + f)
+                        os.chown(f_packages_path + os.sep + f, os.getuid(), self.gid)
+                    except:
+    	    	        print 'Error cambiando los permisos a %s'%(f_packages_path + os.sep + f)
+     	                #sys.exit(12)
+                else:
+                   continue
+            del dirs
+            self.gen_Release()
         else:
             print "The package is in the current distribution"
             self.unLockBranch()
@@ -229,49 +234,53 @@ class   adder:
         if current.isBinary():
             dir = os.sep.join(current.get('Filename').split(os.sep)[:-1])
             print "Dir: %s"%dir
-	    print "Repo: %s"%self.repo
+            print "Repo: %s"%self.repo
             destination = os.sep.join([self.repo[:-1], dir])
         else:
             destination = os.path.join(os.sep, self.repo, current.get('Directory'))
-        print "Destination: %s"%destination
-        
+            
         try:
-     	    os.makedirs(destination) 
-            os.chown(destination, os.getuid(), self.gid)
-	    os.chmod(destination, 0775)
-	    #The directory exists in the pool         
-	except:
-	    pass
-	    
-        print "file_name %s"%os.path.join(os.sep,destination,file_name)
+            print "Creando directorio destino: %s"%destination
+            os.makedirs(destination, 0775)
+            #os.chmod(destination, 0775)
+            #os.chown(destination, -1, self.gid)
+        except:
+            print "Copiando a directorio existente: %s"%destination
+            pass
+        print "File_name: %s"%os.path.join(os.sep,destination,file_name)
         if os.path.exists(os.path.join(os.sep,destination,file_name)):
-            print '\nThe file exists in the pool\n'
+            print 'El fichero ya se encuentra en el pool'
         else:
+            #Copying binary package into the pool 
             if current.isBinary():
-                print "##destino en el pool: %s"%destination
-		shutil.copy(self.deb, destination)
-		os.chown(os.sep.join([destination, file_name]), os.getuid(), self.gid)
+                shutil.copy(self.deb, destination)
+                try:
+                    os.chown(destination + '/' + file_name, -1, self.gid)
+                    os.chmod(destination + '/' + file_name, 0664)
+                except:
+                    print "---Couldn't set group to %d on %s"%(self.gid, file_name)
+            #Copying all source files in the package
             else:
                 for i in current.files:
-                    path = self.deb.split(os.sep)[:-1]
-                    path.append(i.split(' ')[-1])
-                    print "files.........%s"%(os.sep.join(path))
-                    if  os.path.exists(os.sep.join(path)):
-                        #print "##_1"
-			shutil.copy(os.sep.join(path),destination)
-                        #print "##_2"
-			os.chown(os.sep.join([destination,i.split(' ')[-1]]), os.getuid(), self.gid)
-			#print "##_3"
-                    else:
+                    file = i.split(' ')[-1]
+                    path = self.deb.split(os.sep)[:-1].append(file)
+                    path = os.sep.join(path)
+                    print "Current file...........%s  [OK]"%(os.sep.join(path))
+                    #Trying to put into the pool
+                    try:
+                        shutil.copy(path, destination)
+                    except:
                         self.unLockBranch()
                         print 'No se encuentra el fichero %s'%os.sep.join(path)
                         sys.exit(6)
-            
-        #else:                        
-        #    print "The package is already in the pool"
-        #    print "Package.......................%s"%self.deb
-        #    print "Location......................%s"%os.path.join(os.sep, self.repo, 'dists', self.dist, self.section, self.arch)
-                
+                    #Setting owner group to 'pooler'
+                    try:
+                        os.chown(destination + '/' + file, -1, self.gid)
+                    except:
+                        print "---Couldn't set group to %d on %s"%(self.gid, file)
+                        pass
+        return 0
+
     '''
     Retrieve supported architectures and sections in the dist
     '''
@@ -378,7 +387,9 @@ def main():
     addr = adder(repo, dist, deb, pool, apt_conf, gid)
     addr.add_package()
     #Package successfully added 
-    
+
+
+
 if __name__=='__main__':
     main()
 
