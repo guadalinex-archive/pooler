@@ -42,7 +42,7 @@ class BlockInfo{
 				}
 				else
 					//eliminamos sólo el primer espacio
-					$this->datas[$field] .= "\n" . substr($lines[$i], 1); 
+					$this->datas[$field] .= "\n" . substr($lines[$i], 1);
 			}
 		}
 	}
