@@ -34,19 +34,22 @@ class   option_parser:
                           type="string", help="Especify the root of the repository")
         self.parser.add_option("-d", "--dist", 
                           dest="dist", default=None,
-                          type="string", help="Especify the distribution name")
+                          type="string", help="Name under /dists")
         self.parser.add_option("-c", "--config",
                           dest="conf", default="/home/agonzalez/workspace/pooler/conf/repo.conf",
                           type="string", help="Especify the repo.conf file location")
         self.parser.add_option("-a", "--arch",
                           dest="arch", default="i386",
-                          type="string", help="Especify the architecture")
+                          type="string", help="Architecture (i386,ppc...)")
+	self.parser.add_option("-C", "--component",
+			  dest="comp", default=None,
+		 	  type="string", help="Component(main, restricted...)"	)
     
     def parse_args(self):
         return self.parser.parse_args()
         
 class   adder:
-    def __init__(self, repo, dist, deb, pool, apt_conf, gid):
+    def __init__(self, repo, dist, deb, pool, apt_conf, comp, gid):
 
         #root directory (containning pool and dists)
         self.repo = repo
@@ -54,7 +57,7 @@ class   adder:
         self.deb = deb
         self.pool = pool
         self.apt_conf = apt_conf
-        self.section = None
+        self.section = comp
         self.apt_file = self.apt_conf + 'apt_%s.conf'%self.dist
         self.gid = gid
         
@@ -65,6 +68,7 @@ class   adder:
         print "pool\t\t\t%s"%self.pool
         print "section\t\t\t%s"%self.section
         print "deb\t\t\t%s"%self.deb
+	print "Component\t\t%s"%comp
         
     def add_package(self):
         
@@ -93,7 +97,9 @@ class   adder:
     
         #Check if both section and architectures exist in the repository
         current_section = current_section.split('/')
-        if len(current_section) > 1 and current_section[0] in dist_sections:
+        if self.section:
+	    pass
+	elif not self.section and len(current_section) > 1 and current_section[0] in dist_sections:
             self.section = current_section[0].strip()
         #If no section is especified or it doesn't exists set main section as default.
         else:
@@ -383,8 +389,9 @@ def main():
     #arch = config.get('defaults', 'arch')
     pool = config.get('pools', name + '.' + dist)
     apt_conf = config.get('defaults', 'apt_conf')
-    
-    addr = adder(repo, dist, deb, pool, apt_conf, gid)
+    component = options.comp
+
+    addr = adder(repo, dist, deb, pool, apt_conf, component, gid)
     addr.add_package()
     #Package successfully added 
 
