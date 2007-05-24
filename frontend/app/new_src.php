@@ -5,7 +5,7 @@
  * el fichero DSC y el comprimido que contiene el fuente del paquete.
  * 
  * @author Francisco Javier Ramos Álvarez
- * @version 1.0
+ * @version 1.1
  * @package app
  * 
  * @return html
@@ -21,8 +21,16 @@ include('../php/functions.php');
 			<tr>
 				<td width="150" bgcolor="#EEEEEE">Distribuci&oacute;n:</td>
 				<td>
-					<select id="sel_distribucion" name="sel_distribution">
+					<select id="sel_distribucion" name="sel_distribution" onchange="getComponents(this.value)">
 						<? printListDistributions() ?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td bgcolor="#EEEEEE">Componente:</td>
+				<td>
+					<select id="sel_component" name="sel_component">
+						<option value="">[Dejar por defecto]</option>
 					</select>
 				</td>
 			</tr>

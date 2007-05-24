@@ -1,11 +1,11 @@
 /**
  * Module functions.js
  * Contiene toda la funcionalidad AJAX y de componentes de la interfaz web.
- * Podemos decir que es el corazón de la aplicación, con todas las funciones
- * necesarias para una correcta ejecución.
+ * Podemos decir que es el corazï¿½n de la aplicaciï¿½n, con todas las funciones
+ * necesarias para una correcta ejecuciï¿½n.
  * 
- * @author Francisco Javier Ramos Álvarez
- * @version 1.1
+ * @author Francisco Javier Ramos ï¿½lvarez
+ * @version 1.2
  * @package js
  * @see dhtmlXCommon.js
  * @see dhtmlXGrid.js
@@ -26,7 +26,7 @@ function loadTreeDists(){
 		$('dists').innerHTML = '';
 	}
 	
-	//cargamos el árbol de directorio de distribuciones
+	//cargamos el ï¿½rbol de directorio de distribuciones
 	myTreeDists = new dhtmlXTreeObject('dists', '100%', '100%', 0);
 	
 	var loading = getLoading('Cargando distribuciones');
@@ -45,7 +45,7 @@ function loadTreeUsers(){
 		myTreeUsers = null;
 		$('users').innerHTML = '';
 	}
-	//cargamos el árbol de usuarios
+	//cargamos el ï¿½rbol de usuarios
 	myTreeUsers = new dhtmlXTreeObject('users', '100%', '100%', 0);
 
 	var loading = getLoading('Cargando usuarios');
@@ -745,6 +745,7 @@ function moveRegs(){
 		showDivLoading('Moviendo paquetes...');
 		var param = 'dist_o=' + encodeURIComponent(getDistByPath(myGridPkg.datas[0])); //origen
 		param += '&dist_d=' + encodeURIComponent($F('sel_distribucion')); //destino
+		param += '&comp=' + encodeURIComponent($F('sel_component')); //componente (main, universe...)
 		param += '&arch=' + getArchByPath(myGridPkg.datas[0]); //arquitectura
 		param += $('maintain').checked ? '' : '&del=1';
 		param += '&' + serializeSelectedFiles();
@@ -842,7 +843,7 @@ function configureGridDistsUser(){
 
 function loadGridDistsUser(){
 	if(myGridDistsUser != null){
-		//cerramos popup "añadir nueva distribución"
+		//cerramos popup "aï¿½adir nueva distribuciï¿½n"
 		if($('popup')) closePopup();
 		
 		myGridDistsUser.clearAll();
@@ -869,7 +870,7 @@ function selDistributionUser(){
 
 function printListDistNoSelected(oDists){
 	if(myGridDistsUser != null){
-		//desmarcamos las que ya estén seleccionadas
+		//desmarcamos las que ya estï¿½n seleccionadas
 		var numRows = myGridDistsUser.getRowsNum();
 		for(var i = 0; i < numRows; i++)
 			oDists[myGridDistsUser.cells2(i, 0).getValue()] = 0;
@@ -917,7 +918,7 @@ function updateUser(){
 	if(evalInputUser()){
 		showDivLoading('Actualizando usuario...');
 		
-		//montamos la cadéna con los datos del usuario
+		//montamos la cadï¿½na con los datos del usuario
 		var param = '', user, olduser, passuser, app = [], dists = [], rw = [];
 		user = $F('username');
 		olduser = $F('old_username');
@@ -1024,5 +1025,36 @@ function selAllWriter(){
 		numRows.times(function(i){
 			myGridDistsUser.cells2(i, 2).setValue(Math.abs(myGridDistsUser.cells2(i, 2).getValue()-1));
 		});
+	}
+}
+
+function getComponents(dist){
+	var param = 'dist=' + dist;
+	if(dist){
+		var myAjax = new Ajax.Request(
+			'../php/get_component.php',
+			{
+				method: 'get',
+				parameters: param,
+				onComplete: function(req){
+					
+					lstComp = eval(req.responseText);
+					if(lstComp.length > 0){
+						$('sel_component').options.length = 0;
+						$('sel_component').options[0] = new Option('[Dejar por defecto]', '');
+						try{
+							for(var i = 0; i < lstComp.length; i++)
+								$('sel_component').options[i+1] = new Option(lstComp[i], lstComp[i]);
+						}
+						catch(e){}
+					}
+					
+				}
+			}
+		);
+	}
+	else{
+		$('sel_component').options.length = 0;
+		$('sel_component').options[0] = new Option('[Dejar por defecto]', '');
 	}
 }

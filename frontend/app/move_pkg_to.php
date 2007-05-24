@@ -4,7 +4,7 @@
  * Ventana de confirmación para mover paquetes o ficheros fuente.
  * 
  * @author Francisco Javier Ramos Álvarez
- * @version 1.0
+ * @version 1.1
  * @package app
  * 
  * @return html
@@ -21,8 +21,16 @@ $noDist = isset($_GET['dist']) ? $_GET['dist'] : '';
 		<tr>
 			<td bgcolor="#EEEEEE">
 				Distribuci&oacute;n:<br />
-				<select id="sel_distribucion">
+				<select id="sel_distribucion" onchange="getComponents(this.value)">
 					<? printListDistributions($noDist) ?>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td bgcolor="#EEEEEE">
+				Componente:<br />
+				<select id="sel_component" name="sel_component">
+					<option value="">[Dejar por defecto]</option>
 				</select>
 			</td>
 		</tr>
