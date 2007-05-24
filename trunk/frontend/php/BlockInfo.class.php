@@ -29,6 +29,8 @@ class BlockInfo{
 	 * @return BlockInfo
 	 */
 	function BlockInfo($block){
+		$field = '';
+		
 		//separamos la lista de campos/valor
 		$lines = explode("\n", $block);
 		for($i = 0; $i < count($lines); $i++){

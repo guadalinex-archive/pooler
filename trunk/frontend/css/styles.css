@@ -167,6 +167,10 @@ input[type=text], select, #combobox{
 	width: 350px;
 }
 
+#sel_component{
+	width: 170px;
+}
+
 #combobox{
 	position: absolute;
 	height: 150px;
