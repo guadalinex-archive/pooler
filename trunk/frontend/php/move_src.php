@@ -22,7 +22,7 @@
 	$repository = $_SESSION['repository']['name'];
 	$dist_o = $_POST['dist_o']; //distribución origen
 	$dist_d = $_POST['dist_d']; //distribución destino
-	$comp = $_POST['comp'];
+	$comp = $_POST['comp'] ? '-C ' . $_POST['comp'] : '';
 	$ok = true;
 	
 	foreach($_POST['files'] as $src => $list){
@@ -31,7 +31,7 @@
 			if(eregi('\.dsc$', $filename)) break;
 		
 		/** COMANDO ************************************************/
-		$cmd = "$mv_pkg_py -p $filename -o $dist_o -d $dist_d -C $comp -c $repo_conf -r $repository";
+		$cmd = "$mv_pkg_py -p $filename -o $dist_o -d $dist_d $comp -c $repo_conf -r $repository";
 		$out_ret = execCmdV3($cmd);
 		debugPython($cmd, $out_ret);
 		

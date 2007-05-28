@@ -26,7 +26,7 @@
 		
 		$repository = $_SESSION['repository']['name'];
 		$dist = $_POST['sel_distribution'];
-		$comp = $_POST['sel_component'];
+		$comp = $_POST['sel_component'] ? '-C ' . $_POST['sel_component'] : '';
 		$in_srcs = $_FILES['in_srcs'];
 		$nfiles = count($in_srcs['name']);
 		$dscs = array();
@@ -61,7 +61,7 @@
 		foreach($dscs as $src => $src_tmp){
 			
 			/** COMANDO ************************************************/
-			$cmd = "$add_pkg_py -p $src_tmp -d $dist -C $comp -c $repo_conf -r $repository";
+			$cmd = "$add_pkg_py -p $src_tmp -d $dist $comp -c $repo_conf -r $repository";
 			$out_ret = execCmdV3($cmd);
 			debugPython($cmd, $out_ret);
 			/***********************************************************/

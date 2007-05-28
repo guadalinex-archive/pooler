@@ -22,7 +22,7 @@
 	$repository = $_SESSION['repository']['name'];
 	$dist_o = $_POST['dist_o']; //distro origen
 	$dist_d = $_POST['dist_d']; //distro destino
-	$comp = $_POST['comp'];
+	$comp = $_POST['comp'] ? '-C ' . $_POST['comp'] : '';
 	$arch = $_POST['arch'];
 	$msg_err = '';
 	$ok = true;
@@ -30,7 +30,7 @@
 	foreach($_POST['files'] as $pck => $filename){
 		
 		/** COMANDO ************************************************/
-		$cmd = "$mv_pkg_py -p $filename -o $dist_o -d $dist_d -C $comp -a $arch -c $repo_conf -r $repository";
+		$cmd = "$mv_pkg_py -p $filename -o $dist_o -d $dist_d $comp -a $arch -c $repo_conf -r $repository";
 		$out_ret = execCmdV3($cmd);
 		debugPython($cmd, $out_ret);
 		
