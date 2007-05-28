@@ -1,16 +1,16 @@
 /**
  * Module functions_auth.js
- * Contiene toda la funcionalidad del formulario de autenticaciÛn,
- * chequeo de formulario, comprobaciÛn asÌncrona en el LDAP, etc...
+ * Contiene toda la funcionalidad del formulario de autenticaci√≥n,
+ * chequeo de formulario, comprobaci√≥n as√≠ncrona en el LDAP, etc...
  * 
- * @author Francisco Javier Ramos ¡lvarez
+ * @author Francisco Javier Ramos √Ålvarez
  * @version 1.3
  * @package js
  * @see prototype.js (uso del AJAX, y manejo de formularios)
  */
 
 /**
- * FunciÛn que mostrar· un popup con el formulario de autenticaciÛn.
+ * Funci√≥n que mostrar√° un popup con el formulario de autenticaci√≥n.
  * 
  * @see functions.js (openPopup)
  */
@@ -20,8 +20,8 @@ function auth(){
 }
 
 /**
- * Realizar· el chequeo LDAP del usuario, y para ello realizar·
- * una llamada asÌncrona a un mÛdulo php que hace esta funciÛn.
+ * Realizar√° el chequeo LDAP del usuario, y para ello realizar√°
+ * una llamada as√≠ncrona a un m√≥dulo php que hace esta funci√≥n.
  * 
  * @see functions.js (openPopup)
  */
@@ -34,7 +34,7 @@ function checkAuth(){
 		param += 'sel_repository[name]=' + encodeURIComponent($TSEL('sel_repository')) + '&';
 		param += 'sel_repository[path]=' + encodeURIComponent($F('sel_repository'));
 		
-		//realizamos la llamada al mÛdulo de comprobaciÛn
+		//realizamos la llamada al m√≥dulo de comprobaci√≥n
 		var myAjax = new Ajax.Request(
 			'../php/check_user_ldap.php',
 			{
@@ -48,7 +48,7 @@ function checkAuth(){
 
 /**
  * Handler onComplete. Cuando se completa la llamada AJAX salta esta
- * funciÛn que comprobar· cual ha sido la salida, si ha ocurrido alg˙n
+ * funci√≥n que comprobar√° cual ha sido la salida, si ha ocurrido alg√∫n
  * error o todo ha ido correctamente.
  * 
  * @param Object (objeto devuelto por AJAX) 
@@ -59,7 +59,7 @@ function completeAuth(request){
 	var resp = request.responseText;
 	if(resp == 'OK') //todo correcto, redireccionamos
 		document.location = 'app.php';
-	else{ //ocurriÛ un error que mostramos
+	else{ //ocurri√≥ un error que mostramos
 		alert(resp);
 		Form.reset('frmAuth');
 		Field.focus('login');
@@ -67,7 +67,7 @@ function completeAuth(request){
 }
 
 /**
- * Eval˙a los cuadros de texto del formulario.
+ * Eval√∫a los cuadros de texto del formulario.
  * 
  * @return boolean
  * @see method checkAuth
@@ -103,7 +103,7 @@ function resetFieldAuth(){
 }
 
 /**
- * Filtra la pulsaciÛn del intro para llamar al mÈtodo de chequeo de usuario.
+ * Filtra la pulsaci√≥n del intro para llamar al m√©todo de chequeo de usuario.
  */
 function filterIntro(evt){
 	if(Event.keyCode(evt) == Event.KEY_RETURN)
