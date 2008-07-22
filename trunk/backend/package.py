@@ -94,7 +94,7 @@ class package:
     '''Patch for olders python-apt libraries'''      
     def getFromDpkg(self,path):
         control_fields = ['Package', 'Source', 'Version', 'Section','Priority', 'Architecture', 'Maintainer','Pre-Depends',
-              'Depends', 'Suggests', 'Recommends', 'Enhances', 'enhances', 'Conflicts', 'Provides','Replaces',
+              'Depends', 'Suggests', 'Breaks', 'Recommends', 'Enhances', 'enhances', 'Conflicts', 'Provides','Replaces',
                'Esential', 'Filename', 'Size', 'Installed-Size', 'MD5sum', 'Description', 'Uploaders', 'Bugs', 'Origin', 'Task']
         for key in control_fields:
             try:

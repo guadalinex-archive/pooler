@@ -126,7 +126,7 @@ class packagesList:
             sys.exit(10)
         if binary:
             control_fields = ['Package', 'Source', 'Version', 'Section','Priority', 'Architecture', 'Maintainer','Pre-Depends',
-                          'Depends', 'Suggests', 'Recommends', 'Enhances', 'enhances', 'Conflicts', 'Provides','Replaces',
+                          'Depends', 'Suggests', 'Breaks','Recommends', 'Enhances', 'enhances', 'Conflicts', 'Provides','Replaces',
                            'Esential', 'Filename', 'Size', 'Installed-Size', 'MD5sum', 'Description', 'Uploaders', 'Bugs', 'Origin', 'Task', '']
         else:
             control_fields = ['Package', 'Binary', 'Version', 'Priority', 'Section', 'Maintainer', 'Build-Depends',
