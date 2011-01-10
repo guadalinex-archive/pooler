@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project Pooler -->
-<!-- Saved: 2011-01-10, 12:33:24 -->
+<!-- Saved: 2011-01-10, 13:23:12 -->
 <!-- Copyright (C) 2011 Webmaster Guadalinex, webmaster@guadalinex.org -->
 <Project version="4.6">
   <Language>en</Language>
@@ -12,12 +12,6 @@
   <Author>Webmaster Guadalinex</Author>
   <Email>webmaster@guadalinex.org</Email>
   <Sources>
-    <Source>backend/rmpkg.py</Source>
-    <Source>backend/packagesList.py</Source>
-    <Source>backend/package.py</Source>
-    <Source>backend/mvpkg.py</Source>
-    <Source>backend/addpkg.py</Source>
-    <Source>__init__.py</Source>
   </Sources>
   <Forms>
   </Forms>
