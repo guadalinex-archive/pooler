@@ -1,0 +1,270 @@
+﻿
+######################
+# Pooler v1.0 beta 2 #
+######################
+
+Autores:
+--------
+Junta de Andalucía <devmaster@juntadeandalucia.es>
+
+Desarrolladores:
+---------------
+
+Francisco Javier Ramos Álvarez <franciscoj.ramos.ext@juntadeandalucia.es>
+Antonio González Romero <antonio.gonzalez.romero.ext@juntadeandalucia.es>
+
+Descripción:
+------------
+Aplicación web con la que podremos gestionar un repositorio de paquetes debian
+basado en pool, llevando un control de usuarios, con autenticación LDAP, y un 
+revisado de logs diarios.
+
+Instalación y Configuración:
+----------------------------
+La aplicación está dividida en dos partes:
+
+################################################################################
+1. Parte de bajo nivel, que está compuesta por una serie de módulos en python:
+  - addpkg.py: Añade un nuevo paquete (binario o fuente).
+  - mvpkg.py:  Mueve paquetes entre las distintas ramas del repositorio.
+  - rmpkg.py: elimina paquetes (binarios o fuentes) del repositorio.
+  - package.py: estructura de datos con toda la información perteneciente a un
+    paquete
+  - packagesList.py: estructura que mantiene una lista ordenada de paquetes con
+    operaciones básicas.
+
+junto con sus correspodientes ficheros de configuración (mirar fichero de
+configuración de ejemplo incluído):
+  - repo.conf: Este fichero está compuesto por varias secciones:
+      [repositorios] -> Indica el path de los diferentes repositorios con los que
+                se va a trabajar. (p.ejemplo /var/www/repositorio-ejemplo/)
+      [pools]        -> donde se asocian las distribuciones a los pools
+      [defaults]     -> son datos por defecto en ausencia de ciertos parámetros.
+            Es conveniente que si se va a trabajar con una única 
+            distribución se asignen estos datos por defecto a esta 
+            distribución. 
+            Valores por defecto:
+
+                repositorio: path_repositorio
+                dist: distribucion
+                apt_conf: path_ficheros_conf
+
+         ejemplo:
+            [repositorios]
+            #Añada nuevos repositorios existentes en el servidor
+            #Ejemplos <nombre: ruta>
+            #ubuntu: /var/www/repositorio/ubuntu
+            #debian: /var/www/repositorio/debian
+            #local: /home/user/repositorio/
+            guadalinex: /home/fran/repositorios/guadalinex-flamenco/
+
+            [pools]
+            #Especifique los directorios pool de cada distribución
+            #Ejemplo <codename: pool_directory>
+            #Los citados directorios deben estar ubicados en la raiz
+            #del repositorio especificado.
+            flamenco: pool
+            guadalinfo: pool-guadalinfo
+
+            [defaults]
+            #Algunos valores por defecto
+            repositorio: /home/fran/repositorios/guadalinex-flamenco/
+            dist: flamenco
+            apt_conf: /var/www/pooler/trunk/backend/conf/
+            
+
+  - apt_distribucion.conf: Nos encontraremos uno por cada distribución. Por 
+               ejemplo, para dos distribuciones, flamenco y 
+               guadalinfo, tendremos dos ficheros apt_flamenco.conf 
+               y apt_guadalinfo.conf. Son empleados para generar los ficheros
+               Release de cada rama.
+
+           Ejemplo:
+               APT {
+                 FTPArchive {
+                     Release {
+                            Origin "Spain";
+                            Label "Guadalinex";
+                            Suite "breezy";
+                            Version "2005.8.3";
+                                Codename "flamenco";
+                                Architectures "i386";
+                                Components "main restricted";
+                                Description "Guadalinex2005";
+                            };
+                  };
+              };
+                                                                                                                   
+
+Interfaz de comunicación con la parte de alto nivel
+---------------------------------------------------
+La manera de invocar a los guines python se detalla a continuación:
+
+__addpkg.py__ -p <fichero .deb o .dsc a subir> [opciones]
+
+la lista de posibles opciones es:
+    -r <repositorio> : Especificar un repositorio concreto con el que trabajar. 
+    -d <distribución>: Indicar la distribución a la que añadir el paquete.
+    -a <arquitectura>: Si no se especifica, se toma la indicada en el .deb
+    -c <config>      : Path del fichero de configuración a utilizar (repo.conf)
+Ejemplo:
+_addpkg.py -p /tmp/foo.deb -d flamenco -c /etc/pooler/repo.conf -r /var/www/repo
+
+Notas:
+   1.- La distribución que se especifique deberá contener un fichero de
+      configuración apt_codename.conf con el formato descrito.
+   2.- El repositorio que se pase con la opción '-r' debe estar incluido en el
+      fichero de configuración repo.conf, en el que se debe esecificar la ruta
+      absoluta hasta el mismo.
+   3.- El usuario que utilice el script deberá tener permisos rw en el
+      repositorio.
+
+No se requiere una estructura específica de carpetas, aunque sería una buena 
+idea dividirla en:
+  - bin: donde guardaremos los módulos de python
+  - conf: los ficheros de configuración.
+
+NOTA: Para que los python puedan gestionar los repositorios, el usuario 
+del servidor web (normalmente www-data) ha de tener permisos de lectura y escritura dichos repositorios.
+ 
+Como requisitos de software decir que es imprescindible tener instalado el 
+interprete de python, como mínimo la versión 2.3 
+(http://packages.debian.org/stable/python/python) además del módulo 
+python-apt (http://packages.debian.org/stable/python/python-apt).
+
+################################################################################
+2. La aplicación web tendrá la siguiente estructura de carpetas y ficheros:
+    
+  - app: contiene las ventanas, diálogos, frames... en general la interfaz 
+     web de usuario. Contenido:
+
+        add_dist.php, app.php, auth.php, confirm_delete_pkg.php, 
+        content_log.php, content_pck.php, content_user.php, edit_user.php, 
+        filter.php, index.php, move_pkg_to.php, new_pkg.php, new_src.php
+    
+  - css: hojas de estilo de la aplicación y sus controles. Contenido:
+
+        calendar.css, dhtmlXGrid.css, dhtmlXTabBar.css, dhtmlXTree.css, 
+        styles.css, toolbar.css
+
+  - img: Recursos de imágenes.
+    
+  - js:  el corazón de la aplicación AJAX. Módulos en JavaScript. Contenido:
+
+        calendar-es.js, calendar.js, calendar-setup.js, dhtmlXCommon.js, 
+        dhtmlXGridCell.js, dhtmlXGrid.js, dhtmlXTabbar.js, dhtmlXTree.js, 
+        functions_auth.js, functions.js, init.js, md5.js, 
+        poolerToolBar.class.js, prototype.js, wz_dragdrop.js
+
+  - locale: aún no funcional. Contendrá las definiciones para los diferentes 
+        idiomas.
+
+  - logs: se guardarán los logs diariamente con formato yyyymmdd.log. También se 
+      creará un fichero python.log para el modo PY_DEBUG = 1 
+      (modo depuración de python) con las salidas de cada ejecución python.
+
+  - other: carpeta provisional donde se guarda el fichero de usuarios y cuya 
+       ruta es configurable por medio del fichero config.php que 
+       explicaremos más adelante. Contenido:
+
+        users_repository.ini
+
+  - php: módulos y clases que dan funcionalidad a la aplicación en el lado 
+     del servidor. Contenido:
+
+        AuthLDAP.class.php, BlockInfo.class.php, check_access.php, 
+        check_user_ldap.php, Command.class.php, config.php delete_pkg.php, 
+        delete_src.php, delete_user.php, dists_user.xml.php, dists.xml.php, 
+        end_session.php, File.class.php, FileInfo.class.php, functions.php, 
+        IniAccess.class.php, IniReader.class.php, language.js.php, 
+        language.php, Log.class.php, log.xml.php, move_pkg.php, 
+        move_src.php, myDebLog.class.php, packages.xml.php, Path.class.php,
+        tabs.xml.php, tbFileInfo.class.php,
+        toolbar_calendar.xml.php, toolbar_content_log.xml.php, 
+        toolbar_content.xml.php, toolbar_dists.xml.php, 
+        toolbar_users.xml.php, update_user.php, upload_pkg.php, 
+        upload_src.php, users.xml.php,  view_package.php, view_release.php
+        
+  - tmp: carpeta donde se almacenarán temporalmente tanto los paquetes como los 
+     ficheros fuente que se suban al servidor desde la aplicación.
+
+A continuación explicaremos el fichero config.php situado en la carpeta php y 
+desde el que podremos configurar los parámetros principales de nuestra 
+aplicación:
+
+  AUTH_LDAP:       Indica si la autenticación se realizará por medio de LDAP 
+           (valor 1) o no (valor 0). En éste último caso se 
+           comprobarán las claves, codificadas con MD5,  en el fichero 
+           de usuarios users_repository.ini.
+  LDAP_SERVER:     Para autenticación LDAP, host del servidor LDAP.
+  LDAP_PORT:       Para autenticación LDAP, puerto del servidor.
+  DN_BASE:     Para autenticación LDAP, dn base donde realizar la autenticación.
+  PATH_REPOSITORY: Ruta absoluta donde se encuentra el repositorio.
+  USERS_INI:       Ruta absoluta donde se encuentra el fichero de usuarios 
+           users_repository.ini. Hay que tener en cuenta que este 
+           fichero ha de tener permisos de escritura para el usuario 
+           www-data.
+  PATH_LOG:        Ruta absoluta donde se almacenarán los logs de la 
+           aplicación. Es necesario que el usuario www-data tenga 
+           permisos de escritura en dicha carpeta.
+  PATH_TEMP:       Ruta absoluta donde se moverán los ficheros subidos desde 
+           la aplicación, y por lo tanto deberá tener permisos de 
+           escritura para el usuario www-data.
+  REPO_CONF:       Ruta absoluta donde se guardará el fichero de configuración 
+           repo.conf, necesario para los módulos de python.
+  ADD_PKG_PY:      Ruta absoluta del módulo addpkg.py encargado de añadir 
+           paquetes y/o ficheros fuente.
+  MV_PKG_PY:       Ruta absoluta del módulo mvpkg.py encargado de mover 
+           paquetes y/o ficheros fuente.
+  RM_PKG_PY:       Ruta absoluta del módulo rmpkg.py encargado de eliminar 
+           paquetes y/o ficheros fuente.
+  TIME_LIMIT:      Tiempo máximo de ejecución de ciertos scripts susceptibles 
+           de superar el time out. Dejar por defecto 300 que equivale 
+           a 5 minutos.
+  PY_DEBUG:        Indica si se activa (valor 1) o desactiva (valor 0) el módo 
+           depuración de python.
+  $fieldsFilter:   Array que contiene los distintos campos por los que se podrá 
+           realizar un filtrado de paquetes o ficheros fuente. Se ha 
+           dejado libre para que el usuario pueda definirlos según sus 
+           intereses.
+
+Como requisitos de software, es necesario tener instalado un servidor apache
+(http://httpd.apache.org/download.cgi), php versión 4.2 mínimo 
+(http://www.php.net/downloads.php), y preferentemente un navegador Mozilla 
+Firefox.
+
+Configuración del fichero PHP.ini:
+A continuación explicaremos cuales son las directivas más importantes a 
+configurar para un buen funcionamiento de la aplicación:
+
+  ; Tamaño máximo de envíos por POST, que dependerá de las necesidades
+  ; que tenga el usuario, por ejemplo 150 megas
+  post_max_size = 150M
+
+  ; Tamaño máximo permitido en la subida de ficheros al servidor, 
+  ; también dependerá de las necesidades, y será igual al parámetro
+  ; anterior, es decir, 150 megas
+  upload_max_filesize = 150M
+
+  ; Tiempo máximo de ejecución para un script, que para este caso
+  ; hemos puesto 5 minutos (300 s), teniendo en cuenta que para subir
+  ; grandes ficheros hará falta bastante tiempo.
+  max_execution_time = 300
+
+  ; Muy similar al anterior, pero para el envío de datos por POST
+  ; o cuadros de texto. Hemos puesto otros 5 minutos.
+  max_input_time = 300
+
+  ; Memoria que puede consumir un script, en principio, para esta
+  ; aplicación con 8 megas basta (valor por defecto)
+  memory_limit = 8M
+
+  ; Modo seguro, que deberá estar a Off para un correcto
+  ; funcionamiento
+  safe_mode = Off
+
+NOTA: si no se quiere cambiar esta directiva por temas de seguridad, se podría 
+crear un Virtual Host para la aplicación (en el fichero de configuración del 
+apache httpd.conf) e introducir la siguiente directiva: 
+
+  php_admin_flag safe_mode off
